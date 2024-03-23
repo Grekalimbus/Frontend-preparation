@@ -34,9 +34,9 @@ export default function Home() {
 					{arrayOfLinks.map(link => {
 						return (
 							<li key={link.description}>
-								<Link href={link.href}>
+								<Link href={link.href} className="link-on-questions">
 									<link.icon />
-									{/* <p className="descripion-for-link">{link.description}</p> */}
+									<p className="descripion-for-link">{link.description}</p>
 								</Link>
 							</li>
 						);
