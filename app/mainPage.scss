@@ -72,6 +72,13 @@ svg:hover path {
 	}
 }
 @media (max-width: 450px) {
+	svg path {
+		fill: #f20149;
+	}
+	svg {
+		max-width: 50px;
+		max-height: 50px;
+	}
 	.main-container-block {
 		height: auto;
 		margin-bottom: 20px;
@@ -87,7 +94,6 @@ svg:hover path {
 		margin-top: 10px;
 		flex-direction: column;
 		flex-wrap: nowrap;
-		justify-content: flex-start;
 		gap: 0;
 		width: 96%;
 		height: 100%;
@@ -96,7 +102,6 @@ svg:hover path {
 		width: 100%;
 		height: 50px;
 		margin-top: 10px;
-		// flex: 1 0 auto;
 		a {
 			display: flex;
 			align-items: center;
@@ -115,10 +120,5 @@ svg:hover path {
 		width: 80%;
 		margin-left: 14px;
 		border: 2px solid #f20149;
-	}
-	svg path {
-		max-width: 50px;
-		max-height: 50px;
-		fill: #f20149;
 	}
 }
