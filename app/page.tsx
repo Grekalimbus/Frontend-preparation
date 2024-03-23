@@ -25,7 +25,7 @@ export default function Home() {
 		{ icon: React, description: "React", href: "/" },
 		{ icon: Redux, description: "Redux", href: "/" },
 	];
-	console.log("arrayOfLinks[0].icon", arrayOfLinks[0].icon);
+
 	return (
 		<div className="main-page-wrapper">
 			<main className="main-container-block">
