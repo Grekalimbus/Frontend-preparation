@@ -36,7 +36,7 @@ export default function Home() {
 							<li key={link.description}>
 								<Link href={link.href}>
 									<link.icon />
-									<p className="descripion-for-link">{link.description}</p>
+									{/* <p className="descripion-for-link">{link.description}</p> */}
 								</Link>
 							</li>
 						);
