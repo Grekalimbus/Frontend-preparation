@@ -17,41 +17,13 @@ interface ILink {
 
 export default function Home() {
 	const arrayOfLinks: ILink[] = [
-		{
-			icon: Common,
-			description: "Общие",
-			href: "https://www.instagram.com/danilimbus/",
-		},
-		{
-			icon: HTML,
-			description: "HTML",
-			href: "https://www.instagram.com/danilimbus/",
-		},
-		{
-			icon: CSS,
-			description: "CSS",
-			href: "https://www.instagram.com/danilimbus/",
-		},
-		{
-			icon: JS,
-			description: "JavaScript",
-			href: "https://www.instagram.com/danilimbus/",
-		},
-		{
-			icon: TS,
-			description: "TypeScript",
-			href: "https://www.instagram.com/danilimbus/",
-		},
-		{
-			icon: React,
-			description: "React",
-			href: "https://www.instagram.com/danilimbus/",
-		},
-		{
-			icon: Redux,
-			description: "Redux",
-			href: "https://www.instagram.com/danilimbus/",
-		},
+		{ icon: Common, description: "Общие", href: "/" },
+		{ icon: HTML, description: "HTML", href: "/" },
+		{ icon: CSS, description: "CSS", href: "/" },
+		{ icon: JS, description: "JavaScript", href: "/" },
+		{ icon: TS, description: "TypeScript", href: "/" },
+		{ icon: React, description: "React", href: "/" },
+		{ icon: Redux, description: "Redux", href: "/" },
 	];
 
 	return (
