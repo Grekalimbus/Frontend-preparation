@@ -3,7 +3,7 @@ import gitHub from "../assets/svg/gitHub.svg";
 import instagram from "../assets/svg/instagram.svg";
 import telegram from "../assets/svg/telegram.svg";
 import ILink from "../interfaces/ILink";
-import "./footer.scss";
+import "./styles/footer.scss";
 
 const arrayOfLinks: ILink[] = [
 	{
