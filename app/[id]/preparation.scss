@@ -118,6 +118,14 @@
 	.container-preparation-content {
 		width: 98%;
 	}
+	.container-preparation-content {
+		margin-top: 0;
+	}
+}
+@media (max-width: 400px) and (max-height: 620px) {
+	.container-preparation-wrapper {
+		height: 85%;
+	}
 }
 @media (max-width: 320px) {
 	.describe-question-text {
@@ -129,5 +137,6 @@
 	}
 	.button-next-question {
 		margin-top: -30px;
+		margin-bottom: 15px;
 	}
 }
