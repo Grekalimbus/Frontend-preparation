@@ -1,8 +1,6 @@
 "use client";
-import { useState } from "react";
-// import Down from "../assets/svg/down.svg";
-// import Up from "../assets/svg/up.svg";
 import Image from "next/image";
+import { useState } from "react";
 import Down from "../assets/downVector.png";
 import Up from "../assets/upVector.png";
 import Footer from "../components/Footer";
@@ -48,8 +46,14 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						aria-label="Показать ответ"
 					>
 						Прогрессивное улучшение, изящная деградация, что это?
-						{<Image alt="vectorToHide" src={isActive ? Down : Up} />}
-						{/* {isActive ? <Down /> : <Up />} */}
+						{
+							<Image
+								width={40}
+								height={40}
+								alt="vectorToHide"
+								src={isActive ? Down : Up}
+							/>
+						}
 					</button>
 
 					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
