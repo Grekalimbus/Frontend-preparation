@@ -1,0 +1,19 @@
+.loader {
+	position: fixed;
+	top: 42%;
+	left: 48%;
+	height: fit-content;
+	width: fit-content;
+	// border: 1px solid red;
+	margin: 0 0 2em;
+	text-align: center;
+	padding: 1em;
+	margin: 0 auto 1em;
+	display: inline-block;
+	vertical-align: top;
+}
+
+svg path,
+svg rect {
+	fill: #f20149;
+}
