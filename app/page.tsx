@@ -6,7 +6,6 @@ import JS from "./assets/svg/javascript.svg";
 import React from "./assets/svg/react.svg";
 import Redux from "./assets/svg/redux.svg";
 import TS from "./assets/svg/typescript.svg";
-import Footer from "./components/Footer";
 import ILink from "./interfaces/ILink";
 import "./mainPage.scss";
 
@@ -38,7 +37,6 @@ export default function Home() {
 					})}
 				</ul>
 			</main>
-			<Footer />
 		</div>
 	);
 }

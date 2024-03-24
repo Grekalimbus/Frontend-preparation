@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { useState } from "react";
-import Down from "../assets/svg/down.svg";
-import Up from "../assets/svg/up.svg";
+import Down from "../assets/downVectorWhite.png";
+import Up from "../assets/upVectorWhite.png";
 import "./selectOptions.scss";
 interface IOptions {
 	value: string;
@@ -25,7 +26,12 @@ const SelectOption = ({ options, typeOption }: IProps) => {
 		<div className="wrapper-select-option">
 			<button className="button-open-select" onClick={handleChangeActive}>
 				{isTypeOption}
-				{isActive ? <Down /> : <Up />}
+				<Image
+					alt="arrowButtonIcon"
+					height={20}
+					width={20}
+					src={isActive ? Down : Up}
+				/>
 			</button>
 			<ul className={`container-select-option ${isActive ? "" : "active"}`}>
 				{options.map(option => {

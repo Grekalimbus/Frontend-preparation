@@ -1,9 +1,11 @@
 .footer {
+	position: relative;
+	bottom: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	min-height: 80px;
+	min-height: 65px;
 	border-top: 2px solid #f20149;
 }
 .container-personal-links {
@@ -22,11 +24,11 @@
 	align-items: center;
 }
 .container-personal-links a {
-	width: 45px;
-	height: 45px;
+	width: 40px;
+	height: 40px;
 	position: relative;
 	transition: all 0.6s;
 }
 .container-personal-links a:hover {
-	transform: scale(1.5);
+	transform: scale(1.3);
 }
