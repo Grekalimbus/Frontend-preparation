@@ -7,25 +7,20 @@ import React from "./assets/svg/react.svg";
 import Redux from "./assets/svg/redux.svg";
 import TS from "./assets/svg/typescript.svg";
 import Footer from "./components/Footer";
+import ILink from "./interfaces/ILink";
 import "./mainPage.scss";
 
-interface ILink {
-	icon: React.ComponentType<{}>; // любой тип компонента React
-	description: string;
-	href: string;
-}
+const arrayOfLinks: ILink[] = [
+	{ icon: Common, description: "Общие", href: "/common" },
+	{ icon: HTML, description: "HTML", href: "/html" },
+	{ icon: CSS, description: "CSS", href: "/css" },
+	{ icon: JS, description: "JavaScript", href: "/js" },
+	{ icon: TS, description: "TypeScript", href: "/ts" },
+	{ icon: React, description: "React", href: "/react" },
+	{ icon: Redux, description: "Redux", href: "/redux" },
+];
 
 export default function Home() {
-	const arrayOfLinks: ILink[] = [
-		{ icon: Common, description: "Общие", href: "/" },
-		{ icon: HTML, description: "HTML", href: "/" },
-		{ icon: CSS, description: "CSS", href: "/" },
-		{ icon: JS, description: "JavaScript", href: "/" },
-		{ icon: TS, description: "TypeScript", href: "/" },
-		{ icon: React, description: "React", href: "/" },
-		{ icon: Redux, description: "Redux", href: "/" },
-	];
-
 	return (
 		<div className="main-page-wrapper">
 			<main className="main-container-block">
