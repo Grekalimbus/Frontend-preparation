@@ -2,18 +2,19 @@ interface IOptions {
 	value: string;
 	text: string;
 }
-interface IPropsInSelectComponent {
+export interface IPropsInSelectComponent {
 	label: string;
 	typeOption: string;
 	options: IOptions[];
 }
-const propsInSelectComponent: IPropsInSelectComponent[] = [
+export const propsInSelectComponent: IPropsInSelectComponent[] = [
 	{
 		label: "category",
 		typeOption: "Категория",
 		options: [
 			{ value: "easy", text: "Легкие" },
 			{ value: "medium", text: "Средние" },
+			{ value: "all", text: "Все" },
 		],
 	},
 	{
@@ -25,5 +26,3 @@ const propsInSelectComponent: IPropsInSelectComponent[] = [
 		],
 	},
 ];
-
-export default propsInSelectComponent;
