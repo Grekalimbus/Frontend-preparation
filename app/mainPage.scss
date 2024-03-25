@@ -63,9 +63,13 @@ svg:hover path {
 
 @media (max-width: 450px) {
 	.main-container-block h1 {
+		margin: 0;
+		margin-top: 10px;
+		margin-bottom: 15px;
 		font-size: 20px;
 		width: 90%;
 		margin-top: 20px;
+		max-height: 30px;
 	}
 	.main-container-block {
 		width: 100%;
@@ -117,14 +121,3 @@ svg:hover path {
 		margin-top: 10px;
 	}
 }
-
-// @media (max-width: 450px) and (max-height: 565px) {
-// 	.container-icon-technologies li {
-// 		margin-top: 10px;
-// 		height: 30px;
-// 	}
-// 	.container-icon-technologies li svg {
-// 		width: 40px;
-// 		height: 40px;
-// 	}
-// }
