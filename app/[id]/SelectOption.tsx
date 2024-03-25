@@ -1,7 +1,5 @@
-import Image from "next/image";
 import { useState } from "react";
-import Down from "../assets/downVectorWhite.png";
-import Up from "../assets/upVectorWhite.png";
+import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import "./selectOptions.scss";
 interface IOptions {
 	value: string;
@@ -26,12 +24,7 @@ const SelectOption = ({ options, typeOption }: IProps) => {
 		<div className="wrapper-select-option">
 			<button className="button-open-select" onClick={handleChangeActive}>
 				{isTypeOption}
-				<Image
-					alt="arrowButtonIcon"
-					height={20}
-					width={20}
-					src={isActive ? Down : Up}
-				/>
+				{isActive ? <CgChevronDown /> : <CgChevronUp />}
 			</button>
 			<ul className={`container-select-option ${isActive ? "" : "active"}`}>
 				{options.map(option => {

@@ -1,8 +1,6 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
-import Down from "../assets/downVector.png";
-import Up from "../assets/upVector.png";
+import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import Header from "../components/Header";
 import SelectOption from "./SelectOption";
 import "./preparation.scss";
@@ -42,19 +40,12 @@ const PreparationPage = ({ params: { id } }: Props) => {
 				</section>
 				<section className="section-question-answer">
 					<button
-						className="button-visible-answer"
+						className={`button-visible-answer ${isActive ? "" : "active"}`}
 						onClick={handleChangeActive}
 						aria-label="Показать ответ"
 					>
 						Прогрессивное улучшение, изящная деградация, что это?
-						{
-							<Image
-								width={40}
-								height={40}
-								alt="vectorToHide"
-								src={isActive ? Down : Up}
-							/>
-						}
+						{isActive ? <CgChevronDown /> : <CgChevronUp />}
 					</button>
 
 					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
