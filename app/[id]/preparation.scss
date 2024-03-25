@@ -50,6 +50,19 @@
 	background: #13010a;
 	color: white;
 	text-align: start;
+	transition: all 0.7s;
+}
+.button-visible-answer.active {
+	box-shadow: 0px 0px 32px -3px #f20149;
+}
+.button-visible-answer svg {
+	transition: all 0.7s;
+}
+.button-visible-answer:hover {
+	box-shadow: 0px 0px 32px -3px #f20149;
+}
+.button-visible-answer svg:hover {
+	color: #f20149;
 }
 .describe-answer-text {
 	visibility: hidden;
@@ -62,6 +75,7 @@
 	padding: 20px;
 	line-height: 17px;
 }
+
 .describe-answer-text.active {
 	visibility: visible;
 	opacity: 1;
@@ -86,6 +100,10 @@
 	background: #1b1b1b;
 	border: 1px solid #f20149;
 	color: white;
+	transition: all 0.7s;
+}
+.button-next-question:hover {
+	box-shadow: 0px 0px 18px -3px #f20149;
 }
 .button-next-question.active {
 	margin-top: 5px;
