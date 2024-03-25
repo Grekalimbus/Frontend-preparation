@@ -6,6 +6,6 @@ const reduxSchema = new Schema({
 });
 
 const Redux =
-	mongoose.models.Redux || mongoose.model("React Question", reduxSchema);
+	mongoose.models.Redux || mongoose.model("Redux Question", reduxSchema);
 
 export default Redux;

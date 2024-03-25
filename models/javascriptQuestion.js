@@ -5,6 +5,6 @@ const jsSchema = new Schema({
 	answer: String,
 });
 
-const JS = mongoose.models.JS || mongoose.model("HTML Question", jsSchema);
+const JS = mongoose.models.JS || mongoose.model("JS Question", jsSchema);
 
 export default JS;
