@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import SelectOption from "./SelectOption";
 import "./preparation.scss";
 import {

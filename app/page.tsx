@@ -7,13 +7,13 @@ import ILink from "./interfaces/ILink";
 import "./mainPage.scss";
 
 const arrayOfLinks: ILink[] = [
-	{ icon: FaComputer, description: "Общие", href: "/common" },
-	{ icon: IoLogoHtml5, description: "HTML", href: "/html" },
+	{ icon: FaComputer, description: "Общие", href: "preparationPage/common" },
+	{ icon: IoLogoHtml5, description: "HTML", href: "preparationPage/html" },
 	{ icon: SiCss3, description: "CSS", href: "/css" },
-	{ icon: SiJavascript, description: "JavaScript", href: "/js" },
-	{ icon: SiTypescript, description: "TypeScript", href: "/ts" },
-	{ icon: LiaReact, description: "React", href: "/react" },
-	{ icon: SiRedux, description: "Redux", href: "/redux" },
+	{ icon: SiJavascript, description: "JavaScript", href: "preparationPage/js" },
+	{ icon: SiTypescript, description: "TypeScript", href: "preparationPage/ts" },
+	{ icon: LiaReact, description: "React", href: "preparationPage/react" },
+	{ icon: SiRedux, description: "Redux", href: "preparationPage/redux" },
 ];
 
 export default function Home() {
