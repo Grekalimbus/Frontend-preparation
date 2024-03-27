@@ -23,6 +23,7 @@ export const propsInSelectComponent: IPropsInSelectComponent[] = [
 		options: [
 			{ value: "random", text: "В разброс" },
 			{ value: "order", text: "По порядку" },
+			{ value: "fromEnd", text: "С конца" },
 		],
 	},
 ];
