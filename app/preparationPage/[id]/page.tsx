@@ -6,13 +6,7 @@ import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import Header from "../../components/Header";
 import "./preparation.scss";
 
-type Props = {
-	params: {
-		id: string;
-	};
-};
-
-const propsInSelectComponent: ISelectOptions[] = [
+const initialSelectOptions: ISelectOptions[] = [
 	{
 		typeOption: "Категория",
 		options: [
@@ -31,11 +25,36 @@ const propsInSelectComponent: ISelectOptions[] = [
 	},
 ];
 
+type Props = {
+	params: {
+		id: string;
+	};
+};
+
 const PreparationPage = ({ params: { id } }: Props) => {
 	const [isActive, setActive] = useState<boolean>(true);
+	const [selectOption, setSelectOption] =
+		useState<ISelectOptions[]>(initialSelectOptions);
 
 	const handleChangeActive = () => {
 		setActive(prev => !prev);
+	};
+
+	const handleChangeTypeOption = (
+		updateSelectValue: string,
+		selectField: string
+	) => {
+		const updateSelectOptions = selectOption.map(item => {
+			if (item.typeOption === selectField) {
+				return {
+					typeOption: updateSelectValue,
+					options: item.options,
+				};
+			}
+			return item;
+		});
+
+		setSelectOption(updateSelectOptions);
 	};
 
 	return (
@@ -44,12 +63,13 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			<section className="container-preparation-content">
 				<h2 className="title-type-question">{id} Вопросы</h2>
 				<section className="section-select-opions">
-					{propsInSelectComponent.map((item: ISelectOptions) => {
+					{selectOption.map((item: ISelectOptions) => {
 						return (
 							<SelectOption
 								key={item.typeOption}
 								typeOption={item.typeOption}
 								options={item.options}
+								handleChangeTypeOption={handleChangeTypeOption}
 							/>
 						);
 					})}

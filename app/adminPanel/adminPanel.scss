@@ -44,5 +44,10 @@
 @media (max-width: 560px) {
 	.container-admin-panel {
 		width: 98%;
+		margin-top: 20px;
+	}
+	.elem-question-text {
+		height: auto;
+		padding: 8px 4px 8px 8px;
 	}
 }
