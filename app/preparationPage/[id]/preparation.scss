@@ -4,7 +4,6 @@
 	justify-content: space-between;
 	align-items: center;
 	height: 90%;
-	overflow-y: scroll;
 }
 .container-preparation-content {
 	display: flex;
@@ -40,6 +39,7 @@
 }
 .button-visible-answer {
 	border: 2px solid #f20149;
+	background: #13010a;
 	width: 100%;
 	border-radius: 2px;
 	height: auto;
@@ -47,7 +47,6 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 8px 8px 8px 15px;
-	background: #13010a;
 	color: white;
 	text-align: start;
 	transition: all 0.7s;

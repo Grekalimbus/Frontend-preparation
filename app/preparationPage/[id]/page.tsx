@@ -1,19 +1,35 @@
 "use client";
+import SelectOption from "@/app/components/SelectOption";
+import { ISelectOptions } from "@/app/interfaces/selectOptions";
 import { useState } from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import Header from "../../components/Header";
-import SelectOption from "./SelectOption";
 import "./preparation.scss";
-import {
-	IPropsInSelectComponent,
-	propsInSelectComponent,
-} from "./propsInSelectComponent";
 
 type Props = {
 	params: {
 		id: string;
 	};
 };
+
+const propsInSelectComponent: ISelectOptions[] = [
+	{
+		typeOption: "Категория",
+		options: [
+			{ value: "easy", text: "Легкие" },
+			{ value: "medium", text: "Средние" },
+			{ value: "all", text: "Все" },
+		],
+	},
+	{
+		typeOption: "Сортировка",
+		options: [
+			{ value: "random", text: "В разброс" },
+			{ value: "order", text: "По порядку" },
+			{ value: "fromEnd", text: "С конца" },
+		],
+	},
+];
 
 const PreparationPage = ({ params: { id } }: Props) => {
 	const [isActive, setActive] = useState<boolean>(true);
@@ -28,10 +44,10 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			<section className="container-preparation-content">
 				<h2 className="title-type-question">{id} Вопросы</h2>
 				<section className="section-select-opions">
-					{propsInSelectComponent.map((item: IPropsInSelectComponent) => {
+					{propsInSelectComponent.map((item: ISelectOptions) => {
 						return (
 							<SelectOption
-								key={item.label}
+								key={item.typeOption}
 								typeOption={item.typeOption}
 								options={item.options}
 							/>

@@ -9,7 +9,7 @@ import "./mainPage.scss";
 const arrayOfLinks: ILink[] = [
 	{ icon: FaComputer, description: "Общие", href: "preparationPage/common" },
 	{ icon: IoLogoHtml5, description: "HTML", href: "preparationPage/html" },
-	{ icon: SiCss3, description: "CSS", href: "/css" },
+	{ icon: SiCss3, description: "CSS", href: "preparationPage/css" },
 	{ icon: SiJavascript, description: "JavaScript", href: "preparationPage/js" },
 	{ icon: SiTypescript, description: "TypeScript", href: "preparationPage/ts" },
 	{ icon: LiaReact, description: "React", href: "preparationPage/react" },
