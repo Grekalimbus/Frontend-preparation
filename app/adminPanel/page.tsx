@@ -5,7 +5,7 @@ import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
 import "./adminPanel.scss";
 
-export const selectOptions: ISelectOptions = {
+const selectOptions: ISelectOptions = {
 	typeOption: "Выбирете: Удалить /Изменить / Добавить",
 	options: [
 		{ value: "delete", text: "Удалить" },
