@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
-import "./selectOptions.scss";
+import "./styles/selectOptions.scss";
 interface IOptions {
 	value: string;
 	text: string;
@@ -9,9 +9,10 @@ interface IOptions {
 interface IProps {
 	options: IOptions[];
 	typeOption: string;
+	width?: { width: string };
 }
 
-const SelectOption = ({ options, typeOption }: IProps) => {
+const SelectOption = ({ options, typeOption, width }: IProps) => {
 	const [isActive, setActive] = useState<boolean>(true);
 	const [isTypeOption, setTypeOption] = useState<string>(typeOption);
 	const handleChangeActive = () => {
@@ -21,7 +22,7 @@ const SelectOption = ({ options, typeOption }: IProps) => {
 		setTypeOption(value);
 	};
 	return (
-		<div className="wrapper-select-option">
+		<div style={width} className="wrapper-select-option">
 			<button className="button-open-select" onClick={handleChangeActive}>
 				{isTypeOption}
 				{isActive ? <CgChevronDown /> : <CgChevronUp />}
