@@ -15,3 +15,18 @@
 .elem-input-field:focus {
 	box-shadow: 0px 0px 32px -3px #f20149;
 }
+
+.text-area-field {
+	width: 100%;
+	max-width: 100%;
+	min-width: 100%;
+	max-height: 200px;
+	min-height: 200px;
+	padding-top: 20px;
+	border-radius: 8px;
+	padding-left: 15px;
+	border: 2px solid #f20149;
+	background: #13010a;
+	color: white;
+	margin-top: 8px;
+}
