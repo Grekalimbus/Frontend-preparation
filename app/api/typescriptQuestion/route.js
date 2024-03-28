@@ -6,10 +6,7 @@ export async function POST(request) {
 	const { question, answer } = await request.json();
 	await connectMongoDB();
 	await TS.create({ question, answer });
-	return NextResponse.json(
-		{ message: "Common Question Created" },
-		{ status: 201 }
-	);
+	return NextResponse.json({ message: "TS Question Created" }, { status: 201 });
 }
 
 export async function GET() {
