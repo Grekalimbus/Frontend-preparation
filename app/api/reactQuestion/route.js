@@ -18,6 +18,7 @@ export async function GET() {
 	return NextResponse.json({ common });
 }
 
+// http://localhost:3000/api/reactQuestion/?id=123
 export async function DELETE(request) {
 	const id = request.nextUrl.searchParams.get("id");
 	await connectMongoDB();
