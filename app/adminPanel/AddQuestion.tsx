@@ -116,7 +116,7 @@ const AddQuestion = () => {
 			/>
 			<FlexButtons
 				firstValue="Следующий"
-				secondValue="Удалить"
+				secondValue="Добавить"
 				disabled={isDisabled}
 			/>
 		</>
