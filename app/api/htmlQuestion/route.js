@@ -7,7 +7,7 @@ export async function POST(request) {
 	await connectMongoDB();
 	await HTML.create({ question, answer });
 	return NextResponse.json(
-		{ message: "Common Question Created" },
+		{ message: "HTML Question Created" },
 		{ status: 201 }
 	);
 }
