@@ -26,15 +26,12 @@ const page = () => {
 
 	const textSelectOption = selectOption[0].typeOption;
 
-	const checkVisibleForTextAndFilter = () => {
-		if (
+	const checkVisibleForTextAndFilter = () =>
+		!(
 			textSelectOption === "Выбирете: Удалить /Изменить / Добавить" ||
 			textSelectOption === "Добавить"
-		) {
-			return false;
-		}
-		return true;
-	};
+		);
+
 	const isVisibleElem = checkVisibleForTextAndFilter();
 
 	const handleChangeVisible = () => {
@@ -44,7 +41,6 @@ const page = () => {
 	};
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(prev => e.target.value);
-		console.log("	inputValue", inputValue);
 	};
 
 	const handleChangeTypeOption = (
@@ -105,8 +101,9 @@ const page = () => {
 						/>
 					)}
 					{textSelectOption !== "Добавить" ? null : <AddQuestion />}
-					{textSelectOption ===
-					"Выбирете: Удалить /Изменить / Добавить" ? null : (
+
+					{textSelectOption === "Выбирете: Удалить /Изменить / Добавить" ||
+					textSelectOption === "Добавить" ? null : (
 						<FlexButtons
 							firstValue="Следующий"
 							secondValue={textSelectOption}

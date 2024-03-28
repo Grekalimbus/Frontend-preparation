@@ -2,7 +2,7 @@
 	width: 100%;
 	height: 50px;
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 	align-items: center;
 	border-radius: 8px;
 	padding-left: 15px;
@@ -12,10 +12,12 @@
 	margin-top: 8px;
 	transition: all 1s;
 }
+.elem-input-field:hover {
+	box-shadow: 0px 0px 32px -3px #f20149;
+}
 .elem-input-field:focus {
 	box-shadow: 0px 0px 32px -3px #f20149;
 }
-
 .text-area-field {
 	width: 100%;
 	max-width: 100%;
@@ -29,4 +31,16 @@
 	background: #13010a;
 	color: white;
 	margin-top: 8px;
+	transition: all 0.5s;
+}
+.text-area-field:hover {
+	box-shadow: 0px 0px 15px -3px #f20149;
+}
+.error-label-item {
+	color: #f20149;
+	font-size: 16px;
+	display: block;
+	margin-top: 10px;
+	text-shadow: 2px 2px 4px #f20101;
+	margin-left: 4px;
 }
