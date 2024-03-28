@@ -1,7 +1,9 @@
 "use client";
 import SelectOption from "@/app/components/SelectOption";
 import { ISelectOptions } from "@/app/interfaces/selectOptions";
-import { useState } from "react";
+import { fetchTodos } from "@/redux/features/todos/todosSlice";
+import { useAppSelector, useAppStore } from "@/redux/hooks";
+import { useRef, useState } from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import Header from "../../components/Header";
 import "./preparation.scss";
@@ -32,6 +34,16 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
+	const store = useAppStore();
+	console.log("store", store);
+	const initialized = useRef(false);
+	if (!initialized.current) {
+		store.dispatch(fetchTodos());
+		initialized.current = true;
+	}
+	const todos = useAppSelector(state => state.todos.todos);
+
+	console.log("todos", todos);
 	const [isActive, setActive] = useState<boolean>(true);
 	const [selectOption, setSelectOption] =
 		useState<ISelectOptions[]>(initialSelectOptions);
@@ -58,6 +70,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 	};
 
 	return (
+		// <StoreProvider>
 		<main className="container-preparation-wrapper">
 			<Header />
 			<section className="container-preparation-content">
@@ -119,6 +132,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 				</section>
 			</section>
 		</main>
+		// </StoreProvider>
 	);
 };
 
