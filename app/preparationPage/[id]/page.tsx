@@ -1,9 +1,11 @@
 "use client";
 import SelectOption from "@/app/components/SelectOption";
+import IQuestion from "@/app/interfaces/question";
 import { ISelectOptions } from "@/app/interfaces/selectOptions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import Header from "../../components/Header";
+import QuestionService from "../../services/question.services";
 import "./preparation.scss";
 
 const initialSelectOptions: ISelectOptions[] = [
@@ -32,9 +34,23 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
+	const [dataQuestion, setDataQuestion] = useState<IQuestion[] | []>([]);
 	const [isActive, setActive] = useState<boolean>(true);
 	const [selectOption, setSelectOption] =
 		useState<ISelectOptions[]>(initialSelectOptions);
+
+	useEffect(() => {
+		const fetchQuestions = async () => {
+			try {
+				const response = await QuestionService.getQuestionByType(id);
+				setDataQuestion(response.data[id]);
+			} catch (error) {
+				console.error("Error fetching questions:", error);
+			}
+		};
+
+		fetchQuestions();
+	}, []);
 
 	const handleChangeActive = () => {
 		setActive(prev => !prev);
@@ -61,7 +77,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 		<main className="container-preparation-wrapper">
 			<Header />
 			<section className="container-preparation-content">
-				<h2 className="title-type-question">{id} Вопросы</h2>
+				<h2 className="title-type-question">{id}</h2>
 				<section className="section-select-opions">
 					{selectOption.map((item: ISelectOptions) => {
 						return (
