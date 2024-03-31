@@ -1,12 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
-const commonQuestionSchema = new Schema({
+const commonSchema = new Schema({
 	question: String,
 	answer: String,
 });
 
-const CommonQuestion =
-	mongoose.models.Common ||
-	mongoose.model("Common Question", commonQuestionSchema);
+const Common =
+	mongoose.models.Common || mongoose.model("Common Question", commonSchema);
 
-export default CommonQuestion;
+export default Common;
