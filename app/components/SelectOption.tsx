@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
+import useVisible from "../hooks/useVisible";
 import "./styles/selectOptions.scss";
 interface IOptions {
 	value: string;
@@ -13,7 +13,7 @@ interface IProps {
 	handleChangeTypeOption: (
 		updateSelectValue: string,
 		selectField: string
-	) => unknown;
+	) => void;
 }
 
 const SelectOption = ({
@@ -22,11 +22,7 @@ const SelectOption = ({
 	width,
 	handleChangeTypeOption,
 }: IProps) => {
-	const [isActive, setActive] = useState<boolean>(true);
-
-	const handleChangeActive = () => {
-		setActive(prev => !prev);
-	};
+	const { isActive, handleChangeActive } = useVisible();
 
 	return (
 		<div style={width} className="wrapper-select-option">
