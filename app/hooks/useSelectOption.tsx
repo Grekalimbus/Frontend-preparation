@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
-const useSeletOption = (initialSelectOptions: ISelectOptions[]) => {
+const useSelectOption = (initialSelectOptions: ISelectOptions[]) => {
 	const [selectOption, setSelectOption] =
 		useState<ISelectOptions[]>(initialSelectOptions);
 
@@ -24,4 +24,4 @@ const useSeletOption = (initialSelectOptions: ISelectOptions[]) => {
 	return { selectOption, handleChangeTypeOption };
 };
 
-export default useSeletOption;
+export default useSelectOption;
