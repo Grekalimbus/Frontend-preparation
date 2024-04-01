@@ -19,13 +19,15 @@ const DeleteQuestion = ({
 	const { randomItem, handleNextQuestion } = useQuestionFetch(
 		typeOption.toLowerCase()
 	);
+	console.log("randomItem", randomItem);
 	useEffect(() => {
 		handleNextQuestion();
 	}, [typeOption]);
 
 	return (
 		isVisibleElem &&
-		typeOption !== "Выберите технологию" && (
+		typeOption !== "Выберите технологию" &&
+		randomItem && (
 			<>
 				<p className="elem-question-text">{randomItem?.question}</p>
 				<InputField
