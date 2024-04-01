@@ -1,11 +1,11 @@
 import connectMongoDB from "@/libs/mongodb";
-import CSS from "@/models/cssQuestion";
+import CssQuestionModel from "@/models/commonQuestion";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
 	const { id } = params;
 	await connectMongoDB();
-	const css = await CSS.findOne({ _id: id });
+	const css = await CssQuestionModel.findOne({ _id: id });
 	return NextResponse.json({ css }, { status: 200 });
 }
 
@@ -17,6 +17,10 @@ export async function PATCH(request, { params }) {
 		newCategory: category,
 	} = await request.json();
 	await connectMongoDB();
-	await CSS.findByIdAndUpdate(id, { question, answer, category });
+	await CssQuestionModel.findByIdAndUpdate(id, {
+		question,
+		answer,
+		category,
+	});
 	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
 }

@@ -6,6 +6,7 @@ const cssSchema = new Schema({
 	category: String,
 });
 
-const CSS = mongoose.models.CSS || mongoose.model("CSS Question", cssSchema);
+const CssQuestionModel =
+	mongoose.models.СssQuestion || mongoose.model("СssQuestion", cssSchema);
 
-export default CSS;
+export default CssQuestionModel;

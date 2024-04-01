@@ -6,7 +6,8 @@ const javascriptSchema = new Schema({
 	category: String,
 });
 
-const JS =
-	mongoose.models.JS || mongoose.model("JS Question", javascriptSchema);
+const JavascriptQuestionModel =
+	mongoose.models.JavascriptQuest ||
+	mongoose.model("JavascriptQuest", javascriptSchema);
 
-export default JS;
+export default JavascriptQuestionModel;

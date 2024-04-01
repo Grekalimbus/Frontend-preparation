@@ -6,7 +6,7 @@ const reduxSchema = new Schema({
 	category: String,
 });
 
-const Redux =
-	mongoose.models.Redux || mongoose.model("Redux Question", reduxSchema);
+const ReduxQuestionModel =
+	mongoose.models.ReduxQuestion || mongoose.model("ReduxQuestion", reduxSchema);
 
-export default Redux;
+export default ReduxQuestionModel;

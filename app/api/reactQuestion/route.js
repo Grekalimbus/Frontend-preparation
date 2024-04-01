@@ -1,17 +1,17 @@
 import connectMongoDB from "@/libs/mongodb";
-import React from "@/models/reactQuestion";
+import ReactQuestionModel from "@/models/reactQuestion";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
 	const { question, answer, category } = await request.json();
 	await connectMongoDB();
-	await React.create({ question, answer, category });
+	await ReactQuestionModel.create({ question, answer, category });
 	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
 
 export async function GET() {
 	await connectMongoDB();
-	const react = await React.find();
+	const react = await ReactQuestionModel.find();
 	return NextResponse.json({ react });
 }
 
@@ -19,6 +19,6 @@ export async function GET() {
 export async function DELETE(request) {
 	const id = request.nextUrl.searchParams.get("id");
 	await connectMongoDB();
-	await React.findByIdAndDelete(id);
+	await ReactQuestionModel.findByIdAndDelete(id);
 	return NextResponse.json({ message: "Question Deleted" }, { status: 200 });
 }

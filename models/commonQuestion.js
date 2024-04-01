@@ -6,7 +6,8 @@ const commonSchema = new Schema({
 	category: String,
 });
 
-const Common =
-	mongoose.models.Common || mongoose.model("Common Question", commonSchema);
+const CommonQuestionModel =
+	mongoose.models.CommonQuestion ||
+	mongoose.model("CommonQuestion", commonSchema);
 
-export default Common;
+export default CommonQuestionModel;
