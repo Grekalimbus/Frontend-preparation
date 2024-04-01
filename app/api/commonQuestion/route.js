@@ -6,10 +6,7 @@ export async function POST(request) {
 	const { question, answer } = await request.json();
 	await connectMongoDB();
 	await Common.create({ question, answer });
-	return NextResponse.json(
-		{ message: "Common Question Created" },
-		{ status: 201 }
-	);
+	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
 
 export async function GET() {
@@ -22,5 +19,5 @@ export async function DELETE(request) {
 	const id = request.nextUrl.searchParams.get("id");
 	await connectMongoDB();
 	await Common.findByIdAndDelete(id);
-	return NextResponse.json({ message: "Topic deleted" }, { status: 200 });
+	return NextResponse.json({ message: "Question Deleted" }, { status: 200 });
 }
