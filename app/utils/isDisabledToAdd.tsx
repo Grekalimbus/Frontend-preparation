@@ -17,13 +17,13 @@ const isDisabled = ({
 	}
 	if (
 		selectTechnologies.length > 0 &&
-		selectTechnologies[0].typeOption === "Выбирете технологию"
+		selectTechnologies[0].typeOption === "Выберите технологию"
 	) {
 		return true;
 	}
 	if (
 		selectTypes.length > 0 &&
-		selectTypes[0].typeOption === "Выбирете категорию"
+		selectTypes[0].typeOption === "Выберите категорию"
 	) {
 		return true;
 	}

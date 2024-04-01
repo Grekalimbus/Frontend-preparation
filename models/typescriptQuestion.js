@@ -7,6 +7,7 @@ const typescriptSchema = new Schema({
 });
 
 const TypescriptQuestionModel =
-	mongoose.models.TS || mongoose.model("TypescriptQuestion", typescriptSchema);
+	mongoose.models.TypescriptQuestion ||
+	mongoose.model("TypescriptQuestion", typescriptSchema);
 
 export default TypescriptQuestionModel;

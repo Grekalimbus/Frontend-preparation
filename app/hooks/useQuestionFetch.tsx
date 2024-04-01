@@ -22,11 +22,15 @@ export const useQuestionFetch = (id: string) => {
 			try {
 				const response = await QuestionService.getQuestionByType(id);
 				const questions = response.data[id];
-				setDataQuestion(questions);
+				console.log("questions", questions);
+				setDataQuestion(questions.length > 0 ? questions : []);
 
 				if (!randomItem && questions.length > 0) {
 					const randomIndex = Math.floor(Math.random() * questions.length);
 					setRandomItem(questions[randomIndex]);
+				}
+				if (questions.length === 0) {
+					setRandomItem(null);
 				}
 			} catch (error) {
 				console.error("Error fetching questions:", error);
