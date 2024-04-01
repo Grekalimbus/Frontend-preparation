@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import InputField from "../components/InputField";
+import useDeleteQuestion from "../hooks/useDeleteQuestion";
 import { useQuestionFetch } from "../hooks/useQuestionFetch";
 import FlexButtons from "./FlexButtons";
 
@@ -8,6 +9,10 @@ interface IProps {
 	typeOption: string;
 	inputValue: string;
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface IHook {
+	deleteQuestion: () => Promise<void>;
 }
 
 const DeleteQuestion = ({
@@ -19,6 +24,11 @@ const DeleteQuestion = ({
 	const { randomItem, handleNextQuestion } = useQuestionFetch(
 		typeOption.toLowerCase()
 	);
+	const { deleteQuestion }: IHook = useDeleteQuestion({
+		_id: randomItem?._id,
+		typeOption: typeOption.toLowerCase(),
+		handleNextQuestion,
+	});
 	console.log("randomItem", randomItem);
 	useEffect(() => {
 		handleNextQuestion();
@@ -42,6 +52,7 @@ const DeleteQuestion = ({
 					firstValue="Следующий"
 					secondValue="Удалить"
 					handleNextQuestion={handleNextQuestion}
+					handleDeleteQiestion={deleteQuestion}
 				/>
 			</>
 		)
