@@ -19,12 +19,12 @@ interface IProps {
 }
 
 const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
-	const { selectOptionMutate, handleChangeTypeOption } =
+	const { selectOption, handleChangeTypeOption } =
 		useSelectOption(initialAdminOptions);
 	const selectTechnologies: ISelectHook =
 		useComplexSelectOption(initialTechnologies);
 	const { isVisibleElem, textSelectOption } = useComplexVisible(
-		selectOptionMutate[0].typeOption
+		selectOption[0].typeOption
 	);
 	console.log(
 		"selectTechnologies.selectOption",
@@ -33,7 +33,7 @@ const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
 	return (
 		isAccess && (
 			<>
-				{selectOptionMutate.map((item: ISelectOptions) => {
+				{selectOption.map((item: ISelectOptions) => {
 					return (
 						<SelectOption
 							key={item.typeOption}

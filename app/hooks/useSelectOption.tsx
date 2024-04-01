@@ -2,14 +2,14 @@ import { useState } from "react";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
 const useSelectOption = (initialSelectOptions: ISelectOptions[]) => {
-	const [selectOptionMutate, setSelectOptionMutate] =
+	const [selectOption, setSelectOption] =
 		useState<ISelectOptions[]>(initialSelectOptions);
 
 	const handleChangeTypeOption = (
 		updateSelectValue: string,
 		selectField: string
 	) => {
-		const updateSelectOptions = selectOptionMutate.map(item => {
+		const updateSelectOptions = selectOption.map(item => {
 			if (item.typeOption === selectField) {
 				return {
 					typeOption: updateSelectValue,
@@ -19,9 +19,9 @@ const useSelectOption = (initialSelectOptions: ISelectOptions[]) => {
 			return item;
 		});
 
-		setSelectOptionMutate(updateSelectOptions);
+		setSelectOption(updateSelectOptions);
 	};
-	return { selectOptionMutate, handleChangeTypeOption };
+	return { selectOption, handleChangeTypeOption };
 };
 
 export default useSelectOption;
