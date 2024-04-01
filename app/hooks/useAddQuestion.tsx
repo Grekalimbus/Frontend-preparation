@@ -6,13 +6,15 @@ interface IDataInput {
 }
 
 interface IProps {
-	selectOption: ISelectOptions[];
+	selectTechnologies: ISelectOptions[];
+	selectTypes: ISelectOptions[];
 	inputValue: IDataInput;
 	setInputValue: React.Dispatch<React.SetStateAction<IDataInput>>;
 }
 
 const useAddQuestion = ({
-	selectOption,
+	selectTechnologies,
+	selectTypes,
 	inputValue,
 	setInputValue,
 }: IProps) => {
@@ -26,7 +28,10 @@ const useAddQuestion = ({
 			: null;
 	};
 
-	const endpoint = getEndpoint(selectOption, selectOption[0].typeOption);
+	const endpoint = getEndpoint(
+		selectTechnologies,
+		selectTechnologies[0].typeOption
+	);
 
 	const createNewQuestion = async () => {
 		try {
@@ -35,13 +40,13 @@ const useAddQuestion = ({
 				{
 					question: inputValue.nameQuestion,
 					answer: inputValue.answer,
+					category: selectTypes[0].typeOption,
 				}
 			);
 			setInputValue({
 				nameQuestion: "",
 				answer: "",
 			});
-			console.log("Question created successfully:", response.data);
 		} catch (error) {
 			console.error("Error creating question:", error);
 		}

@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const reduxSchema = new Schema({
 	question: String,
 	answer: String,
+	category: String,
 });
 
 const Redux =

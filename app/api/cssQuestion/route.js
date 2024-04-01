@@ -3,9 +3,9 @@ import CSS from "@/models/cssQuestion";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-	const { question, answer } = await request.json();
+	const { question, answer, category } = await request.json();
 	await connectMongoDB();
-	await CSS.create({ question, answer });
+	await CSS.create({ question, answer, category });
 	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
 

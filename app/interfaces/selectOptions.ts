@@ -51,3 +51,13 @@ export const initialAdminOptions: ISelectOptions[] = [
 		],
 	},
 ];
+
+export const initialTypes: ISelectOptions[] = [
+	{
+		typeOption: "Выбирете категорию",
+		options: [
+			{ value: "easy", text: "Легкий" },
+			{ value: "middle", text: "Средний" },
+		],
+	},
+];
