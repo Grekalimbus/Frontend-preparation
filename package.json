@@ -1,31 +1,30 @@
 {
-  "name": "frontend-preparation",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^2.2.2",
-    "@svgr/webpack": "^8.1.0",
-    "@tanstack/react-query": "^5.28.9",
-    "axios": "^1.6.8",
-    "mongoose": "^8.2.3",
-    "next": "14.1.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-icons": "^5.0.1",
-    "react-redux": "^9.1.0",
-    "sass": "^1.72.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "node-sass": "^9.0.0",
-    "typescript": "^5"
-  }
+	"name": "frontend-preparation",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@svgr/webpack": "^8.1.0",
+		"@tanstack/react-query": "^5.28.9",
+		"axios": "^1.6.8",
+		"mongoose": "^8.2.3",
+		"next": "14.1.4",
+		"react": "^18",
+		"react-dom": "^18",
+		"react-icons": "^5.0.1",
+		"react-redux": "^9.1.0",
+		"sass": "^1.72.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"node-sass": "^9.0.0",
+		"typescript": "^5"
+	}
 }

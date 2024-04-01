@@ -1,7 +1,8 @@
 "use client";
 import Loader from "@/app/components/Loader";
 import SelectOption from "@/app/components/SelectOption";
-import { useQuestion } from "@/app/hooks/useQuestion";
+
+import { useQuestionFetch } from "@/app/hooks/useQuestionFetch";
 import useSeletOption from "@/app/hooks/useSelectOption";
 import useVisible from "@/app/hooks/useVisible";
 import {
@@ -19,12 +20,13 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
-	const dataQuestions = useQuestion(id);
+	const { randomItem } = useQuestionFetch(id);
+	console.log("randomItem", randomItem);
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
 	const { isActive, handleChangeActive } = useVisible();
-
-	return dataQuestions?.length === 0 ? (
+	// console.log("dataQuestions", dataQuestions);
+	return !randomItem?._id ? (
 		<Loader />
 	) : (
 		<main className="container-preparation-wrapper">
@@ -49,13 +51,16 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						onClick={handleChangeActive}
 						aria-label="Показать ответ"
 					>
-						Прогрессивное улучшение, изящная деградация, что это?
+						{randomItem.question}
 						{isActive ? <CgChevronDown /> : <CgChevronUp />}
 					</button>
 
-					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						Ответ
-					</p>
+					{/* <p className={`describe-answer-text ${isActive ? "" : "active"}`}>
+						<pre>{randomItem.answer}</pre>
+					</p> */}
+					<pre className={`describe-answer-text ${isActive ? "" : "active"}`}>
+						{randomItem.answer}
+					</pre>
 					<button
 						className={`button-next-question ${isActive ? "" : "active"}`}
 					>

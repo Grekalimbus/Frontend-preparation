@@ -33,7 +33,7 @@ export const arrayNavLinks: ILink[] = [
 	{
 		icon: SiTypescript,
 		description: "TypeScript",
-		href: "preparationPage/ttypescript",
+		href: "preparationPage/typescript",
 	},
 	{
 		icon: LiaReact,

@@ -14,8 +14,5 @@ export async function PATCH(request, { params }) {
 	const { newQuestion: question, newAnswer: answer } = await request.json();
 	await connectMongoDB();
 	await CSS.findByIdAndUpdate(id, { question, answer });
-	return NextResponse.json(
-		{ message: "React questiom updated" },
-		{ status: 200 }
-	);
+	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
 }
