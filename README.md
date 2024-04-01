@@ -1,6 +1,6 @@
 # **Frontend Preparation**
 
-## [Click > link deploy project / Ссылка на проект](http://5.53.125.173/)
+## [Click > link deploy project / Ссылка на проект](https://frontend-preparation-gamma.vercel.app/)
 
 <br />
 
