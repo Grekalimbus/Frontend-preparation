@@ -3,9 +3,21 @@ import SelectOption from "../components/SelectOption";
 import useAddQuestion from "../hooks/useAddQuestion";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
-import { ISelectOptions } from "../interfaces/selectOptions";
+import {
+	ISelectOptions,
+	initialTechnologies,
+	initialTypes,
+} from "../interfaces/selectOptions";
 import FlexButtons from "./FlexButtons";
 import "./adminPanel.scss";
+
+interface ISelectHook {
+	selectOption: ISelectOptions[];
+	handleChangeTypeOption: (
+		updateSelectValue: string,
+		selectField: string
+	) => unknown;
+}
 
 const AddQuestion = () => {
 	const {
@@ -20,30 +32,69 @@ const AddQuestion = () => {
 			answer: "",
 		},
 	});
-	const { selectOption, handleChangeTypeOption } = useComplexSelectOption();
+
+	const selectTechnologies: ISelectHook =
+		useComplexSelectOption(initialTechnologies);
+	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
+	console.log("selectTypes.selectOption", selectTypes.selectOption);
+
 	const { createNewQuestion } = useAddQuestion({
-		selectOption,
+		selectTechnologies: selectTechnologies.selectOption,
+		selectTypes: selectTypes.selectOption,
 		inputValue,
 		setInputValue,
 	});
 
-	const isDisabled =
-		errors.answer ||
-		errors.nameQuestion ||
-		selectOption[0].typeOption === "Выбирете технологию"
-			? true
-			: false;
+	const isDisabled = () => {
+		if (errors.answer || errors.nameQuestion) {
+			return true;
+		}
+		if (
+			selectTechnologies.selectOption.length > 0 &&
+			selectTechnologies.selectOption[0].typeOption === "Выбирете технологию"
+		) {
+			return true;
+		}
+		if (
+			selectTypes.selectOption.length > 0 &&
+			selectTypes.selectOption[0].typeOption === "Выбирете категорию"
+		) {
+			return true;
+		}
+		return false;
+	};
+
+	const isDisabledState = isDisabled();
+
+	// const isDisabled =
+	// 	errors.answer ||
+	// 	errors.nameQuestion ||
+	// 	(selectTechnologies.selectOption.length > 0 &&
+	// 		selectTechnologies.selectOption[0].typeOption === "Выбирете технологию")
+	// 		? true
+	// 		: false;
 
 	return (
 		<>
-			{selectOption.map((item: ISelectOptions) => {
+			{selectTechnologies.selectOption.map((item: ISelectOptions) => {
 				return (
 					<SelectOption
 						width={{ width: "100%" }}
 						key={item.typeOption}
 						typeOption={item.typeOption}
 						options={item.options}
-						handleChangeTypeOption={handleChangeTypeOption}
+						handleChangeTypeOption={selectTechnologies.handleChangeTypeOption}
+					/>
+				);
+			})}
+			{selectTypes.selectOption.map((item: ISelectOptions) => {
+				return (
+					<SelectOption
+						width={{ width: "100%" }}
+						key={item.typeOption}
+						typeOption={item.typeOption}
+						options={item.options}
+						handleChangeTypeOption={selectTypes.handleChangeTypeOption}
 					/>
 				);
 			})}
@@ -68,7 +119,7 @@ const AddQuestion = () => {
 			<FlexButtons
 				firstValue="Следующий"
 				secondValue="Добавить"
-				disabled={isDisabled}
+				disabled={isDisabledState}
 				createNewQuestion={createNewQuestion}
 			/>
 		</>

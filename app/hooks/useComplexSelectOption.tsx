@@ -1,12 +1,9 @@
 import { useState } from "react";
-import {
-	ISelectOptions,
-	initialTechnologies,
-} from "../interfaces/selectOptions";
+import { ISelectOptions } from "../interfaces/selectOptions";
 
-const useComplexSelectOption = () => {
+const useComplexSelectOption = (initialOptions: ISelectOptions[]) => {
 	const [selectOption, setSelectOption] =
-		useState<ISelectOptions[]>(initialTechnologies);
+		useState<ISelectOptions[]>(initialOptions);
 
 	const handleChangeTypeOption = (
 		updateSelectValue: string,
