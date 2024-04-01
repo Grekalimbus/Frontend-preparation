@@ -1,23 +1,23 @@
 import connectMongoDB from "@/libs/mongodb";
-import HTML from "@/models/htmlQuestion";
+import HtmlQuestionModel from "@/models/htmlQuestion";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
 	const { question, answer, category } = await request.json();
 	await connectMongoDB();
-	await HTML.create({ question, answer, category });
+	await HtmlQuestionModel.create({ question, answer, category });
 	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
 
 export async function GET() {
 	await connectMongoDB();
-	const html = await HTML.find();
+	const html = await HtmlQuestionModel.find();
 	return NextResponse.json({ html });
 }
 
 export async function DELETE(request) {
 	const id = request.nextUrl.searchParams.get("id");
 	await connectMongoDB();
-	await HTML.findByIdAndDelete(id);
+	await HtmlQuestionModel.findByIdAndDelete(id);
 	return NextResponse.json({ message: "Question Deleted" }, { status: 200 });
 }

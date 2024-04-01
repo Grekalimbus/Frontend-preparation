@@ -1,11 +1,11 @@
 import connectMongoDB from "@/libs/mongodb";
-import TS from "@/models/typescriptQuestion";
+import TypescriptModel from "@/models/typescriptQuestion";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
 	const { id } = params;
 	await connectMongoDB();
-	const ts = await TS.findOne({ _id: id });
+	const ts = await TypescriptModel.findOne({ _id: id });
 	return NextResponse.json({ ts }, { status: 200 });
 }
 
@@ -17,6 +17,6 @@ export async function PATCH(request, { params }) {
 		newCategory: category,
 	} = await request.json();
 	await connectMongoDB();
-	await TS.findByIdAndUpdate(id, { question, answer, category });
+	await TypescriptModel.findByIdAndUpdate(id, { question, answer, category });
 	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
 }

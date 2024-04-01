@@ -28,15 +28,15 @@ export const initialSelectOptions: ISelectOptions[] = [
 
 export const initialTechnologies: ISelectOptions[] = [
 	{
-		typeOption: "Выбирете технологию",
+		typeOption: "Выберите технологию",
 		options: [
-			{ text: "Общие", value: "commonQuestion" },
-			{ text: "HTML", value: "htmlQuestion" },
-			{ text: "CSS", value: "cssQuestion" },
-			{ text: "JavaScript", value: "javascriptQuestion" },
-			{ text: "TypeScript", value: "typescriptQuestion" },
-			{ text: "React", value: "reactQuestion" },
-			{ text: "Redux", value: "reduxQuestion" },
+			{ text: "Common", value: "common" },
+			{ text: "HTML", value: "html" },
+			{ text: "CSS", value: "css" },
+			{ text: "JavaScript", value: "javascript" },
+			{ text: "TypeScript", value: "typescript" },
+			{ text: "React", value: "react" },
+			{ text: "Redux", value: "redux" },
 		],
 	},
 ];
@@ -54,7 +54,7 @@ export const initialAdminOptions: ISelectOptions[] = [
 
 export const initialTypes: ISelectOptions[] = [
 	{
-		typeOption: "Выбирете категорию",
+		typeOption: "Выберите категорию",
 		options: [
 			{ value: "easy", text: "Легкий" },
 			{ value: "middle", text: "Средний" },

@@ -6,7 +6,7 @@ const reactSchema = new Schema({
 	category: String,
 });
 
-const React =
-	mongoose.models.React || mongoose.model("React Question", reactSchema);
+const ReactQuestionModel =
+	mongoose.models.ReactQuestion || mongoose.model("ReactQuestion", reactSchema);
 
-export default React;
+export default ReactQuestionModel;

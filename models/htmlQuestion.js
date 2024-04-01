@@ -6,7 +6,7 @@ const htmlSchema = new Schema({
 	category: String,
 });
 
-const HTML =
-	mongoose.models.HTML || mongoose.model("HTML Question", htmlSchema);
+const HtmlQuestionModel =
+	mongoose.models.HtmlQuestion || mongoose.model("HtmlQuestion", htmlSchema);
 
-export default HTML;
+export default HtmlQuestionModel;
