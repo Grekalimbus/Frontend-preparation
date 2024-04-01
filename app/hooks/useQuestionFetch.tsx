@@ -22,8 +22,8 @@ export const useQuestionFetch = (id: string) => {
 			try {
 				const response = await QuestionService.getQuestionByType(id);
 				const questions = response.data[id];
-				console.log("questions", questions);
-				setDataQuestion(questions.length > 0 ? questions : []);
+
+				setDataQuestion(questions);
 
 				if (!randomItem && questions.length > 0) {
 					const randomIndex = Math.floor(Math.random() * questions.length);
@@ -46,6 +46,10 @@ export const useQuestionFetch = (id: string) => {
 		if (dataQuestion.length > 0) {
 			const nextQuestion = dataQuestion[0];
 			setRandomItem(nextQuestion);
+			setDataQuestion(prevData => prevData.slice(1));
+		}
+		if (dataQuestion.length === 0) {
+			setRandomItem(null);
 			setDataQuestion(prevData => prevData.slice(1));
 		}
 	};
