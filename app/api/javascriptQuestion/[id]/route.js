@@ -1,12 +1,12 @@
 import connectMongoDB from "@/libs/mongodb";
-import JS from "@/models/javascriptQuestion";
+import JavascriptQuestionModel from "@/models/javascriptQuestion";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
 	const { id } = params;
 	await connectMongoDB();
-	const js = await JS.findOne({ _id: id });
-	return NextResponse.json({ js }, { status: 200 });
+	const javascript = JavascriptQuestionModel.findOne({ _id: id });
+	return NextResponse.json({ javascript }, { status: 200 });
 }
 
 export async function PATCH(request, { params }) {
@@ -17,6 +17,10 @@ export async function PATCH(request, { params }) {
 		newCategory: category,
 	} = await request.json();
 	await connectMongoDB();
-	await JS.findByIdAndUpdate(id, { question, answer, category });
+	await JavascriptQuestionModel.findByIdAndUpdate(id, {
+		question,
+		answer,
+		category,
+	});
 	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
 }

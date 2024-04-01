@@ -1,4 +1,3 @@
-import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useComplexVisible from "../hooks/useComplexVisible";
@@ -10,7 +9,7 @@ import {
 	initialTechnologies,
 } from "../interfaces/selectOptions";
 import AddQuestion from "./AddQuestion";
-import FlexButtons from "./FlexButtons";
+import DeleteQuestion from "./DeleteQuestion";
 
 interface IProps {
 	isAccess: boolean;
@@ -25,10 +24,6 @@ const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
 		useComplexSelectOption(initialTechnologies);
 	const { isVisibleElem, textSelectOption } = useComplexVisible(
 		selectOption[0].typeOption
-	);
-	console.log(
-		"selectTechnologies.selectOption",
-		selectTechnologies.selectOption
 	);
 	return (
 		isAccess && (
@@ -54,32 +49,17 @@ const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
 					/>
 				))}
 				<section>
-					{isVisibleElem && (
-						<>
-							<p className="elem-question-text">
-								Это две стратегии веб-разработки, которые подразумевают
-							</p>
-							<InputField
-								textArea={false}
-								handleChangeInput={handleChangeInput}
-								value={inputValue}
-								type="text"
-								placeholder="Фильтрация"
-								name="filter"
-							/>
-						</>
-					)}
-					{textSelectOption !== "Добавить" ? null : (
-						<AddQuestion selectTechnologies={selectTechnologies.selectOption} />
-					)}
+					<DeleteQuestion
+						isVisibleElem={isVisibleElem}
+						typeOption={selectTechnologies.selectOption[0].typeOption}
+						inputValue={inputValue}
+						handleChangeInput={handleChangeInput}
+					/>
 
-					{textSelectOption === "Выбирете: Удалить /Изменить / Добавить" ||
-					textSelectOption === "Добавить" ? null : (
-						<FlexButtons
-							firstValue="Следующий"
-							secondValue={textSelectOption}
-						/>
-					)}
+					<AddQuestion
+						textSelectOption={textSelectOption}
+						selectTechnologies={selectTechnologies.selectOption}
+					/>
 				</section>
 			</>
 		)

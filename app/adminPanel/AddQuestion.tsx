@@ -9,11 +9,12 @@ import isDisabled from "../utils/isDisabledToAdd";
 import FlexButtons from "./FlexButtons";
 import "./adminPanel.scss";
 
-const AddQuestion = ({
-	selectTechnologies,
-}: {
+interface IProps {
 	selectTechnologies: ISelectOptions[];
-}) => {
+	textSelectOption: string;
+}
+
+const AddQuestion = ({ selectTechnologies, textSelectOption }: IProps) => {
 	const {
 		errors,
 		inputValue,
@@ -44,43 +45,45 @@ const AddQuestion = ({
 	});
 
 	return (
-		<>
-			{selectTypes.selectOption.map((item: ISelectOptions) => {
-				return (
-					<SelectOption
-						width={{ width: "100%" }}
-						key={item.typeOption}
-						typeOption={item.typeOption}
-						options={item.options}
-						handleChangeTypeOption={selectTypes.handleChangeTypeOption}
-					/>
-				);
-			})}
-			<InputField
-				name="nameQuestion"
-				textArea={false}
-				value={inputValue.nameQuestion}
-				type="text"
-				placeholder="Название вопроса"
-				handleChangeInput={handleChangeInput}
-				error={errors.nameQuestion}
-			/>
-			<InputField
-				textArea={true}
-				name="answer"
-				value={inputValue.answer}
-				type="text"
-				placeholder="Ответ"
-				handleChangeTextArea={handleChangeTextArea}
-				error={errors.answer}
-			/>
-			<FlexButtons
-				firstValue="Следующий"
-				secondValue="Добавить"
-				disabled={isDisabledState}
-				createNewQuestion={createNewQuestion}
-			/>
-		</>
+		textSelectOption === "Добавить" && (
+			<>
+				{selectTypes.selectOption.map((item: ISelectOptions) => {
+					return (
+						<SelectOption
+							width={{ width: "100%" }}
+							key={item.typeOption}
+							typeOption={item.typeOption}
+							options={item.options}
+							handleChangeTypeOption={selectTypes.handleChangeTypeOption}
+						/>
+					);
+				})}
+				<InputField
+					name="nameQuestion"
+					textArea={false}
+					value={inputValue.nameQuestion}
+					type="text"
+					placeholder="Название вопроса"
+					handleChangeInput={handleChangeInput}
+					error={errors.nameQuestion}
+				/>
+				<InputField
+					textArea={true}
+					name="answer"
+					value={inputValue.answer}
+					type="text"
+					placeholder="Ответ"
+					handleChangeTextArea={handleChangeTextArea}
+					error={errors.answer}
+				/>
+				<FlexButtons
+					firstValue="Следующий"
+					secondValue="Добавить"
+					disabled={isDisabledState}
+					createNewQuestion={createNewQuestion}
+				/>
+			</>
+		)
 	);
 };
 

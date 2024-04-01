@@ -36,7 +36,7 @@ const useAddQuestion = ({
 	const createNewQuestion = async () => {
 		try {
 			const response = await axios.post(
-				`http://localhost:3000/api/${endpoint}`,
+				`http://localhost:3000/api/${endpoint}Question`,
 				{
 					question: inputValue.nameQuestion,
 					answer: inputValue.answer,

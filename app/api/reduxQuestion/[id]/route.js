@@ -1,11 +1,11 @@
 import connectMongoDB from "@/libs/mongodb";
-import Redux from "@/models/reduxQuestion";
+import ReduxQuestionModel from "@/models/reduxQuestion";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
 	const { id } = params;
 	await connectMongoDB();
-	const redux = await Redux.findOne({ _id: id });
+	const redux = await ReduxQuestionModel.findOne({ _id: id });
 	return NextResponse.json({ redux }, { status: 200 });
 }
 
@@ -17,6 +17,10 @@ export async function PATCH(request, { params }) {
 		newCategory: category,
 	} = await request.json();
 	await connectMongoDB();
-	await Redux.findByIdAndUpdate(id, { question, answer, category });
+	await ReduxQuestionModel.findByIdAndUpdate(id, {
+		question,
+		answer,
+		category,
+	});
 	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
 }
