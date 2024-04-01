@@ -8,8 +8,8 @@ interface IProps {
 	name: string;
 	textArea: boolean;
 	error?: string;
-	handleChangeInput?: (e: React.ChangeEvent<HTMLInputElement>) => unknown;
-	handleChangeTextArea?: (e: React.ChangeEvent<HTMLTextAreaElement>) => unknown;
+	handleChangeInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleChangeTextArea?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const InputField = ({

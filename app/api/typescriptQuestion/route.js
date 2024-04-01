@@ -3,21 +3,21 @@ import TS from "@/models/typescriptQuestion";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-	const { question, answer } = await request.json();
+	const { question, answer, category } = await request.json();
 	await connectMongoDB();
-	await TS.create({ question, answer });
-	return NextResponse.json({ message: "TS Question Created" }, { status: 201 });
+	await TS.create({ question, answer, category });
+	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
 
 export async function GET() {
 	await connectMongoDB();
-	const common = await TS.find();
-	return NextResponse.json({ common });
+	const typescript = await TS.find();
+	return NextResponse.json({ typescript });
 }
 
 export async function DELETE(request) {
 	const id = request.nextUrl.searchParams.get("id");
 	await connectMongoDB();
 	await TS.findByIdAndDelete(id);
-	return NextResponse.json({ message: "Topic deleted" }, { status: 200 });
+	return NextResponse.json({ message: "Question Deleted" }, { status: 200 });
 }

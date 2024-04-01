@@ -3,24 +3,21 @@ import Redux from "@/models/reduxQuestion";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-	const { question, answer } = await request.json();
+	const { question, answer, category } = await request.json();
 	await connectMongoDB();
-	await Redux.create({ question, answer });
-	return NextResponse.json(
-		{ message: "Common Question Created" },
-		{ status: 201 }
-	);
+	await Redux.create({ question, answer, category });
+	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
 
 export async function GET() {
 	await connectMongoDB();
-	const common = await Redux.find();
-	return NextResponse.json({ common });
+	const redux = await Redux.find();
+	return NextResponse.json({ redux });
 }
 
 export async function DELETE(request) {
 	const id = request.nextUrl.searchParams.get("id");
 	await connectMongoDB();
 	await Redux.findByIdAndDelete(id);
-	return NextResponse.json({ message: "Topic deleted" }, { status: 200 });
+	return NextResponse.json({ message: "Question Deleted" }, { status: 200 });
 }

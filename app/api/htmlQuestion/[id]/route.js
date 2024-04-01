@@ -11,11 +11,12 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
 	const { id } = params;
-	const { newQuestion: question, newAnswer: answer } = await request.json();
+	const {
+		newQuestion: question,
+		newAnswer: answer,
+		newCategory: category,
+	} = await request.json();
 	await connectMongoDB();
-	await HTML.findByIdAndUpdate(id, { question, answer });
-	return NextResponse.json(
-		{ message: "React questiom updated" },
-		{ status: 200 }
-	);
+	await HTML.findByIdAndUpdate(id, { question, answer, category });
+	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
 }
