@@ -1,7 +1,6 @@
 "use client";
 import Loader from "@/app/components/Loader";
 import SelectOption from "@/app/components/SelectOption";
-
 import { useQuestionFetch } from "@/app/hooks/useQuestionFetch";
 import useSeletOption from "@/app/hooks/useSelectOption";
 import useVisible from "@/app/hooks/useVisible";
@@ -20,12 +19,11 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
-	const { randomItem } = useQuestionFetch(id);
-	console.log("randomItem", randomItem);
+	const { randomItem, handleNextQuestion } = useQuestionFetch(id);
+	const { isActive, handleChangeActive } = useVisible();
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
-	const { isActive, handleChangeActive } = useVisible();
-	// console.log("dataQuestions", dataQuestions);
+
 	return !randomItem?._id ? (
 		<Loader />
 	) : (
@@ -54,14 +52,11 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						{randomItem.question}
 						{isActive ? <CgChevronDown /> : <CgChevronUp />}
 					</button>
-
-					{/* <p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						<pre>{randomItem.answer}</pre>
-					</p> */}
 					<pre className={`describe-answer-text ${isActive ? "" : "active"}`}>
 						{randomItem.answer}
 					</pre>
 					<button
+						onClick={handleNextQuestion}
 						className={`button-next-question ${isActive ? "" : "active"}`}
 					>
 						Next

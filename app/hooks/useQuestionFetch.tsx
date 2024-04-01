@@ -1,18 +1,22 @@
 import IQuestion from "@/app/interfaces/question";
 import QuestionService from "@/app/services/question.services";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useQuestionFetch = (id: string) => {
 	const [dataQuestion, setDataQuestion] = useState<IQuestion[]>([]);
-	const [randomItem, setRandomItem] = useState<IQuestion | null>(null);
+	const randomItemRef = useRef<IQuestion | null>(null);
 
-	// get Data from server and change state
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			try {
 				const response = await QuestionService.getQuestionByType(id);
-				console.log("response", response);
-				setDataQuestion(response.data[id]);
+				const questions = response.data[id];
+				setDataQuestion(questions);
+
+				if (!randomItemRef.current && questions.length > 0) {
+					const randomIndex = Math.floor(Math.random() * questions.length);
+					randomItemRef.current = questions[randomIndex];
+				}
 			} catch (error) {
 				console.error("Error fetching questions:", error);
 			}
@@ -21,22 +25,13 @@ export const useQuestionFetch = (id: string) => {
 		fetchQuestions();
 	}, []);
 
-	const updateRandomItem = () => {
+	const handleNextQuestion = (): void => {
 		if (dataQuestion.length > 0) {
-			const randomIndex = Math.floor(Math.random() * dataQuestion.length);
-			const item = dataQuestion[randomIndex];
-			const newDataQuestion = [
-				...dataQuestion.slice(0, randomIndex),
-				...dataQuestion.slice(randomIndex + 1),
-			];
-			setRandomItem(item);
-			setDataQuestion(newDataQuestion);
+			const nextQuestion = dataQuestion[0];
+			randomItemRef.current = nextQuestion;
+			setDataQuestion(prevData => prevData.slice(1));
 		}
 	};
 
-	useEffect(() => {
-		updateRandomItem();
-	}, [dataQuestion]);
-
-	return { randomItem };
+	return { randomItem: randomItemRef.current, handleNextQuestion };
 };

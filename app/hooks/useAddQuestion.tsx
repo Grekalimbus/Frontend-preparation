@@ -41,7 +41,6 @@ const useAddQuestion = ({
 				nameQuestion: "",
 				answer: "",
 			});
-			console.log("Question created successfully:", response.data);
 		} catch (error) {
 			console.error("Error creating question:", error);
 		}
