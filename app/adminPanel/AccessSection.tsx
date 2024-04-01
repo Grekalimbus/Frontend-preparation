@@ -1,6 +1,11 @@
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
-import { ISelectOptions } from "../interfaces/selectOptions";
+import useComplexSelectOption from "../hooks/useComplexSelectOption";
+import { ISelectHook } from "../interfaces/selectHook";
+import {
+	ISelectOptions,
+	initialTechnologies,
+} from "../interfaces/selectOptions";
 import AddQuestion from "./AddQuestion";
 import FlexButtons from "./FlexButtons";
 
@@ -26,6 +31,9 @@ const AccessSection = ({
 	inputValue,
 	textSelectOption,
 }: IProps) => {
+	const selectTechnologies: ISelectHook =
+		useComplexSelectOption(initialTechnologies);
+	console.log("textSelectOption", textSelectOption);
 	return (
 		isAccess && (
 			<>
@@ -40,6 +48,15 @@ const AccessSection = ({
 						/>
 					);
 				})}
+				{selectTechnologies.selectOption.map((item: ISelectOptions) => (
+					<SelectOption
+						width={{ width: "100%" }}
+						key={item.typeOption}
+						typeOption={item.typeOption}
+						options={item.options}
+						handleChangeTypeOption={selectTechnologies.handleChangeTypeOption}
+					/>
+				))}
 				<section>
 					{isVisibleElem && (
 						<p className="elem-question-text">
@@ -56,7 +73,9 @@ const AccessSection = ({
 							name="filter"
 						/>
 					)}
-					{textSelectOption !== "Добавить" ? null : <AddQuestion />}
+					{textSelectOption !== "Добавить" ? null : (
+						<AddQuestion selectTechnologies={selectTechnologies.selectOption} />
+					)}
 
 					{textSelectOption === "Выбирете: Удалить /Изменить / Добавить" ||
 					textSelectOption === "Добавить" ? null : (
