@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import InputField from "../components/InputField";
 import { useQuestionFetch } from "../hooks/useQuestionFetch";
 import FlexButtons from "./FlexButtons";
@@ -18,7 +19,9 @@ const DeleteQuestion = ({
 	const { randomItem, handleNextQuestion } = useQuestionFetch(
 		typeOption.toLowerCase()
 	);
-	// console.log("randomItem", randomItem);
+	useEffect(() => {
+		handleNextQuestion();
+	}, [typeOption]);
 
 	return (
 		isVisibleElem &&
