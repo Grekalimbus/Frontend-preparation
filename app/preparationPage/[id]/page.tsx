@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/app/components/Loader";
 import SelectOption from "@/app/components/SelectOption";
-import { useQuestionFetch } from "@/app/hooks/useQuestionFetch";
+import useMutateQuestion from "@/app/hooks/useMutateQuestion";
 import useSeletOption from "@/app/hooks/useSelectOption";
 import useVisible from "@/app/hooks/useVisible";
 import {
@@ -19,12 +19,12 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
-	const { randomItem, handleNextQuestion } = useQuestionFetch(id);
+	const { randomQuestion, handleNextQuestion } = useMutateQuestion(id);
 	const { isActive, handleChangeActive } = useVisible();
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
 
-	return !randomItem?._id ? (
+	return !randomQuestion?._id ? (
 		<>
 			<Header />
 			<Loader />
@@ -52,11 +52,11 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						onClick={handleChangeActive}
 						aria-label="Показать ответ"
 					>
-						{randomItem.question}
+						{randomQuestion.question}
 						{isActive ? <CgChevronDown /> : <CgChevronUp />}
 					</button>
 					<pre className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						{randomItem.answer}
+						{randomQuestion.answer}
 					</pre>
 					<button
 						onClick={handleNextQuestion}
