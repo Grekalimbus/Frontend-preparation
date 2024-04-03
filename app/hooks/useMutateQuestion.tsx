@@ -10,6 +10,12 @@ const useMutateQuestion = (typeOption: string) => {
 	const [dataQuestion, setDataQuestion] = useState<State>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
 
+	const defaultObject = {
+		_id: "000",
+		question: "Вопросы закончились",
+		answer: "Вопросы закончились",
+		category: typeOption,
+	};
 	const fetchData = async () => {
 		try {
 			const { data } = await axios.get(
@@ -26,8 +32,7 @@ const useMutateQuestion = (typeOption: string) => {
 		queryFn: fetchData,
 	});
 
-	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]) => {
-		console.log("arrayData.length", arrayData);
+	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]): void => {
 		if (arrayData && arrayData.length) {
 			const randomIndexArray = Math.floor(Math.random() * arrayData.length);
 			const filterArray = arrayData.filter(
@@ -36,10 +41,12 @@ const useMutateQuestion = (typeOption: string) => {
 			setDataQuestion(filterArray);
 			setRandomQuestion(arrayData[randomIndexArray]);
 		}
+		if (arrayData?.length === 0) {
+			setRandomQuestion(defaultObject);
+		}
 	};
 
-	const handleNextQuestion = () => {
-		console.log("dataQuestion?.length", dataQuestion?.length);
+	const handleNextQuestion = (): void => {
 		if (dataQuestion && dataQuestion.length) {
 			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
 			const filterArray = dataQuestion.filter(
@@ -49,23 +56,29 @@ const useMutateQuestion = (typeOption: string) => {
 			setRandomQuestion(dataQuestion[randomIndexArray]);
 		}
 		if (dataQuestion?.length === 0) {
-			setRandomQuestion({
-				_id: "000",
-				question: "Вопросы закончились",
-				answer: "Вопросы закончились",
-				category: typeOption,
-			});
+			setRandomQuestion(defaultObject);
+		}
+	};
+
+	const handleFindByName = (name: string) => {
+		if (data && data[typeOption].length) {
+			const filterArray = data[typeOption].filter((item: IQuestion) =>
+				item.question.toLowerCase().includes(name.toLowerCase())
+			);
+			setDataQuestion(filterArray);
+			setRandomQuestion(filterArray[0]);
 		}
 	};
 
 	useEffect(() => {
-		fetchData();
 		if (data) {
+			fetchData();
+			setDataQuestion(null);
 			handleRandomQuestion(data[typeOption]);
 		}
 	}, [typeOption, data]);
 
-	return { randomQuestion, handleNextQuestion };
+	return { randomQuestion, handleNextQuestion, handleFindByName };
 };
 
 export default useMutateQuestion;
