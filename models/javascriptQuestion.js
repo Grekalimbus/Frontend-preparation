@@ -7,7 +7,7 @@ const javascriptSchema = new Schema({
 });
 
 const JavascriptQuestionModel =
-	mongoose.models.JavascriptQuest ||
-	mongoose.model("JavascriptQuest", javascriptSchema);
+	mongoose.models.JavascriptQuestion ||
+	mongoose.model("JavascriptQuestion", javascriptSchema);
 
 export default JavascriptQuestionModel;

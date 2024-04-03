@@ -11,7 +11,7 @@ export async function POST(request) {
 
 export async function GET() {
 	await connectMongoDB();
-	const javascript = JavascriptQuestionModel.find();
+	const javascript = await JavascriptQuestionModel.find();
 	return NextResponse.json({ javascript });
 }
 

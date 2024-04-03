@@ -43,7 +43,6 @@ const AddQuestion = ({ selectTechnologies, textSelectOption }: IProps) => {
 		selectTechnologies,
 		selectTypes: selectTypes.selectOption,
 	});
-	console.log("isDisabledState", isDisabledState);
 
 	return (
 		textSelectOption === "Добавить" && (
