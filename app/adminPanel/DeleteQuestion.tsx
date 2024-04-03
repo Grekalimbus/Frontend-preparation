@@ -30,13 +30,15 @@ const DeleteQuestion = ({
 		typeOption: typeOption.toLowerCase(),
 		handleNextQuestion,
 	});
-
+	console.log("randomQuestion", randomQuestion);
 	return (
 		isVisibleElem &&
 		typeOption !== "Выберите технологию" &&
-		randomQuestion && (
+		randomQuestion !== null && (
 			<>
-				<p className="elem-question-text">{randomQuestion?.question}</p>
+				<p className="elem-question-text">
+					{randomQuestion?.question || "Вопросов нет"}
+				</p>
 				<InputField
 					textArea={false}
 					handleChangeInput={handleChangeInput}

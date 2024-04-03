@@ -26,8 +26,8 @@ const useMutateQuestion = (typeOption: string) => {
 		queryFn: fetchData,
 	});
 
-	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]) => {
-		console.log("arrayData.length", arrayData);
+	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]): void => {
+		console.log("arrayData.length", arrayData?.length);
 		if (arrayData && arrayData.length) {
 			const randomIndexArray = Math.floor(Math.random() * arrayData.length);
 			const filterArray = arrayData.filter(
@@ -36,10 +36,17 @@ const useMutateQuestion = (typeOption: string) => {
 			setDataQuestion(filterArray);
 			setRandomQuestion(arrayData[randomIndexArray]);
 		}
+		if (arrayData?.length === 0) {
+			setRandomQuestion({
+				_id: "000",
+				question: "Вопросов нет",
+				answer: "Вопросов нет",
+				category: typeOption,
+			});
+		}
 	};
 
 	const handleNextQuestion = () => {
-		console.log("dataQuestion?.length", dataQuestion?.length);
 		if (dataQuestion && dataQuestion.length) {
 			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
 			const filterArray = dataQuestion.filter(
@@ -59,8 +66,9 @@ const useMutateQuestion = (typeOption: string) => {
 	};
 
 	useEffect(() => {
-		fetchData();
 		if (data) {
+			fetchData();
+			setDataQuestion(null);
 			handleRandomQuestion(data[typeOption]);
 		}
 	}, [typeOption, data]);
