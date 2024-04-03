@@ -15,7 +15,6 @@ const arrayTachnologies = [
 export const useQuestionFetch = (id: string) => {
 	const [dataQuestion, setDataQuestion] = useState<IQuestion[]>([]);
 	const [randomItem, setRandomItem] = useState<IQuestion | null>(null);
-	console.log("id", id);
 
 	useEffect(() => {
 		const fetchData = async () => {

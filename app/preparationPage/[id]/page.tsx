@@ -25,7 +25,10 @@ const PreparationPage = ({ params: { id } }: Props) => {
 		useSeletOption(initialSelectOptions);
 
 	return !randomItem?._id ? (
-		<Loader />
+		<>
+			<Header />
+			<Loader />
+		</>
 	) : (
 		<main className="container-preparation-wrapper">
 			<Header />

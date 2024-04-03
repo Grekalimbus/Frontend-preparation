@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import InputField from "../components/InputField";
 import useDeleteQuestion from "../hooks/useDeleteQuestion";
-import { useQuestionFetch } from "../hooks/useQuestionFetch";
+import useMutateQuestion from "../hooks/useMutateQuestion";
 import FlexButtons from "./FlexButtons";
 
 interface IProps {
@@ -21,25 +20,23 @@ const DeleteQuestion = ({
 	typeOption,
 	handleChangeInput,
 }: IProps) => {
-	const { randomItem, handleNextQuestion } = useQuestionFetch(
+	const { randomQuestion, handleNextQuestion } = useMutateQuestion(
 		typeOption.toLowerCase()
 	);
+	console.log("randomQuestion", randomQuestion);
+
 	const { deleteQuestion }: IHook = useDeleteQuestion({
-		_id: randomItem?._id,
+		_id: randomQuestion?._id,
 		typeOption: typeOption.toLowerCase(),
 		handleNextQuestion,
 	});
-	console.log("randomItem", randomItem);
-	useEffect(() => {
-		handleNextQuestion();
-	}, [typeOption]);
 
 	return (
 		isVisibleElem &&
 		typeOption !== "Выберите технологию" &&
-		randomItem && (
+		randomQuestion && (
 			<>
-				<p className="elem-question-text">{randomItem?.question}</p>
+				<p className="elem-question-text">{randomQuestion?.question}</p>
 				<InputField
 					textArea={false}
 					handleChangeInput={handleChangeInput}
