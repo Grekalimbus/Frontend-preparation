@@ -52,7 +52,6 @@ const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
 					<DeleteQuestion
 						isVisibleElem={isVisibleElem}
 						typeOption={selectTechnologies.selectOption[0].typeOption}
-						inputValue={inputValue}
 						handleChangeInput={handleChangeInput}
 					/>
 
