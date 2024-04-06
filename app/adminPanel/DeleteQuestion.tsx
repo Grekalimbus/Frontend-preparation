@@ -2,11 +2,12 @@ import { useState } from "react";
 import InputField from "../components/InputField";
 import useDeleteQuestion from "../hooks/useDeleteQuestion";
 import useMutateQuestion from "../hooks/useMutateQuestion";
+import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import FlexButtons from "./FlexButtons";
 
 interface IProps {
-	isVisibleElem: boolean;
-	typeOption: string;
+	technologiesOptions: string;
+	selectOption: string;
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -14,24 +15,29 @@ interface IHook {
 	deleteQuestion: () => Promise<void>;
 }
 
-const DeleteQuestion = ({ isVisibleElem, typeOption }: IProps) => {
+const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion(typeOption.toLowerCase());
+		useMutateQuestion(technologiesOptions.toLowerCase());
 	const { deleteQuestion }: IHook = useDeleteQuestion({
 		_id: randomQuestion?._id,
-		typeOption: typeOption.toLowerCase(),
+		technology: technologiesOptions.toLowerCase(),
 		handleNextQuestion,
 	});
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
 		handleFindByName(e.target.value);
 	};
+	const isValidDisplay = isTrueToDisplay({
+		selectOption,
+		technologiesOptions,
+		randomQuestion,
+		currentSelectOption: "Удалить",
+	});
+
 	return (
-		isVisibleElem &&
-		typeOption !== "Выберите технологию" &&
-		randomQuestion !== null && (
+		isValidDisplay && (
 			<>
 				<p className="elem-question-text">
 					{randomQuestion?.question || "Вопросов нет"}

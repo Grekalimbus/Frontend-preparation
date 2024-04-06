@@ -1,6 +1,5 @@
 import SelectOption from "../components/SelectOption";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
-import useComplexVisible from "../hooks/useComplexVisible";
 import useSelectOption from "../hooks/useSelectOption";
 import { ISelectHook } from "../interfaces/selectHook";
 import {
@@ -9,22 +8,20 @@ import {
 	initialTechnologies,
 } from "../interfaces/selectOptions";
 import AddQuestion from "./AddQuestion";
+import ChangeQuestion from "./ChangeQuestion";
 import DeleteQuestion from "./DeleteQuestion";
 
 interface IProps {
 	isAccess: boolean;
-	inputValue: string;
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
+const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	const { selectOption, handleChangeTypeOption } =
 		useSelectOption(initialAdminOptions);
-	const selectTechnologies: ISelectHook =
+	const technologiesOptions: ISelectHook =
 		useComplexSelectOption(initialTechnologies);
-	const { isVisibleElem, textSelectOption } = useComplexVisible(
-		selectOption[0].typeOption
-	);
+
 	return (
 		isAccess && (
 			<>
@@ -39,25 +36,29 @@ const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
 						/>
 					);
 				})}
-				{selectTechnologies.selectOption.map((item: ISelectOptions) => (
+				{technologiesOptions.selectOption.map((item: ISelectOptions) => (
 					<SelectOption
 						width={{ width: "100%" }}
 						key={item.typeOption}
 						typeOption={item.typeOption}
 						options={item.options}
-						handleChangeTypeOption={selectTechnologies.handleChangeTypeOption}
+						handleChangeTypeOption={technologiesOptions.handleChangeTypeOption}
 					/>
 				))}
 				<section>
 					<DeleteQuestion
-						isVisibleElem={isVisibleElem}
-						typeOption={selectTechnologies.selectOption[0].typeOption}
+						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
+						selectOption={selectOption[0].typeOption}
 						handleChangeInput={handleChangeInput}
 					/>
-
+					<ChangeQuestion
+						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
+						technologiesSelectOptions={technologiesOptions.selectOption}
+						selectOption={selectOption[0].typeOption}
+					/>
 					<AddQuestion
-						textSelectOption={textSelectOption}
-						selectTechnologies={selectTechnologies.selectOption}
+						selectOption={selectOption[0].typeOption}
+						technologiesSelectOptions={technologiesOptions.selectOption}
 					/>
 				</section>
 			</>
