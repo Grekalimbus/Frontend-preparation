@@ -3,21 +3,21 @@ import { ISelectOptions } from "../interfaces/selectOptions";
 interface IProps {
 	errorAnswer: string;
 	errorQuestion: string;
-	selectTechnologies: ISelectOptions[];
+	technologiesSelectOptions: ISelectOptions[];
 	selectTypes: ISelectOptions[];
 }
 const isDisabled = ({
 	errorAnswer,
 	errorQuestion,
-	selectTechnologies,
+	technologiesSelectOptions,
 	selectTypes,
 }: IProps): boolean => {
 	if (errorAnswer || errorQuestion) {
 		return true;
 	}
 	if (
-		selectTechnologies.length > 0 &&
-		selectTechnologies[0].typeOption === "Выберите технологию"
+		technologiesSelectOptions.length > 0 &&
+		technologiesSelectOptions[0].typeOption === "Выберите технологию"
 	) {
 		return true;
 	}

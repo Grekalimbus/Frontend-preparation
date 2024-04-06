@@ -6,14 +6,14 @@ interface IDataInput {
 }
 
 interface IProps {
-	selectTechnologies: ISelectOptions[];
+	technologiesSelectOptions: ISelectOptions[];
 	selectTypes: ISelectOptions[];
 	inputValue: IDataInput;
 	setInputValue: React.Dispatch<React.SetStateAction<IDataInput>>;
 }
 
 const useAddQuestion = ({
-	selectTechnologies,
+	technologiesSelectOptions,
 	selectTypes,
 	inputValue,
 	setInputValue,
@@ -29,8 +29,8 @@ const useAddQuestion = ({
 	};
 
 	const endpoint = getEndpoint(
-		selectTechnologies,
-		selectTechnologies[0].typeOption
+		technologiesSelectOptions,
+		technologiesSelectOptions[0].typeOption
 	);
 
 	const createNewQuestion = async () => {

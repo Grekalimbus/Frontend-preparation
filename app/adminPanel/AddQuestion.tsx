@@ -10,11 +10,11 @@ import FlexButtons from "./FlexButtons";
 import "./adminPanel.scss";
 
 interface IProps {
-	selectTechnologies: ISelectOptions[];
+	technologiesSelectOptions: ISelectOptions[];
 	selectOption: string;
 }
 
-const AddQuestion = ({ selectTechnologies, selectOption }: IProps) => {
+const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 	const {
 		errors,
 		inputValue,
@@ -31,7 +31,7 @@ const AddQuestion = ({ selectTechnologies, selectOption }: IProps) => {
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
 
 	const { createNewQuestion } = useAddQuestion({
-		selectTechnologies,
+		technologiesSelectOptions,
 		selectTypes: selectTypes.selectOption,
 		inputValue,
 		setInputValue,
@@ -40,7 +40,7 @@ const AddQuestion = ({ selectTechnologies, selectOption }: IProps) => {
 	const isDisabledState: boolean = isDisabled({
 		errorAnswer: errors.answer,
 		errorQuestion: errors.nameQuestion,
-		selectTechnologies,
+		technologiesSelectOptions,
 		selectTypes: selectTypes.selectOption,
 	});
 

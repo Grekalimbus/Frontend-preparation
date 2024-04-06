@@ -8,6 +8,7 @@ import {
 	initialTechnologies,
 } from "../interfaces/selectOptions";
 import AddQuestion from "./AddQuestion";
+import ChangeQuestion from "./ChangeQuestion";
 import DeleteQuestion from "./DeleteQuestion";
 
 interface IProps {
@@ -18,7 +19,7 @@ interface IProps {
 const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	const { selectOption, handleChangeTypeOption } =
 		useSelectOption(initialAdminOptions);
-	const selectTechnologies: ISelectHook =
+	const technologiesOptions: ISelectHook =
 		useComplexSelectOption(initialTechnologies);
 
 	return (
@@ -35,24 +36,29 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 						/>
 					);
 				})}
-				{selectTechnologies.selectOption.map((item: ISelectOptions) => (
+				{technologiesOptions.selectOption.map((item: ISelectOptions) => (
 					<SelectOption
 						width={{ width: "100%" }}
 						key={item.typeOption}
 						typeOption={item.typeOption}
 						options={item.options}
-						handleChangeTypeOption={selectTechnologies.handleChangeTypeOption}
+						handleChangeTypeOption={technologiesOptions.handleChangeTypeOption}
 					/>
 				))}
 				<section>
 					<DeleteQuestion
-						typeOption={selectTechnologies.selectOption[0].typeOption}
+						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
 						selectOption={selectOption[0].typeOption}
 						handleChangeInput={handleChangeInput}
 					/>
+					<ChangeQuestion
+						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
+						technologiesSelectOptions={technologiesOptions.selectOption}
+						selectOption={selectOption[0].typeOption}
+					/>
 					<AddQuestion
 						selectOption={selectOption[0].typeOption}
-						selectTechnologies={selectTechnologies.selectOption}
+						technologiesSelectOptions={technologiesOptions.selectOption}
 					/>
 				</section>
 			</>
