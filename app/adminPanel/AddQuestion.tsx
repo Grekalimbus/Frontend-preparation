@@ -32,12 +32,19 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
 
 	const { createNewQuestion } = useAddQuestion({
-		technologiesSelectOptions,
+		technologiesSelectOptions:
+			technologiesSelectOptions[0].typeOption.toLowerCase(),
 		selectTypes: selectTypes.selectOption,
 		inputValue,
 		setInputValue,
 	});
-
+	// console.log("selectTypes", selectTypes.selectOption[0].typeOption);
+	console.log(
+		"technologiesSelectOptions",
+		technologiesSelectOptions[0].typeOption
+	);
+	// console.log("inputValue", inputValue);
+	// console.log("setInputValue", setInputValue);
 	const isDisabledState: boolean = isDisabled({
 		errorAnswer: errors.answer,
 		errorQuestion: errors.nameQuestion,

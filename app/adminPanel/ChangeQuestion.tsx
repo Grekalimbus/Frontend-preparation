@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
+import useChangeQuestion from "../hooks/useChangeQuestion";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
@@ -26,15 +27,29 @@ const ChangeQuestion = ({
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion(technologiesOptions.toLowerCase());
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
-	const { errors, inputValue, handleChangeInput, handleChangeTextArea } =
-		useInput({
-			initialValue: {
-				nameQuestion: "",
-				answer: "",
-			},
-			selectOption,
-			randomQuestion,
-		});
+
+	const {
+		errors,
+		inputValue,
+		handleChangeInput,
+		handleChangeTextArea,
+		setInputValue,
+	} = useInput({
+		initialValue: {
+			nameQuestion: "",
+			answer: "",
+		},
+		selectOption,
+		randomQuestion,
+	});
+	const { updateQuestion } = useChangeQuestion({
+		_id: randomQuestion?._id,
+		technologiesSelectOptions:
+			technologiesSelectOptions[0].typeOption.toLowerCase(),
+		selectTypes: selectTypes.selectOption,
+		inputValue,
+		setInputValue,
+	});
 
 	useEffect(() => {
 		setModalWindow(false);
@@ -47,12 +62,6 @@ const ChangeQuestion = ({
 
 	const toggleModalWindow = () => {
 		setModalWindow(!isModalWindow);
-	};
-
-	const handleChangeQuestion = () => {
-		console.log("inputValue", inputValue);
-		console.log("technologiesOptions", technologiesOptions);
-		console.log("selectTypes", selectTypes.selectOption[0].typeOption);
 	};
 
 	const isDisabledState: boolean = isDisabled({
@@ -129,7 +138,7 @@ const ChangeQuestion = ({
 							secondValue="Изменить"
 							disabled={!isModalWindow ? false : isDisabledState}
 							toggleModalWindow={toggleModalWindow}
-							handleChangeQuestion={handleChangeQuestion}
+							updateQuestion={updateQuestion}
 							isModalWindow={isModalWindow}
 						/>
 					</section>
