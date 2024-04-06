@@ -15,12 +15,14 @@ interface IProps {
 	technologiesOptions: string;
 	technologiesSelectOptions: ISelectOptions[];
 	selectOption: string;
+	handleChangeToggle: () => void;
 }
 
 const ChangeQuestion = ({
 	technologiesOptions,
 	technologiesSelectOptions,
 	selectOption,
+	handleChangeToggle,
 }: IProps) => {
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
@@ -62,6 +64,7 @@ const ChangeQuestion = ({
 
 	const toggleModalWindow = () => {
 		setModalWindow(!isModalWindow);
+		handleChangeToggle();
 	};
 
 	const isDisabledState: boolean = isDisabled({
