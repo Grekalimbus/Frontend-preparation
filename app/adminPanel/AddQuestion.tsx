@@ -26,6 +26,7 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 			nameQuestion: "",
 			answer: "",
 		},
+		selectOption,
 	});
 
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);

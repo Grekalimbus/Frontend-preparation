@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
@@ -26,27 +26,26 @@ const ChangeQuestion = ({
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion(technologiesOptions.toLowerCase());
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
-	const {
-		errors,
-		inputValue,
-		handleChangeInput,
-		handleChangeTextArea,
-		setInputValue,
-	} = useInput({
-		initialValue: {
-			nameQuestion: randomQuestion?.question || "",
-			answer: randomQuestion?.answer || "",
-		},
-	});
+	const { errors, inputValue, handleChangeInput, handleChangeTextArea } =
+		useInput({
+			initialValue: {
+				nameQuestion: "",
+				answer: "",
+			},
+			selectOption,
+			randomQuestion,
+		});
+
+	useEffect(() => {
+		setModalWindow(false);
+	}, [selectOption]);
+
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
 		handleFindByName(e.target.value);
 	};
 
 	const handleChangeQiestion = () => {
-		setModalWindow(!isModalWindow);
-	};
-	const handleBack = () => {
 		setModalWindow(!isModalWindow);
 	};
 
@@ -56,7 +55,6 @@ const ChangeQuestion = ({
 		technologiesSelectOptions,
 		selectTypes: selectTypes.selectOption,
 	});
-	console.log("isDisabledState", isDisabledState);
 
 	const isValidDisplay = isTrueToDisplay({
 		selectOption,
@@ -110,9 +108,16 @@ const ChangeQuestion = ({
 							placeholder="Название вопроса"
 							handleChangeInput={handleChangeInput}
 							error={errors.nameQuestion}
-							// value={randomQuestion?.question}
 						/>
-						<p>Hallo</p>
+						<InputField
+							textArea={true}
+							name="answer"
+							value={inputValue.answer}
+							type="text"
+							placeholder="Введите текст для изменения ответа на вопрос"
+							handleChangeTextArea={handleChangeTextArea}
+							error={errors.answer}
+						/>
 						<FlexButtons
 							firstValue="Назад"
 							secondValue="Изменить"

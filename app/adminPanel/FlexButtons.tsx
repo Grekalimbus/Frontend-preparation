@@ -10,7 +10,6 @@ interface IProps {
 	handleNextQuestion?: () => void;
 	createNewQuestion?: () => unknown;
 	handleChangeQiestion?: () => void;
-	handleBack?: () => void;
 }
 
 const FlexButtons = React.memo(
@@ -23,9 +22,7 @@ const FlexButtons = React.memo(
 		handleDeleteQiestion,
 		handleChangeQiestion,
 		isModalWindow,
-		handleBack,
 	}: IProps) => {
-		console.log("isModalWindow", isModalWindow);
 		return (
 			<div className="container-flex-box">
 				{!isModalWindow && (
