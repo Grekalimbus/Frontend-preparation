@@ -9,7 +9,8 @@ interface IProps {
 	handleDeleteQiestion?: () => void;
 	handleNextQuestion?: () => void;
 	createNewQuestion?: () => unknown;
-	handleChangeQiestion?: () => void;
+	toggleModalWindow?: () => void;
+	handleChangeQuestion?: () => void;
 }
 
 const FlexButtons = React.memo(
@@ -20,7 +21,8 @@ const FlexButtons = React.memo(
 		createNewQuestion,
 		handleNextQuestion,
 		handleDeleteQiestion,
-		handleChangeQiestion,
+		handleChangeQuestion,
+		toggleModalWindow,
 		isModalWindow,
 	}: IProps) => {
 		return (
@@ -29,7 +31,7 @@ const FlexButtons = React.memo(
 					<button onClick={handleNextQuestion}>{firstValue}</button>
 				)}
 				{isModalWindow && (
-					<button onClick={handleChangeQiestion}>{firstValue}</button>
+					<button onClick={toggleModalWindow}>{firstValue}</button>
 				)}
 				{secondValue === "Добавить" && (
 					<button onClick={createNewQuestion} disabled={disabled}>
@@ -39,8 +41,13 @@ const FlexButtons = React.memo(
 				{secondValue === "Удалить" && (
 					<button onClick={handleDeleteQiestion}>{secondValue}</button>
 				)}
-				{secondValue === "Изменить" && (
-					<button disabled={disabled} onClick={handleChangeQiestion}>
+				{secondValue === "Изменить" && !isModalWindow && (
+					<button disabled={disabled} onClick={toggleModalWindow}>
+						{secondValue}
+					</button>
+				)}
+				{secondValue === "Изменить" && isModalWindow && (
+					<button disabled={disabled} onClick={handleChangeQuestion}>
 						{secondValue}
 					</button>
 				)}

@@ -45,8 +45,14 @@ const ChangeQuestion = ({
 		handleFindByName(e.target.value);
 	};
 
-	const handleChangeQiestion = () => {
+	const toggleModalWindow = () => {
 		setModalWindow(!isModalWindow);
+	};
+
+	const handleChangeQuestion = () => {
+		console.log("inputValue", inputValue);
+		console.log("technologiesOptions", technologiesOptions);
+		console.log("selectTypes", selectTypes.selectOption[0].typeOption);
 	};
 
 	const isDisabledState: boolean = isDisabled({
@@ -83,7 +89,7 @@ const ChangeQuestion = ({
 							secondValue="Изменить"
 							disabled={randomQuestion?.question === "Вопросы закончились"}
 							handleNextQuestion={handleNextQuestion}
-							handleChangeQiestion={handleChangeQiestion}
+							toggleModalWindow={toggleModalWindow}
 						/>
 					</section>
 				)}
@@ -122,7 +128,8 @@ const ChangeQuestion = ({
 							firstValue="Назад"
 							secondValue="Изменить"
 							disabled={!isModalWindow ? false : isDisabledState}
-							handleChangeQiestion={handleChangeQiestion}
+							toggleModalWindow={toggleModalWindow}
+							handleChangeQuestion={handleChangeQuestion}
 							isModalWindow={isModalWindow}
 						/>
 					</section>
