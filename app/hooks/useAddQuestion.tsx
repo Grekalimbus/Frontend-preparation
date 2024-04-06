@@ -6,7 +6,7 @@ interface IDataInput {
 }
 
 interface IProps {
-	technologiesSelectOptions: ISelectOptions[];
+	technologiesSelectOptions: string;
 	selectTypes: ISelectOptions[];
 	inputValue: IDataInput;
 	setInputValue: React.Dispatch<React.SetStateAction<IDataInput>>;
@@ -18,25 +18,10 @@ const useAddQuestion = ({
 	inputValue,
 	setInputValue,
 }: IProps) => {
-	const getEndpoint = (
-		obj: ISelectOptions[],
-		typeOption: string
-	): string | null => {
-		const foundOption = obj.find(option => option.typeOption === typeOption);
-		return foundOption
-			? foundOption.options.find(opt => opt.text === typeOption)?.value || null
-			: null;
-	};
-
-	const endpoint = getEndpoint(
-		technologiesSelectOptions,
-		technologiesSelectOptions[0].typeOption
-	);
-
 	const createNewQuestion = async () => {
 		try {
 			const response = await axios.post(
-				`http://localhost:3000/api/${endpoint}Question`,
+				`http://localhost:3000/api/${technologiesSelectOptions}Question`,
 				{
 					question: inputValue.nameQuestion,
 					answer: inputValue.answer,

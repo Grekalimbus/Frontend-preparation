@@ -6,11 +6,11 @@ interface IProps {
 	secondValue: string;
 	disabled?: boolean;
 	isModalWindow?: boolean;
+	updateQuestion?: () => unknown;
 	handleDeleteQiestion?: () => void;
 	handleNextQuestion?: () => void;
 	createNewQuestion?: () => unknown;
 	toggleModalWindow?: () => void;
-	handleChangeQuestion?: () => void;
 }
 
 const FlexButtons = React.memo(
@@ -21,7 +21,7 @@ const FlexButtons = React.memo(
 		createNewQuestion,
 		handleNextQuestion,
 		handleDeleteQiestion,
-		handleChangeQuestion,
+		updateQuestion,
 		toggleModalWindow,
 		isModalWindow,
 	}: IProps) => {
@@ -47,7 +47,7 @@ const FlexButtons = React.memo(
 					</button>
 				)}
 				{secondValue === "Изменить" && isModalWindow && (
-					<button disabled={disabled} onClick={handleChangeQuestion}>
+					<button disabled={disabled} onClick={updateQuestion}>
 						{secondValue}
 					</button>
 				)}
