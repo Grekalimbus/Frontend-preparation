@@ -18,7 +18,6 @@ const useComplexSelectOption = (initialOptions: ISelectOptions[]) => {
 			}
 			return item;
 		});
-
 		setSelectOption(updateSelectOptions);
 	};
 	return { selectOption, handleChangeTypeOption };

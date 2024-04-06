@@ -1,6 +1,5 @@
 import SelectOption from "../components/SelectOption";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
-import useComplexVisible from "../hooks/useComplexVisible";
 import useSelectOption from "../hooks/useSelectOption";
 import { ISelectHook } from "../interfaces/selectHook";
 import {
@@ -13,18 +12,15 @@ import DeleteQuestion from "./DeleteQuestion";
 
 interface IProps {
 	isAccess: boolean;
-	inputValue: string;
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
+const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	const { selectOption, handleChangeTypeOption } =
 		useSelectOption(initialAdminOptions);
 	const selectTechnologies: ISelectHook =
 		useComplexSelectOption(initialTechnologies);
-	const { isVisibleElem, textSelectOption } = useComplexVisible(
-		selectOption[0].typeOption
-	);
+
 	return (
 		isAccess && (
 			<>
@@ -50,13 +46,12 @@ const AccessSection = ({ isAccess, handleChangeInput, inputValue }: IProps) => {
 				))}
 				<section>
 					<DeleteQuestion
-						isVisibleElem={isVisibleElem}
 						typeOption={selectTechnologies.selectOption[0].typeOption}
+						selectOption={selectOption[0].typeOption}
 						handleChangeInput={handleChangeInput}
 					/>
-
 					<AddQuestion
-						textSelectOption={textSelectOption}
+						selectOption={selectOption[0].typeOption}
 						selectTechnologies={selectTechnologies.selectOption}
 					/>
 				</section>

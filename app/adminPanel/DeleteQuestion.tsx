@@ -5,8 +5,8 @@ import useMutateQuestion from "../hooks/useMutateQuestion";
 import FlexButtons from "./FlexButtons";
 
 interface IProps {
-	isVisibleElem: boolean;
 	typeOption: string;
+	selectOption: string;
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -14,7 +14,7 @@ interface IHook {
 	deleteQuestion: () => Promise<void>;
 }
 
-const DeleteQuestion = ({ isVisibleElem, typeOption }: IProps) => {
+const DeleteQuestion = ({ typeOption, selectOption }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
@@ -28,10 +28,18 @@ const DeleteQuestion = ({ isVisibleElem, typeOption }: IProps) => {
 		setInputValue(e.target.value);
 		handleFindByName(e.target.value);
 	};
+	const isTrueToDisplay = () => {
+		if (
+			typeOption !== "Выберите технологию" &&
+			randomQuestion !== null &&
+			selectOption === "Удалить"
+		) {
+			return true;
+		}
+		return false;
+	};
 	return (
-		isVisibleElem &&
-		typeOption !== "Выберите технологию" &&
-		randomQuestion !== null && (
+		isTrueToDisplay() && (
 			<>
 				<p className="elem-question-text">
 					{randomQuestion?.question || "Вопросов нет"}

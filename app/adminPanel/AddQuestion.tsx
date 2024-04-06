@@ -11,10 +11,10 @@ import "./adminPanel.scss";
 
 interface IProps {
 	selectTechnologies: ISelectOptions[];
-	textSelectOption: string;
+	selectOption: string;
 }
 
-const AddQuestion = ({ selectTechnologies, textSelectOption }: IProps) => {
+const AddQuestion = ({ selectTechnologies, selectOption }: IProps) => {
 	const {
 		errors,
 		inputValue,
@@ -45,7 +45,7 @@ const AddQuestion = ({ selectTechnologies, textSelectOption }: IProps) => {
 	});
 
 	return (
-		textSelectOption === "Добавить" && (
+		selectOption === "Добавить" && (
 			<>
 				{selectTypes.selectOption.map((item: ISelectOptions) => {
 					return (

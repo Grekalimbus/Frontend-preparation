@@ -28,7 +28,6 @@ const page = () => {
 				<AccessSection
 					isAccess={isAccess}
 					handleChangeInput={handleChangeInput}
-					inputValue={inputValue}
 				/>
 			</section>
 		</main>
