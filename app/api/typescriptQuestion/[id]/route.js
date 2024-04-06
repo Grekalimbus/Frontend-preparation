@@ -2,14 +2,7 @@ import connectMongoDB from "@/libs/mongodb";
 import TypescriptQuestionModel from "@/models/typescriptQuestion";
 import { NextResponse } from "next/server";
 
-export async function GET(request, { params }) {
-	const { id } = params;
-	await connectMongoDB();
-	const ts = await TypescriptQuestionModel.findOne({ _id: id });
-	return NextResponse.json({ ts }, { status: 200 });
-}
-
-export async function PATCH(request, { params }) {
+export async function PUT(request, { params }) {
 	const { id } = params;
 	const {
 		newQuestion: question,
@@ -22,5 +15,12 @@ export async function PATCH(request, { params }) {
 		answer,
 		category,
 	});
-	return NextResponse.json({ message: "Questiom updated" }, { status: 200 });
+	return NextResponse.json({ message: "Topic updated" }, { status: 200 });
+}
+
+export async function GET(request, { params }) {
+	const { id } = params;
+	await connectMongoDB();
+	const typescript = await TypescriptQuestionModel.findOne({ _id: id });
+	return NextResponse.json({ typescript }, { status: 200 });
 }
