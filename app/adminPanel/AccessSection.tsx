@@ -1,3 +1,4 @@
+import { useState } from "react";
 import SelectOption from "../components/SelectOption";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useSelectOption from "../hooks/useSelectOption";
@@ -17,11 +18,14 @@ interface IProps {
 }
 
 const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
+	const [toggleVisibleSelect, setToggleVisibleSelect] = useState<boolean>(true);
 	const { selectOption, handleChangeTypeOption } =
 		useSelectOption(initialAdminOptions);
 	const technologiesOptions: ISelectHook =
 		useComplexSelectOption(initialTechnologies);
-
+	const handleChangeToggle = () => {
+		setToggleVisibleSelect(!toggleVisibleSelect);
+	};
 	return (
 		isAccess && (
 			<>
@@ -36,15 +40,18 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 						/>
 					);
 				})}
-				{technologiesOptions.selectOption.map((item: ISelectOptions) => (
-					<SelectOption
-						width={{ width: "100%" }}
-						key={item.typeOption}
-						typeOption={item.typeOption}
-						options={item.options}
-						handleChangeTypeOption={technologiesOptions.handleChangeTypeOption}
-					/>
-				))}
+				{toggleVisibleSelect &&
+					technologiesOptions.selectOption.map((item: ISelectOptions) => (
+						<SelectOption
+							width={{ width: "100%" }}
+							key={item.typeOption}
+							typeOption={item.typeOption}
+							options={item.options}
+							handleChangeTypeOption={
+								technologiesOptions.handleChangeTypeOption
+							}
+						/>
+					))}
 				<section>
 					<DeleteQuestion
 						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
@@ -55,6 +62,7 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
 						technologiesSelectOptions={technologiesOptions.selectOption}
 						selectOption={selectOption[0].typeOption}
+						handleChangeToggle={handleChangeToggle}
 					/>
 					<AddQuestion
 						selectOption={selectOption[0].typeOption}
