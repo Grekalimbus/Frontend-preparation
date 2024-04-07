@@ -2,11 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import IQuestion from "../interfaces/question";
+import { ISelectOptions } from "../interfaces/selectOptions";
 
 type State = null | [] | IQuestion[];
 type RandomQuestion = null | IQuestion;
+interface IProps {
+	typeOption: string;
+	selectOption: ISelectOptions[];
+}
 
-const useMutateQuestion = (typeOption: string) => {
+const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	const [dataQuestion, setDataQuestion] = useState<State>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
 
@@ -43,21 +48,25 @@ const useMutateQuestion = (typeOption: string) => {
 	};
 
 	const handleNextQuestion = (): void => {
-		if (dataQuestion && dataQuestion.length) {
-			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
-			const filterArray = dataQuestion.filter(
-				(item, index) => index !== randomIndexArray
-			);
-			setDataQuestion(filterArray);
-			setRandomQuestion(dataQuestion[randomIndexArray]);
-		}
 		if (dataQuestion?.length === 0) {
 			setRandomQuestion(defaultObject);
+		}
+		if (dataQuestion && dataQuestion.length === 1) {
+			setRandomQuestion(defaultObject);
+		}
+		if (dataQuestion && dataQuestion.length > 1) {
+			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
+			const filterArray = dataQuestion.filter(
+				(item: IQuestion, index: number) => index !== randomIndexArray
+			);
+
+			setDataQuestion(filterArray);
+			setRandomQuestion(dataQuestion[randomIndexArray]);
 		}
 	};
 
 	const handleFindByName = (name: string) => {
-		if (data && data[typeOption].length) {
+		if (data && data[typeOption].length && typeOption === "В разброс") {
 			const filterArray = data[typeOption].filter((item: IQuestion) =>
 				item.question.toLowerCase().includes(name.toLowerCase())
 			);
@@ -66,13 +75,36 @@ const useMutateQuestion = (typeOption: string) => {
 		}
 	};
 
+	const handleSortCategory = (arrayData: IQuestion[]) => {
+		const category = selectOption[0].typeOption;
+		if (arrayData && selectOption[0].typeOption !== "Категория") {
+			if (selectOption[0].typeOption !== "Все") {
+				const filterByCategory = arrayData.filter(
+					(item: IQuestion) => item.category === category
+				);
+				if (filterByCategory?.length === 0) {
+					setRandomQuestion(defaultObject);
+				} else {
+					setDataQuestion(filterByCategory);
+					setRandomQuestion(filterByCategory[0]);
+				}
+			}
+			if (selectOption[0].typeOption === "Все") {
+				setDataQuestion(arrayData);
+				setRandomQuestion(arrayData[0]);
+			}
+		}
+	};
+
 	useEffect(() => {
 		if (data) {
 			fetchData();
 			setDataQuestion(null);
 			handleRandomQuestion(data[typeOption]);
+			handleSortCategory(data[typeOption]);
+			console.log("dataQuestion", dataQuestion);
 		}
-	}, [typeOption, data]);
+	}, [typeOption, data, selectOption]);
 
 	return {
 		randomQuestion,
