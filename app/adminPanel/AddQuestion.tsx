@@ -1,8 +1,10 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
-import useAddQuestion from "../hooks/useAddQuestion";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
+import IQuestion from "../interfaces/question";
 import { ISelectHook } from "../interfaces/selectHook";
 import { ISelectOptions, initialTypes } from "../interfaces/selectOptions";
 import isDisabled from "../utils/isDisabledToAdd";
@@ -30,21 +32,34 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 	});
 
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
-
-	const { createNewQuestion } = useAddQuestion({
-		technologiesSelectOptions:
-			technologiesSelectOptions[0].typeOption.toLowerCase(),
-		selectTypes: selectTypes.selectOption,
-		inputValue,
-		setInputValue,
+	const queryClient = useQueryClient();
+	const technologiyEndpoint: string =
+		technologiesSelectOptions[0].typeOption.toLowerCase();
+	const fetchUpdateQuestion = async (data: IQuestion) => {
+		const response = await axios.post(
+			`http://localhost:3000/api/${technologiyEndpoint}Question`,
+			data
+		);
+		return response.data;
+	};
+	const mutation = useMutation({
+		mutationFn: fetchUpdateQuestion,
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
-	// console.log("selectTypes", selectTypes.selectOption[0].typeOption);
-	console.log(
-		"technologiesSelectOptions",
-		technologiesSelectOptions[0].typeOption
-	);
-	// console.log("inputValue", inputValue);
-	// console.log("setInputValue", setInputValue);
+	const createNewQuestion = () => {
+		const data: IQuestion = {
+			question: inputValue.nameQuestion,
+			answer: inputValue.answer,
+			category: selectTypes.selectOption[0].typeOption,
+		};
+		mutation.mutate(data);
+		setInputValue({
+			nameQuestion: "",
+			answer: "",
+		});
+	};
+
 	const isDisabledState: boolean = isDisabled({
 		errorAnswer: errors.answer,
 		errorQuestion: errors.nameQuestion,

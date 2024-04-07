@@ -4,7 +4,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
 	const { question, answer, category } = await request.json();
+	// const data = await request;
 	await connectMongoDB();
+
+	console.log("data", data);
 	await CommonQuestionModel.create({ question, answer, category });
 	return NextResponse.json({ message: "Question Created" }, { status: 201 });
 }
