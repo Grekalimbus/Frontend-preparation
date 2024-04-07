@@ -8,13 +8,13 @@ type State = null | [] | IQuestion[];
 type RandomQuestion = null | IQuestion;
 interface IProps {
 	typeOption: string;
-	selectOption: ISelectOptions[];
+	selectOption?: ISelectOptions[];
 }
 
 const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	const [dataQuestion, setDataQuestion] = useState<State>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
-
+	console.log("randomQuestion", randomQuestion);
 	const defaultObject = {
 		_id: "000",
 		question: "Вопросы закончились",
@@ -76,9 +76,13 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	};
 
 	const handleSortCategory = (arrayData: IQuestion[]) => {
-		const category = selectOption[0].typeOption;
-		if (arrayData && selectOption[0].typeOption !== "Категория") {
+		if (
+			arrayData &&
+			selectOption &&
+			selectOption[0].typeOption !== "Категория"
+		) {
 			if (selectOption[0].typeOption !== "Все") {
+				const category = selectOption[0].typeOption;
 				const filterByCategory = arrayData.filter(
 					(item: IQuestion) => item.category === category
 				);
@@ -99,10 +103,8 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	useEffect(() => {
 		if (data) {
 			fetchData();
-			setDataQuestion(null);
 			handleRandomQuestion(data[typeOption]);
 			handleSortCategory(data[typeOption]);
-			console.log("dataQuestion", dataQuestion);
 		}
 	}, [typeOption, data, selectOption]);
 

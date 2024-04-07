@@ -16,7 +16,7 @@ const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion(technologiesOptions.toLowerCase());
+		useMutateQuestion({ typeOption: technologiesOptions.toLowerCase() });
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string = technologiesOptions.toLowerCase();
 
