@@ -17,14 +17,10 @@ const useMutateQuestion = (typeOption: string) => {
 		category: typeOption,
 	};
 	const fetchData = async () => {
-		try {
-			const { data } = await axios.get(
-				`http://localhost:3000/api/${typeOption}Question`
-			);
-			return data;
-		} catch (error) {
-			console.error("Error fetching questions:", error);
-		}
+		const { data } = await axios.get(
+			`http://localhost:3000/api/${typeOption}Question`
+		);
+		return data;
 	};
 
 	const { data } = useQuery({
@@ -78,7 +74,11 @@ const useMutateQuestion = (typeOption: string) => {
 		}
 	}, [typeOption, data]);
 
-	return { randomQuestion, handleNextQuestion, handleFindByName };
+	return {
+		randomQuestion,
+		handleNextQuestion,
+		handleFindByName,
+	};
 };
 
 export default useMutateQuestion;

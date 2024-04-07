@@ -19,6 +19,7 @@ const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 		useMutateQuestion(technologiesOptions.toLowerCase());
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string = technologiesOptions.toLowerCase();
+
 	const fetchDeleteQuestion = async (_id: string) => {
 		const response = await axios.delete(
 			`http://localhost:3000/api/${technologiyEndpoint}Question?id=${_id}`
@@ -45,7 +46,6 @@ const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 		randomQuestion,
 		currentSelectOption: "Удалить",
 	});
-
 	return (
 		isValidDisplay && (
 			<>
