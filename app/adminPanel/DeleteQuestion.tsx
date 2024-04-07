@@ -1,6 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
 import InputField from "../components/InputField";
-import useDeleteQuestion from "../hooks/useDeleteQuestion";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import FlexButtons from "./FlexButtons";
@@ -11,20 +12,29 @@ interface IProps {
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-interface IHook {
-	deleteQuestion: () => Promise<void>;
-}
-
 const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion(technologiesOptions.toLowerCase());
-	const { deleteQuestion }: IHook = useDeleteQuestion({
-		_id: randomQuestion?._id,
-		technology: technologiesOptions.toLowerCase(),
-		handleNextQuestion,
+	const queryClient = useQueryClient();
+	const technologiyEndpoint: string = technologiesOptions.toLowerCase();
+	const fetchDeleteQuestion = async (_id: string) => {
+		const response = await axios.delete(
+			`http://localhost:3000/api/${technologiyEndpoint}Question?id=${_id}`
+		);
+		return response.data;
+	};
+	const mutation = useMutation({
+		mutationFn: fetchDeleteQuestion,
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
+	const deleteQuestion = () => {
+		const id = randomQuestion?._id;
+		if (id) mutation.mutate(id);
+	};
+
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
 		handleFindByName(e.target.value);

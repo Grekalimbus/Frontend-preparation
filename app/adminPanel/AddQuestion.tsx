@@ -17,6 +17,10 @@ interface IProps {
 }
 
 const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
+	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
+	const queryClient = useQueryClient();
+	const technologiyEndpoint: string =
+		technologiesSelectOptions[0].typeOption.toLowerCase();
 	const {
 		errors,
 		inputValue,
@@ -31,11 +35,7 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 		selectOption,
 	});
 
-	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
-	const queryClient = useQueryClient();
-	const technologiyEndpoint: string =
-		technologiesSelectOptions[0].typeOption.toLowerCase();
-	const fetchUpdateQuestion = async (data: IQuestion) => {
+	const fetchCreateQuestion = async (data: IQuestion) => {
 		const response = await axios.post(
 			`http://localhost:3000/api/${technologiyEndpoint}Question`,
 			data
@@ -43,7 +43,7 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 		return response.data;
 	};
 	const mutation = useMutation({
-		mutationFn: fetchUpdateQuestion,
+		mutationFn: fetchCreateQuestion,
 		onSuccess: () =>
 			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
