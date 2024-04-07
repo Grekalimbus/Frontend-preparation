@@ -29,7 +29,7 @@ const ChangeQuestion = ({
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion(technologiesOptions.toLowerCase());
+		useMutateQuestion({ typeOption: technologiesOptions.toLowerCase() });
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string =

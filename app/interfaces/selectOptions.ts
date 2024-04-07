@@ -11,17 +11,9 @@ export const initialSelectOptions: ISelectOptions[] = [
 	{
 		typeOption: "Категория",
 		options: [
-			{ value: "easy", text: "Легкие" },
-			{ value: "medium", text: "Средние" },
+			{ value: "easy", text: "Легкий" },
+			{ value: "medium", text: "Средний" },
 			{ value: "all", text: "Все" },
-		],
-	},
-	{
-		typeOption: "Сортировка",
-		options: [
-			{ value: "random", text: "В разброс" },
-			{ value: "order", text: "По порядку" },
-			{ value: "fromEnd", text: "С конца" },
 		],
 	},
 ];

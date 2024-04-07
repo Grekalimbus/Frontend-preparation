@@ -19,10 +19,13 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
-	const { randomQuestion, handleNextQuestion } = useMutateQuestion(id);
 	const { isActive, handleChangeActive } = useVisible();
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
+	const { randomQuestion, handleNextQuestion } = useMutateQuestion({
+		typeOption: id,
+		selectOption,
+	});
 
 	return !randomQuestion?._id ? (
 		<>
@@ -41,6 +44,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 								key={item.typeOption}
 								typeOption={item.typeOption}
 								options={item.options}
+								width={{ width: "100%" }}
 								handleChangeTypeOption={handleChangeTypeOption}
 							/>
 						);
