@@ -9,7 +9,7 @@ interface IProps {
 	updateQuestion?: () => unknown;
 	handleDeleteQiestion?: () => void;
 	handleNextQuestion?: () => void;
-	createNewQuestion?: () => unknown;
+	createNewQuestion?: () => void;
 	toggleModalWindow?: () => void;
 }
 

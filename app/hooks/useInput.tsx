@@ -4,7 +4,7 @@ import { validator } from "../utils/validator";
 import validatorConfig from "../utils/validatorConfig";
 
 interface IDataInput {
-	[key: string]: string;
+	[key: string]: any;
 }
 
 interface IProps {

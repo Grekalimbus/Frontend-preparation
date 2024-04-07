@@ -1,10 +1,12 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
-import useChangeQuestion from "../hooks/useChangeQuestion";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
+import IQuestion from "../interfaces/question";
 import { ISelectHook } from "../interfaces/selectHook";
 import { ISelectOptions, initialTypes } from "../interfaces/selectOptions";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
@@ -29,7 +31,9 @@ const ChangeQuestion = ({
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion(technologiesOptions.toLowerCase());
 	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
-
+	const queryClient = useQueryClient();
+	const technologiyEndpoint: string =
+		technologiesSelectOptions[0].typeOption.toLowerCase();
 	const {
 		errors,
 		inputValue,
@@ -44,14 +48,36 @@ const ChangeQuestion = ({
 		selectOption,
 		randomQuestion,
 	});
-	const { updateQuestion } = useChangeQuestion({
-		_id: randomQuestion?._id,
-		technologiesSelectOptions:
-			technologiesSelectOptions[0].typeOption.toLowerCase(),
-		selectTypes: selectTypes.selectOption,
-		inputValue,
-		setInputValue,
+	const fetchUpdateQuestion = async (data: IQuestion) => {
+		const newData = {
+			newQuestion: data.question,
+			newAnswer: data.answer,
+			newCategory: data.category,
+		};
+		const response = await axios.put(
+			`http://localhost:3000/api/${technologiyEndpoint}Question/${data._id}`,
+			newData
+		);
+		return response.data;
+	};
+	const mutation = useMutation({
+		mutationFn: fetchUpdateQuestion,
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
+	const updateQuestion = () => {
+		const data: IQuestion = {
+			_id: randomQuestion?._id,
+			question: inputValue.nameQuestion,
+			answer: inputValue.answer,
+			category: selectTypes.selectOption[0].typeOption,
+		};
+		mutation.mutate(data);
+		setInputValue({
+			nameQuestion: "",
+			answer: "",
+		});
+	};
 
 	useEffect(() => {
 		setModalWindow(false);

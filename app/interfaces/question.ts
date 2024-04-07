@@ -1,5 +1,5 @@
 export default interface IQuestion {
-	_id: string;
+	_id?: string;
 	question: string;
 	answer: string;
 	category: string;

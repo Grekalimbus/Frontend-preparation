@@ -1,5 +1,5 @@
 interface Data {
-	[key: string]: string;
+	[key: string]: any;
 }
 
 interface Config {
@@ -11,7 +11,7 @@ interface Config {
 }
 
 interface Errors {
-	[key: string]: string;
+	[key: string]: any;
 }
 
 export function validator(data: Data, config: Config): Errors {
