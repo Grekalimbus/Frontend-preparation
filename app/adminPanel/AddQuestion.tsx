@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
+import { BASE_URL } from "../config.url";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
 import IQuestion from "../interfaces/question";
@@ -37,7 +38,7 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 
 	const fetchCreateQuestion = async (data: IQuestion) => {
 		const response = await axios.post(
-			`http://localhost:3000/api/${technologiyEndpoint}Question`,
+			`${BASE_URL}${technologiyEndpoint}Question`,
 			data
 		);
 		return response.data;
