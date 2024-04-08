@@ -8,6 +8,7 @@ import {
 	ISelectOptions,
 	initialSelectOptions,
 } from "@/app/interfaces/selectOptions";
+import React from "react";
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import Header from "../../components/Header";
 import "./preparation.scss";
@@ -59,9 +60,16 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						{randomQuestion.question}
 						{isActive ? <CgChevronDown /> : <CgChevronUp />}
 					</button>
-					<pre className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						{randomQuestion.answer}
-					</pre>
+					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
+						{randomQuestion.answer.split("\n").map((line, index) => (
+							<React.Fragment key={index + line}>
+								{line}
+								{index !== randomQuestion.answer.split("\n").length - 1 && (
+									<br />
+								)}
+							</React.Fragment>
+						))}
+					</p>
 					<button
 						onClick={handleNextQuestion}
 						className={`button-next-question ${isActive ? "" : "active"}`}
