@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import InputField from "../components/InputField";
+import { BASE_URL } from "../config.url";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import FlexButtons from "./FlexButtons";
@@ -22,7 +23,7 @@ const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 
 	const fetchDeleteQuestion = async (_id: string) => {
 		const response = await axios.delete(
-			`http://localhost:3000/api/${technologiyEndpoint}Question?id=${_id}`
+			`${BASE_URL}${technologiyEndpoint}Question?id=${_id}`
 		);
 		return response.data;
 	};

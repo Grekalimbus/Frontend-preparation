@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
+import { BASE_URL } from "../config.url";
 import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
@@ -55,7 +56,7 @@ const ChangeQuestion = ({
 			newCategory: data.category,
 		};
 		const response = await axios.put(
-			`http://localhost:3000/api/${technologiyEndpoint}Question/${data._id}`,
+			`${BASE_URL}${technologiyEndpoint}Question/${data._id}`,
 			newData
 		);
 		return response.data;

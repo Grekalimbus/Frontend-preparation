@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "../config.url";
 import IQuestion from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
@@ -14,7 +15,6 @@ interface IProps {
 const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	const [dataQuestion, setDataQuestion] = useState<State>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
-	console.log("randomQuestion", randomQuestion);
 	const defaultObject = {
 		_id: "000",
 		question: "Вопросы закончились",
@@ -22,9 +22,7 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 		category: typeOption,
 	};
 	const fetchData = async () => {
-		const { data } = await axios.get(
-			`http://localhost:3000/api/${typeOption}Question`
-		);
+		const { data } = await axios.get(`${BASE_URL}${typeOption}Question`);
 		return data;
 	};
 
