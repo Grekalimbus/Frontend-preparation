@@ -28,8 +28,6 @@ const PreparationPage = ({ params: { id } }: Props) => {
 		selectOption,
 	});
 
-	console.log("randomQuestion.answer", randomQuestion?.answer);
-
 	return !randomQuestion?._id ? (
 		<>
 			<Header />
