@@ -49,10 +49,7 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 		if (dataQuestion?.length === 0) {
 			setRandomQuestion(defaultObject);
 		}
-		if (dataQuestion && dataQuestion.length === 1) {
-			setRandomQuestion(defaultObject);
-		}
-		if (dataQuestion && dataQuestion.length > 1) {
+		if (dataQuestion && dataQuestion.length) {
 			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
 			const filterArray = dataQuestion.filter(
 				(item: IQuestion, index: number) => index !== randomIndexArray
