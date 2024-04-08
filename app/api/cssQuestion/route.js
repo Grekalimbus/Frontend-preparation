@@ -1,5 +1,5 @@
 import connectMongoDB from "@/libs/mongodb";
-import CssQuestionModel from "@/models/commonQuestion";
+import CssQuestionModel from "@/models/cssQuestion";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
