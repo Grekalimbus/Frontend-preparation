@@ -1,6 +1,7 @@
 "use client";
 import Loader from "@/app/components/Loader";
 import SelectOption from "@/app/components/SelectOption";
+import { BASE_URL } from "@/app/config.url";
 import useMutateQuestion from "@/app/hooks/useMutateQuestion";
 import useSeletOption from "@/app/hooks/useSelectOption";
 import useVisible from "@/app/hooks/useVisible";
@@ -26,6 +27,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 		typeOption: id,
 		selectOption,
 	});
+	console.log("BASE_URL", BASE_URL);
 
 	return !randomQuestion?._id ? (
 		<>
