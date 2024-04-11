@@ -9,7 +9,9 @@ import {
 	initialSelectOptions,
 } from "@/app/interfaces/selectOptions";
 import React from "react";
-import { CgChevronDown, CgChevronUp } from "react-icons/cg";
+import { AiFillEye } from "react-icons/ai";
+
+import { HiMiniEyeSlash } from "react-icons/hi2";
 import Header from "../../components/Header";
 import "./preparation.scss";
 
@@ -58,7 +60,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						aria-label="Показать ответ"
 					>
 						{randomQuestion.question}
-						{isActive ? <CgChevronDown /> : <CgChevronUp />}
+						{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
 					</button>
 					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
 						{randomQuestion.answer.split("\n").map((line, index) => (
