@@ -15,7 +15,6 @@ const useComplexSelectOption = (initialOptions: ISelectOptions[]) => {
 		selectField: string
 	) => {
 		const updateSelectOptions = selectOption.map(item => {
-			// console.log("updateSelectValue", updateSelectValue);
 			if (item.typeOption === selectField) {
 				return {
 					typeOption: updateSelectValue,
@@ -24,7 +23,6 @@ const useComplexSelectOption = (initialOptions: ISelectOptions[]) => {
 			}
 			return item;
 		});
-		// console.log("updateSelectOptions", updateSelectOptions);
 		setSelectOption(updateSelectOptions);
 	};
 	return { selectOption, handleChangeTypeOption };

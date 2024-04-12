@@ -61,10 +61,11 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	};
 
 	const handleFindByName = (name: string) => {
-		if (data && data[typeOption].length && typeOption === "В разброс") {
+		if (data && data[typeOption].length) {
 			const filterArray = data[typeOption].filter((item: IQuestion) =>
 				item.question.toLowerCase().includes(name.toLowerCase())
 			);
+
 			setDataQuestion(filterArray);
 			setRandomQuestion(filterArray[0]);
 		}
