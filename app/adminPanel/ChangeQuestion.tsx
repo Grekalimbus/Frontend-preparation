@@ -30,10 +30,13 @@ const ChangeQuestion = ({
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion({ typeOption: technologiesOptions.toLowerCase() });
+		useMutateQuestion({
+			technologyOption: technologiesOptions.toLowerCase(),
+			selectOptionType: selectOption,
+		});
 	const selectTypes: ISelectHook = useComplexSelectOption([
 		{
-			typeOption: randomQuestion?.category ? randomQuestion?.category : "",
+			typeOption: randomQuestion?.category || "",
 			options: [
 				{ value: "easy", text: "Легкий" },
 				{ value: "middle", text: "Средний" },

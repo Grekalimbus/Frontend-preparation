@@ -9,7 +9,6 @@ const useComplexSelectOption = (initialOptions: ISelectOptions[]) => {
 			setSelectOption(initialOptions);
 		}
 	}, [initialOptions[0].typeOption]);
-	console.log("initialOptions", initialOptions);
 	const handleChangeTypeOption = (
 		updateSelectValue: string,
 		selectField: string

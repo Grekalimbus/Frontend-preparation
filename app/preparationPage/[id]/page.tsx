@@ -8,9 +8,10 @@ import {
 	ISelectOptions,
 	initialSelectOptions,
 } from "@/app/interfaces/selectOptions";
-import React from "react";
+import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 
+import InputField from "@/app/components/InputField";
 import { HiMiniEyeSlash } from "react-icons/hi2";
 import Header from "../../components/Header";
 import "./preparation.scss";
@@ -23,12 +24,18 @@ type Props = {
 
 const PreparationPage = ({ params: { id } }: Props) => {
 	const { isActive, handleChangeActive } = useVisible();
+	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
-	const { randomQuestion, handleNextQuestion } = useMutateQuestion({
-		typeOption: id,
-		selectOption,
-	});
+	const { randomQuestion, handleNextQuestion, handleFindByName } =
+		useMutateQuestion({
+			technologyOption: id,
+			selectOption,
+		});
+	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInputValueFilter(e.target.value);
+		handleFindByName(e.target.value);
+	};
 
 	return !randomQuestion?._id ? (
 		<>
@@ -41,6 +48,14 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			<section className="container-preparation-content">
 				<h2 className="title-type-question">Вопросы по {id}</h2>
 				<section className="section-select-opions">
+					<InputField
+						textArea={false}
+						handleChangeInput={handleChangeInputFilter}
+						value={inputValueFilter}
+						type="text"
+						placeholder="Фильтрация"
+						name="filter"
+					/>
 					{selectOption.map((item: ISelectOptions) => {
 						return (
 							<SelectOption

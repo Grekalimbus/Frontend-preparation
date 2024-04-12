@@ -8,26 +8,32 @@ import { ISelectOptions } from "../interfaces/selectOptions";
 type State = null | [] | IQuestion[];
 type RandomQuestion = null | IQuestion;
 interface IProps {
-	typeOption: string;
+	technologyOption: string;
 	selectOption?: ISelectOptions[];
+	selectOptionType?: string;
 }
 
-const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
+const useMutateQuestion = ({
+	technologyOption,
+	selectOption,
+	selectOptionType,
+}: IProps) => {
 	const [dataQuestion, setDataQuestion] = useState<State>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
 	const defaultObject = {
 		_id: "000",
 		question: "Вопросы закончились",
 		answer: "Вопросы закончились",
-		category: typeOption,
+		category: technologyOption,
 	};
 	const fetchData = async () => {
-		const { data } = await axios.get(`${BASE_URL}${typeOption}Question`);
+		console.log("technologyOption in func", technologyOption);
+		const { data } = await axios.get(`${BASE_URL}${technologyOption}Question`);
 		return data;
 	};
 
 	const { data } = useQuery({
-		queryKey: [typeOption],
+		queryKey: [technologyOption],
 		queryFn: fetchData,
 	});
 
@@ -61,8 +67,8 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	};
 
 	const handleFindByName = (name: string) => {
-		if (data && data[typeOption].length) {
-			const filterArray = data[typeOption].filter((item: IQuestion) =>
+		if (data && data[technologyOption].length) {
+			const filterArray = data[technologyOption].filter((item: IQuestion) =>
 				item.question.toLowerCase().includes(name.toLowerCase())
 			);
 
@@ -99,10 +105,10 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	useEffect(() => {
 		if (data) {
 			fetchData();
-			handleRandomQuestion(data[typeOption]);
-			handleSortCategory(data[typeOption]);
+			handleRandomQuestion(data[technologyOption]);
+			handleSortCategory(data[technologyOption]);
 		}
-	}, [typeOption, data, selectOption]);
+	}, [technologyOption, data, selectOption, selectOptionType]);
 
 	return {
 		randomQuestion,

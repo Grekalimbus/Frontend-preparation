@@ -26,6 +26,7 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	const handleChangeToggle = () => {
 		setToggleVisibleSelect(!toggleVisibleSelect);
 	};
+
 	return (
 		isAccess && (
 			<>
