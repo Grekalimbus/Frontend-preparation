@@ -6,65 +6,70 @@ import IQuestion from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
 type State = null | [] | IQuestion[];
-type RandomQuestion = null | IQuestion;
+type RandomQuestion = null | undefined | IQuestion;
 interface IProps {
-	typeOption: string;
+	technologyOption: string;
 	selectOption?: ISelectOptions[];
+	selectOptionType?: string;
 }
 
-const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
+const useMutateQuestion = ({
+	technologyOption,
+	selectOption,
+	selectOptionType,
+}: IProps) => {
 	const [dataQuestion, setDataQuestion] = useState<State>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
 	const defaultObject = {
 		_id: "000",
 		question: "Вопросы закончились",
 		answer: "Вопросы закончились",
-		category: typeOption,
+		category: technologyOption,
 	};
 	const fetchData = async () => {
-		const { data } = await axios.get(`${BASE_URL}${typeOption}Question`);
+		const { data } = await axios.get(`${BASE_URL}${technologyOption}Question`);
 		return data;
 	};
 
 	const { data } = useQuery({
-		queryKey: [typeOption],
+		queryKey: [technologyOption],
 		queryFn: fetchData,
 	});
 
 	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]): void => {
-		if (arrayData && arrayData.length) {
-			const randomIndexArray = Math.floor(Math.random() * arrayData.length);
-			const filterArray = arrayData.filter(
-				(item, index) => index !== randomIndexArray
-			);
-			setDataQuestion(filterArray);
-			setRandomQuestion(arrayData[randomIndexArray]);
+		if (arrayData) {
+			const arraySort = arrayData.sort((a, b): any => {
+				const aNumber = parseInt((a.question.match(/^\d+/) ?? ["0"])[0]);
+				const bNumber = parseInt((b.question.match(/^\d+/) ?? ["0"])[0]);
+				return aNumber - bNumber;
+			});
+			setDataQuestion(arraySort);
+			setRandomQuestion(arrayData[0]);
+			console.log("arraySort", arraySort);
 		}
-		if (arrayData?.length === 0) {
-			setRandomQuestion(defaultObject);
+		if (!arrayData) {
+			setRandomQuestion(null);
 		}
 	};
 
 	const handleNextQuestion = (): void => {
-		if (dataQuestion?.length === 0) {
-			setRandomQuestion(defaultObject);
+		if (!dataQuestion) {
+			setRandomQuestion(undefined);
 		}
-		if (dataQuestion && dataQuestion.length) {
-			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
-			const filterArray = dataQuestion.filter(
-				(item: IQuestion, index: number) => index !== randomIndexArray
+		if (dataQuestion && randomQuestion) {
+			const nextQuestion = parseInt(
+				randomQuestion.question.match(/^\d+/)?.[0] ?? "0"
 			);
-
-			setDataQuestion(filterArray);
-			setRandomQuestion(dataQuestion[randomIndexArray]);
+			setRandomQuestion(dataQuestion[nextQuestion]);
 		}
 	};
 
 	const handleFindByName = (name: string) => {
-		if (data && data[typeOption].length && typeOption === "В разброс") {
-			const filterArray = data[typeOption].filter((item: IQuestion) =>
+		if (data && data[technologyOption].length) {
+			const filterArray = data[technologyOption].filter((item: IQuestion) =>
 				item.question.toLowerCase().includes(name.toLowerCase())
 			);
+
 			setDataQuestion(filterArray);
 			setRandomQuestion(filterArray[0]);
 		}
@@ -98,10 +103,10 @@ const useMutateQuestion = ({ typeOption, selectOption }: IProps) => {
 	useEffect(() => {
 		if (data) {
 			fetchData();
-			handleRandomQuestion(data[typeOption]);
-			handleSortCategory(data[typeOption]);
+			handleRandomQuestion(data[technologyOption]);
+			handleSortCategory(data[technologyOption]);
 		}
-	}, [typeOption, data, selectOption]);
+	}, [technologyOption, data, selectOption, selectOptionType]);
 
 	return {
 		randomQuestion,

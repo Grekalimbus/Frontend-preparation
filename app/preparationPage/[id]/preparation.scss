@@ -26,6 +26,7 @@
 .section-select-opions {
 	margin-top: 10px;
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	width: 100%;
 }
@@ -36,6 +37,21 @@
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+}
+.describe-section-title {
+	visibility: hidden;
+	height: 0px;
+}
+.button-visible-answer svg path {
+	fill: white;
+	transition: all 3s;
+}
+.button-visible-answer svg {
+	width: 20px;
+	height: 20px;
+}
+.button-visible-answer svg:hover path {
+	fill: #f20149;
 }
 .button-visible-answer {
 	border: 2px solid #f20149;
@@ -54,19 +70,25 @@
 .button-visible-answer.active {
 	box-shadow: 0px 0px 32px -3px #f20149;
 }
-.button-visible-answer svg {
-	transition: all 0.7s;
-}
+
 .button-visible-answer:hover {
 	box-shadow: 0px 0px 32px -3px #f20149;
 }
-.button-visible-answer svg:hover {
-	color: #f20149;
+.not-found-text {
+	border: 2px solid #f20149;
+	background: #13010a;
+	width: 100%;
+	height: auto;
+	border-radius: 2px;
+	padding: 8px 8px 8px 15px;
+	text-align: start;
 }
+
 .describe-answer-text {
 	visibility: hidden;
 	opacity: 0;
 	height: 0;
+	overflow: hidden;
 	margin-top: 10px;
 	border: 2px solid #f20149;
 	border-radius: 2px;
@@ -102,6 +124,7 @@
 	color: white;
 	transition: all 0.7s;
 }
+
 .button-next-question:hover {
 	box-shadow: 0px 0px 18px -3px #f20149;
 }
