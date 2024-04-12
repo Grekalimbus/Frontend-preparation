@@ -23,7 +23,7 @@ const SelectOption = ({
 	handleChangeTypeOption,
 }: IProps) => {
 	const { isActive, handleChangeActive } = useVisible();
-
+	// console.log("typeOption", typeOption);
 	return (
 		<div style={width} className="wrapper-select-option">
 			<button className="button-open-select" onClick={handleChangeActive}>

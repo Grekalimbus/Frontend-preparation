@@ -9,7 +9,7 @@ import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import IQuestion from "../interfaces/question";
 import { ISelectHook } from "../interfaces/selectHook";
-import { ISelectOptions, initialTypes } from "../interfaces/selectOptions";
+import { ISelectOptions } from "../interfaces/selectOptions";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import isDisabled from "../utils/isDisabledToAdd";
 import FlexButtons from "./FlexButtons";
@@ -31,7 +31,15 @@ const ChangeQuestion = ({
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion({ typeOption: technologiesOptions.toLowerCase() });
-	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
+	const selectTypes: ISelectHook = useComplexSelectOption([
+		{
+			typeOption: randomQuestion?.category ? randomQuestion?.category : "",
+			options: [
+				{ value: "easy", text: "Легкий" },
+				{ value: "middle", text: "Средний" },
+			],
+		},
+	]);
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string =
 		technologiesSelectOptions[0].typeOption.toLowerCase();
@@ -78,6 +86,7 @@ const ChangeQuestion = ({
 			nameQuestion: "",
 			answer: "",
 		});
+		setModalWindow(!isModalWindow);
 	};
 
 	useEffect(() => {
@@ -91,6 +100,10 @@ const ChangeQuestion = ({
 
 	const toggleModalWindow = () => {
 		setModalWindow(!isModalWindow);
+		setInputValue({
+			nameQuestion: randomQuestion?.question,
+			answer: randomQuestion?.answer,
+		});
 		handleChangeToggle();
 	};
 
