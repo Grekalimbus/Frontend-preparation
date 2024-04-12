@@ -32,12 +32,14 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			technologyOption: id,
 			selectOption,
 		});
-	console.log("randomQuestion", randomQuestion);
+
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
 		handleFindByName(e.target.value);
 	};
 
+	const questionIsOver = randomQuestion?.question === undefined ? false : true;
+	console.log("randomQuestion", randomQuestion);
 	if (randomQuestion === null) {
 		return (
 			<>
@@ -74,28 +76,30 @@ const PreparationPage = ({ params: { id } }: Props) => {
 					})}
 				</section>
 				<section className="section-question-answer">
-					<button
-						className={`button-visible-answer ${isActive ? "" : "active"}`}
-						onClick={handleChangeActive}
-						aria-label="Показать ответ"
-					>
-						{randomQuestion?.question === undefined
-							? "такого вопроса нет"
-							: randomQuestion?.question}
-						{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
-					</button>
-
+					<h4 className="describe-section-title">
+						Секция взаимодействия с вопросом
+					</h4>
+					{questionIsOver && (
+						<button
+							className={`button-visible-answer ${isActive ? "" : "active"}`}
+							onClick={handleChangeActive}
+							aria-label="Показать ответ"
+						>
+							{randomQuestion?.question}
+							{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
+						</button>
+					)}
+					{!questionIsOver && <p className="not-found-text">Вопросов нет</p>}
 					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						{randomQuestion?.answer !== undefined &&
-							randomQuestion?.answer.split("\n").map((line, index) => (
-								<React.Fragment key={index + line}>
-									{line}
-									{index !== randomQuestion?.answer.split("\n").length - 1 && (
-										<br />
-									)}
-									Такого вопроса нет
-								</React.Fragment>
-							))}
+						{randomQuestion?.answer.split("\n").map((line, index) => (
+							<React.Fragment key={index + line}>
+								{line}
+								{index !== randomQuestion?.answer.split("\n").length - 1 && (
+									<br />
+								)}
+							</React.Fragment>
+						))}
+						{randomQuestion?.answer}
 					</p>
 
 					<button

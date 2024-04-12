@@ -3,7 +3,7 @@ import IQuestion from "../interfaces/question";
 interface IParams {
 	selectOption: string;
 	technologiesOptions: string;
-	randomQuestion: null | IQuestion;
+	randomQuestion: null | IQuestion | undefined;
 	currentSelectOption: string;
 }
 export const isTrueToDisplay = ({

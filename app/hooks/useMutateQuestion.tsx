@@ -6,7 +6,7 @@ import IQuestion from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
 type State = null | [] | IQuestion[];
-type RandomQuestion = null | IQuestion;
+type RandomQuestion = null | undefined | IQuestion;
 interface IProps {
 	technologyOption: string;
 	selectOption?: ISelectOptions[];
@@ -27,7 +27,6 @@ const useMutateQuestion = ({
 		category: technologyOption,
 	};
 	const fetchData = async () => {
-		console.log("technologyOption in func", technologyOption);
 		const { data } = await axios.get(`${BASE_URL}${technologyOption}Question`);
 		return data;
 	};
@@ -38,31 +37,30 @@ const useMutateQuestion = ({
 	});
 
 	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]): void => {
-		if (arrayData && arrayData.length) {
-			const randomIndexArray = Math.floor(Math.random() * arrayData.length);
-			const filterArray = arrayData.filter(
-				(item, index) => index !== randomIndexArray
-			);
-			setDataQuestion(filterArray);
-			setRandomQuestion(arrayData[randomIndexArray]);
+		if (arrayData) {
+			const arraySort = arrayData.sort((a, b): any => {
+				const aNumber = parseInt((a.question.match(/^\d+/) ?? ["0"])[0]);
+				const bNumber = parseInt((b.question.match(/^\d+/) ?? ["0"])[0]);
+				return aNumber - bNumber;
+			});
+			setDataQuestion(arraySort);
+			setRandomQuestion(arrayData[0]);
+			console.log("arraySort", arraySort);
 		}
-		if (arrayData?.length === 0) {
-			setRandomQuestion(defaultObject);
+		if (!arrayData) {
+			setRandomQuestion(null);
 		}
 	};
 
 	const handleNextQuestion = (): void => {
-		if (dataQuestion?.length === 0) {
-			setRandomQuestion(defaultObject);
+		if (!dataQuestion) {
+			setRandomQuestion(undefined);
 		}
-		if (dataQuestion && dataQuestion.length) {
-			const randomIndexArray = Math.floor(Math.random() * dataQuestion.length);
-			const filterArray = dataQuestion.filter(
-				(item: IQuestion, index: number) => index !== randomIndexArray
+		if (dataQuestion && randomQuestion) {
+			const nextQuestion = parseInt(
+				randomQuestion.question.match(/^\d+/)?.[0] ?? "0"
 			);
-
-			setDataQuestion(filterArray);
-			setRandomQuestion(dataQuestion[randomIndexArray]);
+			setRandomQuestion(dataQuestion[nextQuestion]);
 		}
 	};
 
