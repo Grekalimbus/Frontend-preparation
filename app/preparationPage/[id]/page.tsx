@@ -32,17 +32,22 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			technologyOption: id,
 			selectOption,
 		});
+	console.log("randomQuestion", randomQuestion);
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
 		handleFindByName(e.target.value);
 	};
 
-	return !randomQuestion?._id ? (
-		<>
-			<Header />
-			<Loader />
-		</>
-	) : (
+	if (randomQuestion === null) {
+		return (
+			<>
+				<Header />
+				<Loader />
+			</>
+		);
+	}
+
+	return (
 		<main className="container-preparation-wrapper">
 			<Header />
 			<section className="container-preparation-content">
@@ -74,19 +79,25 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						onClick={handleChangeActive}
 						aria-label="Показать ответ"
 					>
-						{randomQuestion.question}
+						{randomQuestion?.question === undefined
+							? "такого вопроса нет"
+							: randomQuestion?.question}
 						{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
 					</button>
+
 					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						{randomQuestion.answer.split("\n").map((line, index) => (
-							<React.Fragment key={index + line}>
-								{line}
-								{index !== randomQuestion.answer.split("\n").length - 1 && (
-									<br />
-								)}
-							</React.Fragment>
-						))}
+						{randomQuestion?.answer !== undefined &&
+							randomQuestion?.answer.split("\n").map((line, index) => (
+								<React.Fragment key={index + line}>
+									{line}
+									{index !== randomQuestion?.answer.split("\n").length - 1 && (
+										<br />
+									)}
+									Такого вопроса нет
+								</React.Fragment>
+							))}
 					</p>
+
 					<button
 						onClick={handleNextQuestion}
 						className={`button-next-question ${isActive ? "" : "active"}`}
