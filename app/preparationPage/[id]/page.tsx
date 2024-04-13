@@ -1,17 +1,13 @@
 "use client";
+import InputField from "@/app/components/InputField";
 import Loader from "@/app/components/Loader";
 import SelectOption from "@/app/components/SelectOption";
 import useMutateQuestion from "@/app/hooks/useMutateQuestion";
 import useSeletOption from "@/app/hooks/useSelectOption";
 import useVisible from "@/app/hooks/useVisible";
-import {
-	ISelectOptions,
-	initialSelectOptions,
-} from "@/app/interfaces/selectOptions";
+import { initialSelectOptions } from "@/app/interfaces/selectOptions";
 import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-
-import InputField from "@/app/components/InputField";
 import { HiMiniEyeSlash } from "react-icons/hi2";
 import Header from "../../components/Header";
 import "./preparation.scss";
@@ -52,13 +48,45 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			</>
 		);
 	}
+	const renderQuestion = () => {
+		if (!questionIsOver) {
+			return <p className="not-found-text">Вопросов нет</p>;
+		}
+
+		return (
+			<>
+				<button
+					className={`button-visible-answer ${isActive ? "" : "active"}`}
+					onClick={handleChangeActive}
+					aria-label="Показать ответ"
+				>
+					{randomQuestion?.question}
+					{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
+				</button>
+				<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
+					{randomQuestion?.answer.split("\n").map((line, index) => (
+						<React.Fragment key={index + line}>
+							{line}
+							{index !== randomQuestion?.answer.split("\n").length - 1 && (
+								<br />
+							)}
+						</React.Fragment>
+					))}
+				</p>
+				<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
+					<button onClick={handleBackQuestion}>Back</button>
+					<button onClick={handleNextQuestion}>Next</button>
+				</div>
+			</>
+		);
+	};
 
 	return (
 		<main className="container-preparation-wrapper">
 			<Header />
 			<section className="container-preparation-content">
 				<h2 className="title-type-question">Вопросы по {id}</h2>
-				<section className="section-select-opions">
+				<section className="section-select-options">
 					<InputField
 						textArea={false}
 						handleChangeInput={handleChangeInputFilter}
@@ -67,58 +95,21 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						placeholder="Фильтрация"
 						name="filter"
 					/>
-					{selectOption.map((item: ISelectOptions) => {
-						return (
-							<SelectOption
-								key={item.typeOption}
-								typeOption={item.typeOption}
-								options={item.options}
-								width={{ width: "100%" }}
-								handleChangeTypeOption={handleChangeTypeOption}
-							/>
-						);
-					})}
+					{selectOption.map(({ typeOption, options }) => (
+						<SelectOption
+							key={typeOption}
+							typeOption={typeOption}
+							options={options}
+							width={{ width: "100%" }}
+							handleChangeTypeOption={handleChangeTypeOption}
+						/>
+					))}
 				</section>
 				<section className="section-question-answer">
 					<h4 className="describe-section-title">
 						Секция взаимодействия с вопросом
 					</h4>
-					{questionIsOver && (
-						<button
-							className={`button-visible-answer ${isActive ? "" : "active"}`}
-							onClick={handleChangeActive}
-							aria-label="Показать ответ"
-						>
-							{randomQuestion?.question}
-							{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
-						</button>
-					)}
-					{!questionIsOver && <p className="not-found-text">Вопросов нет</p>}
-					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-						{randomQuestion?.answer.split("\n").map((line, index) => (
-							<React.Fragment key={index + line}>
-								{line}
-								{index !== randomQuestion?.answer.split("\n").length - 1 && (
-									<br />
-								)}
-							</React.Fragment>
-						))}
-						{randomQuestion?.answer}
-					</p>
-					<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
-						<button
-							onClick={handleBackQuestion}
-							className={`button-next-question`}
-						>
-							Back
-						</button>
-						<button
-							onClick={handleNextQuestion}
-							className={`button-next-question`}
-						>
-							Next
-						</button>
-					</div>
+					{renderQuestion()}
 				</section>
 			</section>
 		</main>

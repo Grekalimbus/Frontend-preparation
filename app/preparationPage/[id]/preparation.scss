@@ -42,17 +42,6 @@
 	visibility: hidden;
 	height: 0px;
 }
-.button-visible-answer svg path {
-	fill: white;
-	transition: all 3s;
-}
-.button-visible-answer svg {
-	width: 20px;
-	height: 20px;
-}
-.button-visible-answer svg:hover path {
-	fill: #f20149;
-}
 .button-visible-answer {
 	border: 2px solid #f20149;
 	background: #13010a;
@@ -66,14 +55,25 @@
 	color: white;
 	text-align: start;
 	transition: all 0.4s;
+	&:hover {
+		box-shadow: 0px 0px 14px -3px #f20149;
+	}
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+	svg path {
+		fill: white;
+		transition: all 3s;
+	}
+	svg:hover path {
+		fill: #f20149;
+	}
 }
 .button-visible-answer.active {
 	box-shadow: 0px 0px 14px -3px #f20149;
 }
 
-.button-visible-answer:hover {
-	box-shadow: 0px 0px 14px -3px #f20149;
-}
 .not-found-text {
 	border: 2px solid #f20149;
 	background: #13010a;
@@ -104,15 +104,15 @@
 	max-height: 250px;
 	overflow-y: scroll;
 	width: 100%;
-}
-.describe-answer-text.active::-webkit-scrollbar {
-	width: 10px;
-	background: none;
-}
-.describe-answer-text.active::-webkit-scrollbar-thumb {
-	width: 10px;
-	border-radius: 8px;
-	background: #f20149;
+	&::-webkit-scrollbar {
+		width: 10px;
+		background: none;
+	}
+	&::-webkit-scrollbar-thumb {
+		width: 10px;
+		border-radius: 8px;
+		background: #f20149;
+	}
 }
 .wrapper-switch-buttons {
 	margin-top: -45px;
@@ -132,11 +132,11 @@
 	border: 1px solid #f20149;
 	color: white;
 	transition: all 0.4s;
+	&:hover {
+		box-shadow: 0px 0px 12px -3px #f20149;
+	}
 }
 
-.button-next-question:hover {
-	box-shadow: 0px 0px 12px -3px #f20149;
-}
 @media (max-height: 740px) {
 	.container-preparation-content {
 		margin-top: 100px;

@@ -4,14 +4,16 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	h1 {
+		font-size: 22px;
+		font-weight: 500;
+		width: 400px;
+		text-align: center;
+		margin-bottom: 40px;
+	}
 }
-.main-container-block h1 {
-	font-size: 22px;
-	font-weight: 500;
-	width: 400px;
-	text-align: center;
-	margin-bottom: 40px;
-}
+
 .container-icon-technologies {
 	margin-top: 30px;
 	display: flex;
@@ -19,24 +21,27 @@
 	justify-content: center;
 	gap: 40px;
 	width: 544px;
+
+	li {
+		width: 100px;
+		height: 100px;
+		transition: all 0.8s;
+		flex: 0 1 calc(25% - 40px);
+	}
+	li svg {
+		width: 80px;
+		height: 80px;
+		color: gray;
+	}
+	li:hover {
+		transform: scale(1.2);
+	}
 }
-.container-icon-technologies li {
-	width: 100px;
-	height: 100px;
-	transition: all 0.8s;
-	flex: 0 1 calc(25% - 40px);
-}
-.container-icon-technologies li svg {
-	width: 80px;
-	height: 80px;
-	color: gray;
-}
-.container-icon-technologies li:hover {
-	transform: scale(1.2);
-}
+
 .descripion-for-link {
 	display: none;
 }
+
 svg {
 	max-width: 100px;
 	max-height: 100px;
@@ -45,15 +50,16 @@ svg:hover path {
 	transition: all 0.6s;
 	fill: #f20149;
 }
+
 @media (max-width: 1000px) {
 	.container-icon-technologies {
 		gap: 22px;
 		width: 300px;
-	}
-	.container-icon-technologies li {
-		width: 50px;
-		height: 50px;
-		flex: 0 1 calc(25% - 22px);
+		li {
+			width: 50px;
+			height: 50px;
+			flex: 0 1 calc(25% - 22px);
+		}
 	}
 	svg {
 		max-width: 50px;
@@ -88,22 +94,24 @@ svg:hover path {
 		gap: 0;
 		width: 90%;
 	}
-	.container-icon-technologies li {
-		width: 100%;
-		margin-top: 15px;
-	}
-	.container-icon-technologies li a {
-		display: flex;
-		height: 100%;
-		justify-content: space-between;
-	}
-	.container-icon-technologies li:hover {
-		transform: none;
-	}
-	.container-icon-technologies li svg {
-		width: 45px;
-		height: 45px;
-		color: #f20149;
+	.container-icon-technologies {
+		li {
+			width: 100%;
+			margin-top: 15px;
+			a {
+				display: flex;
+				height: 100%;
+				justify-content: space-between;
+			}
+		}
+		li:hover {
+			transform: none;
+		}
+		li svg {
+			width: 45px;
+			height: 45px;
+			color: #f20149;
+		}
 	}
 	.descripion-for-link {
 		display: flex;
