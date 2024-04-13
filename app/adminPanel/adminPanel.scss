@@ -22,10 +22,10 @@
 	color: white;
 	text-align: center;
 	margin-top: 6px;
-	transition: all 0.7s;
+	transition: all 0.4s;
 }
 .button-submit-password:hover {
-	box-shadow: 0px 0px 32px -3px #f20149;
+	box-shadow: 0px 0px 14px -3px #f20149;
 }
 .elem-question-text {
 	border: 2px solid #f20149;
@@ -53,10 +53,10 @@
 	border: 2px solid #f20149;
 	background: #090005;
 	color: white;
-	transition: all 1s;
+	transition: all 0.4s;
 }
 .container-flex-box button:hover {
-	box-shadow: 0px 0px 32px -3px #f20149;
+	box-shadow: 0px 0px 14px -3px #f20149;
 }
 .container-flex-box button:disabled {
 	color: #ffffff7a;

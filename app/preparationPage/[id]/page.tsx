@@ -27,11 +27,15 @@ const PreparationPage = ({ params: { id } }: Props) => {
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
-	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion({
-			technologyOption: id,
-			selectOption,
-		});
+	const {
+		randomQuestion,
+		handleNextQuestion,
+		handleFindByName,
+		handleBackQuestion,
+	} = useMutateQuestion({
+		technologyOption: id,
+		selectOption,
+	});
 
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
@@ -39,7 +43,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 	};
 
 	const questionIsOver = randomQuestion?.question === undefined ? false : true;
-	console.log("randomQuestion", randomQuestion);
+
 	if (randomQuestion === null) {
 		return (
 			<>
@@ -101,13 +105,20 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						))}
 						{randomQuestion?.answer}
 					</p>
-
-					<button
-						onClick={handleNextQuestion}
-						className={`button-next-question ${isActive ? "" : "active"}`}
-					>
-						Next
-					</button>
+					<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
+						<button
+							onClick={handleBackQuestion}
+							className={`button-next-question`}
+						>
+							Back
+						</button>
+						<button
+							onClick={handleNextQuestion}
+							className={`button-next-question`}
+						>
+							Next
+						</button>
+					</div>
 				</section>
 			</section>
 		</main>
