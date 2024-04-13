@@ -23,9 +23,9 @@
 	text-align: center;
 	margin-top: 6px;
 	transition: all 0.4s;
-}
-.button-submit-password:hover {
-	box-shadow: 0px 0px 14px -3px #f20149;
+	&:hover {
+		box-shadow: 0px 0px 14px -3px #f20149;
+	}
 }
 .elem-question-text {
 	border: 2px solid #f20149;
@@ -43,29 +43,30 @@
 	display: flex;
 	justify-content: space-between;
 	margin-top: 15px;
-}
-.container-flex-box button {
-	width: 48%;
-	height: 55px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border: 2px solid #f20149;
-	background: #090005;
-	color: white;
-	transition: all 0.4s;
-}
-.container-flex-box button:hover {
-	box-shadow: 0px 0px 14px -3px #f20149;
-}
-.container-flex-box button:disabled {
-	color: #ffffff7a;
-	background: #030002;
-}
-.container-flex-box button:disabled:hover {
-	color: #ffffff7a;
-	background: #030002;
-	box-shadow: none;
+
+	button {
+		width: 48%;
+		height: 55px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 2px solid #f20149;
+		background: #090005;
+		color: white;
+		transition: all 0.4s;
+	}
+	button:hover {
+		box-shadow: 0px 0px 14px -3px #f20149;
+	}
+	button:disabled {
+		color: #ffffff7a;
+		background: #030002;
+	}
+	button:disabled:hover {
+		color: #ffffff7a;
+		background: #030002;
+		box-shadow: none;
+	}
 }
 .change-modal-window {
 	width: 540px;
