@@ -45,7 +45,6 @@ const useMutateQuestion = ({
 			});
 			setDataQuestion(arraySort);
 			setRandomQuestion(arrayData[0]);
-			console.log("arraySort", arraySort);
 		}
 		if (!arrayData) {
 			setRandomQuestion(null);
