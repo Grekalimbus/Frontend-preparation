@@ -60,7 +60,21 @@ const useMutateQuestion = ({
 			const nextQuestion = parseInt(
 				randomQuestion.question.match(/^\d+/)?.[0] ?? "0"
 			);
+
 			setRandomQuestion(dataQuestion[nextQuestion]);
+		}
+	};
+	const handleBackQuestion = () => {
+		if (!dataQuestion) {
+			setRandomQuestion(undefined);
+		}
+		if (dataQuestion && randomQuestion) {
+			const nextQuestion = parseInt(
+				randomQuestion.question.match(/^\d+/)?.[0] ?? "0"
+			);
+			if (nextQuestion > 1) {
+				setRandomQuestion(dataQuestion[nextQuestion - 2]);
+			}
 		}
 	};
 
@@ -111,6 +125,7 @@ const useMutateQuestion = ({
 	return {
 		randomQuestion,
 		handleNextQuestion,
+		handleBackQuestion,
 		handleFindByName,
 	};
 };
