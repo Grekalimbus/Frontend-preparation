@@ -27,7 +27,9 @@ const useMutateQuestion = ({
 		category: technologyOption,
 	};
 	const fetchData = async () => {
-		const { data } = await axios.get(`${BASE_URL}${technologyOption}Question`);
+		const { data } = await axios.get(
+			`${BASE_URL}/questions/${technologyOption}Question`
+		);
 		return data;
 	};
 
