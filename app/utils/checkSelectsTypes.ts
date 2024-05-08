@@ -1,4 +1,4 @@
-import IQuestion from "../interfaces/question";
+import { IQuestion } from "../interfaces/question";
 
 interface IParams {
 	actions: string;
