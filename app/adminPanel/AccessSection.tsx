@@ -1,8 +1,6 @@
 import { useState } from "react";
 import SelectOption from "../components/SelectOption";
-import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useSelectOption from "../hooks/useSelectOption";
-import { ISelectHook } from "../interfaces/selectHook";
 import {
 	ISelectOptions,
 	initialAdminOptions,
@@ -19,10 +17,13 @@ interface IProps {
 
 const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	const [toggleVisibleSelect, setToggleVisibleSelect] = useState<boolean>(true);
-	const { selectOption, handleChangeTypeOption } =
+	const { selectOption: actions, handleChangeTypeOption: changeAction } =
 		useSelectOption(initialAdminOptions);
-	const technologiesOptions: ISelectHook =
-		useComplexSelectOption(initialTechnologies);
+	const {
+		selectOption: technologies,
+		handleChangeTypeOption: changeTechnologies,
+	} = useSelectOption(initialTechnologies);
+
 	const handleChangeToggle = () => {
 		setToggleVisibleSelect(!toggleVisibleSelect);
 	};
@@ -30,44 +31,42 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	return (
 		isAccess && (
 			<>
-				{selectOption.map((item: ISelectOptions) => {
+				{actions.map((item: ISelectOptions) => {
 					return (
 						<SelectOption
 							key={item.typeOption}
 							typeOption={item.typeOption}
 							options={item.options}
-							handleChangeTypeOption={handleChangeTypeOption}
+							handleChangeTypeOption={changeAction}
 							width={{ width: "100%" }}
 						/>
 					);
 				})}
 				{toggleVisibleSelect &&
-					technologiesOptions.selectOption.map((item: ISelectOptions) => (
+					technologies.map((item: ISelectOptions) => (
 						<SelectOption
 							width={{ width: "100%" }}
 							key={item.typeOption}
 							typeOption={item.typeOption}
 							options={item.options}
-							handleChangeTypeOption={
-								technologiesOptions.handleChangeTypeOption
-							}
+							handleChangeTypeOption={changeTechnologies}
 						/>
 					))}
 				<section>
 					<DeleteQuestion
-						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
-						selectOption={selectOption[0].typeOption}
+						technology={technologies[0].typeOption}
+						actions={actions[0].typeOption}
 						handleChangeInput={handleChangeInput}
 					/>
 					<ChangeQuestion
-						technologiesOptions={technologiesOptions.selectOption[0].typeOption}
-						technologiesSelectOptions={technologiesOptions.selectOption}
-						selectOption={selectOption[0].typeOption}
+						technology={technologies[0].typeOption}
+						technologiesSelectOptions={technologies}
+						actions={actions[0].typeOption}
 						handleChangeToggle={handleChangeToggle}
 					/>
 					<AddQuestion
-						selectOption={selectOption[0].typeOption}
-						technologiesSelectOptions={technologiesOptions.selectOption}
+						actions={actions[0].typeOption}
+						technologiesSelectOptions={technologies}
 					/>
 				</section>
 			</>

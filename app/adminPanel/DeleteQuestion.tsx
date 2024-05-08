@@ -8,25 +8,25 @@ import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import FlexButtons from "./FlexButtons";
 
 interface IProps {
-	technologiesOptions: string;
-	selectOption: string;
+	technology: string;
+	actions: string;
 	handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
+const DeleteQuestion = ({ technology, actions }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion({
-			technologyOption: technologiesOptions.toLowerCase(),
-			selectOptionType: selectOption,
+			technologyOption: technology.toLowerCase(),
+			selectOptionType: actions,
 		});
 	const queryClient = useQueryClient();
-	const technologiyEndpoint: string = technologiesOptions.toLowerCase();
+	const technologiyEndpoint: string = technology.toLowerCase();
 
 	const fetchDeleteQuestion = async (_id: string) => {
 		const response = await axios.delete(
-			`${BASE_URL}${technologiyEndpoint}Question?id=${_id}`
+			`${BASE_URL}questions/${technologiyEndpoint}Question?id=${_id}`
 		);
 		return response.data;
 	};
@@ -45,10 +45,10 @@ const DeleteQuestion = ({ technologiesOptions, selectOption }: IProps) => {
 		handleFindByName(e.target.value);
 	};
 	const isValidDisplay = isTrueToDisplay({
-		selectOption,
-		technologiesOptions,
+		actions,
+		technology,
 		randomQuestion,
-		currentSelectOption: "Удалить",
+		currentAction: "Удалить",
 	});
 	return (
 		isValidDisplay && (
