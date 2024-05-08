@@ -4,13 +4,13 @@ interface IProps {
 	errorAnswer: string;
 	errorQuestion: string;
 	technologiesSelectOptions: ISelectOptions[];
-	selectTypes: ISelectOptions[];
+	category: ISelectOptions[];
 }
 const isDisabled = ({
 	errorAnswer,
 	errorQuestion,
 	technologiesSelectOptions,
-	selectTypes,
+	category,
 }: IProps): boolean => {
 	if (errorAnswer || errorQuestion) {
 		return true;
@@ -21,10 +21,7 @@ const isDisabled = ({
 	) {
 		return true;
 	}
-	if (
-		selectTypes.length > 0 &&
-		selectTypes[0].typeOption === "Выберите категорию"
-	) {
+	if (category.length > 0 && category[0].typeOption === "Выберите") {
 		return true;
 	}
 	return false;

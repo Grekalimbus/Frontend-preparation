@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../config.url";
-import IQuestion from "../interfaces/question";
+import { IQuestion } from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
 type State = null | [] | IQuestion[];
@@ -27,7 +27,9 @@ const useMutateQuestion = ({
 		category: technologyOption,
 	};
 	const fetchData = async () => {
-		const { data } = await axios.get(`${BASE_URL}${technologyOption}Question`);
+		const { data } = await axios.get(
+			`${BASE_URL}/questions/${technologyOption}Question`
+		);
 		return data;
 	};
 

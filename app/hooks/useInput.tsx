@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import IQuestion from "../interfaces/question";
+import { IQuestion } from "../interfaces/question";
 import { validator } from "../utils/validator";
 import validatorConfig from "../utils/validatorConfig";
 
@@ -9,11 +9,11 @@ interface IDataInput {
 
 interface IProps {
 	initialValue: IDataInput;
-	selectOption: string;
+	actions: string;
 	randomQuestion?: IQuestion | undefined | null;
 }
 
-const useInput = ({ initialValue, selectOption, randomQuestion }: IProps) => {
+const useInput = ({ initialValue, actions, randomQuestion }: IProps) => {
 	const [errors, setErrors] = useState<IDataInput>({});
 	const [inputValue, setInputValue] = useState<IDataInput>(initialValue);
 
@@ -24,7 +24,7 @@ const useInput = ({ initialValue, selectOption, randomQuestion }: IProps) => {
 	};
 	useEffect(() => {
 		setInputValue({ nameQuestion: "", answer: "" });
-	}, [selectOption, randomQuestion]);
+	}, [actions, randomQuestion]);
 
 	useEffect(() => {
 		validate();

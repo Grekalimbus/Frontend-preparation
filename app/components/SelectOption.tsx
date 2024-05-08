@@ -1,6 +1,7 @@
 import { CgChevronDown, CgChevronUp } from "react-icons/cg";
 import useVisible from "../hooks/useVisible";
 import "./styles/selectOptions.scss";
+
 interface IOptions {
 	value: string;
 	text: string;

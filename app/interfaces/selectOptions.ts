@@ -35,7 +35,7 @@ export const initialTechnologies: ISelectOptions[] = [
 
 export const initialAdminOptions: ISelectOptions[] = [
 	{
-		typeOption: "Выбирете: Удалить /Изменить / Добавить",
+		typeOption: "Выберите: Удалить /Изменить / Добавить",
 		options: [
 			{ value: "delete", text: "Удалить" },
 			{ value: "change", text: "Изменить" },
