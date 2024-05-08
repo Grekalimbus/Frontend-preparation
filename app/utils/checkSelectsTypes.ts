@@ -1,20 +1,20 @@
 import IQuestion from "../interfaces/question";
 
 interface IParams {
-	selectOption: string;
-	technologiesOptions: string;
+	actions: string;
+	technology: string;
 	randomQuestion: null | IQuestion | undefined;
-	currentSelectOption: string;
+	currentAction: string;
 }
 export const isTrueToDisplay = ({
-	selectOption,
-	technologiesOptions,
+	actions,
+	technology,
 	randomQuestion,
-	currentSelectOption,
+	currentAction,
 }: IParams): boolean => {
 	if (
-		selectOption === currentSelectOption &&
-		technologiesOptions !== "Выберите технологию" &&
+		actions === currentAction &&
+		technology !== "Выберите технологию" &&
 		randomQuestion !== null
 	) {
 		return true;

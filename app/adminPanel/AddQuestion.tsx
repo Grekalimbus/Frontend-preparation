@@ -3,25 +3,33 @@ import axios from "axios";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
 import { BASE_URL } from "../config.url";
-import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
-import IQuestion from "../interfaces/question";
-import { ISelectHook } from "../interfaces/selectHook";
-import { ISelectOptions, initialTypes } from "../interfaces/selectOptions";
+import useSelectOption from "../hooks/useSelectOption";
+import { INewQuestion } from "../interfaces/question";
+import { ISelectOptions } from "../interfaces/selectOptions";
 import isDisabled from "../utils/isDisabledToAdd";
 import FlexButtons from "./FlexButtons";
 import "./adminPanel.scss";
 
 interface IProps {
 	technologiesSelectOptions: ISelectOptions[];
-	selectOption: string;
+	actions: string;
 }
 
-const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
-	const selectTypes: ISelectHook = useComplexSelectOption(initialTypes);
+const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string =
 		technologiesSelectOptions[0].typeOption.toLowerCase();
+	const { selectOption: category, handleChangeTypeOption: changeCategory } =
+		useSelectOption([
+			{
+				typeOption: "Выберите",
+				options: [
+					{ value: "easy", text: "Легкий" },
+					{ value: "middle", text: "Средний" },
+				],
+			},
+		]);
 	const {
 		errors,
 		inputValue,
@@ -33,12 +41,12 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 			nameQuestion: "",
 			answer: "",
 		},
-		selectOption,
+		actions,
 	});
 
-	const fetchCreateQuestion = async (data: IQuestion) => {
+	const fetchCreateQuestion = async (data: INewQuestion) => {
 		const response = await axios.post(
-			`${BASE_URL}${technologiyEndpoint}Question`,
+			`${BASE_URL}questions/${technologiyEndpoint}Question`,
 			data
 		);
 		return response.data;
@@ -49,10 +57,10 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
 	const createNewQuestion = () => {
-		const data: IQuestion = {
+		const data: INewQuestion = {
 			question: inputValue.nameQuestion,
 			answer: inputValue.answer,
-			category: selectTypes.selectOption[0].typeOption,
+			category: category[0].typeOption,
 		};
 		mutation.mutate(data);
 		setInputValue({
@@ -65,20 +73,20 @@ const AddQuestion = ({ technologiesSelectOptions, selectOption }: IProps) => {
 		errorAnswer: errors.answer,
 		errorQuestion: errors.nameQuestion,
 		technologiesSelectOptions,
-		selectTypes: selectTypes.selectOption,
+		category,
 	});
 
 	return (
-		selectOption === "Добавить" && (
+		actions === "Добавить" && (
 			<>
-				{selectTypes.selectOption.map((item: ISelectOptions) => {
+				{category.map((item: ISelectOptions) => {
 					return (
 						<SelectOption
 							width={{ width: "100%" }}
 							key={item.typeOption}
 							typeOption={item.typeOption}
 							options={item.options}
-							handleChangeTypeOption={selectTypes.handleChangeTypeOption}
+							handleChangeTypeOption={changeCategory}
 						/>
 					);
 				})}

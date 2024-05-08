@@ -4,45 +4,46 @@ import { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
 import { BASE_URL } from "../config.url";
-import useComplexSelectOption from "../hooks/useComplexSelectOption";
 import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
-import IQuestion from "../interfaces/question";
-import { ISelectHook } from "../interfaces/selectHook";
+import useSelectOption from "../hooks/useSelectOption";
+import { IQuestion } from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import isDisabled from "../utils/isDisabledToAdd";
 import FlexButtons from "./FlexButtons";
 
 interface IProps {
-	technologiesOptions: string;
+	technology: string;
 	technologiesSelectOptions: ISelectOptions[];
-	selectOption: string;
+	actions: string;
 	handleChangeToggle: () => void;
 }
 
 const ChangeQuestion = ({
-	technologiesOptions,
+	technology,
 	technologiesSelectOptions,
-	selectOption,
+	actions,
 	handleChangeToggle,
 }: IProps) => {
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { randomQuestion, handleNextQuestion, handleFindByName } =
 		useMutateQuestion({
-			technologyOption: technologiesOptions.toLowerCase(),
-			selectOptionType: selectOption,
+			technologyOption: technology.toLowerCase(),
+			selectOptionType: actions,
 		});
-	const selectTypes: ISelectHook = useComplexSelectOption([
-		{
-			typeOption: randomQuestion?.category || "",
-			options: [
-				{ value: "easy", text: "Легкий" },
-				{ value: "middle", text: "Средний" },
-			],
-		},
-	]);
+	const { selectOption: category, handleChangeTypeOption: changeCategory } =
+		useSelectOption([
+			{
+				typeOption: randomQuestion?.category || "Выберите",
+				options: [
+					{ value: "easy", text: "Легкий" },
+					{ value: "middle", text: "Средний" },
+				],
+			},
+		]);
+
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string =
 		technologiesSelectOptions[0].typeOption.toLowerCase();
@@ -57,7 +58,7 @@ const ChangeQuestion = ({
 			nameQuestion: "",
 			answer: "",
 		},
-		selectOption,
+		actions,
 		randomQuestion,
 	});
 	const fetchUpdateQuestion = async (data: IQuestion) => {
@@ -67,7 +68,7 @@ const ChangeQuestion = ({
 			newCategory: data.category,
 		};
 		const response = await axios.put(
-			`${BASE_URL}${technologiyEndpoint}Question/${data._id}`,
+			`${BASE_URL}questions/${technologiyEndpoint}Question/${data._id}`,
 			newData
 		);
 		return response.data;
@@ -78,23 +79,25 @@ const ChangeQuestion = ({
 			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
 	const updateQuestion = () => {
-		const data: IQuestion = {
-			_id: randomQuestion?._id,
-			question: inputValue.nameQuestion,
-			answer: inputValue.answer,
-			category: selectTypes.selectOption[0].typeOption,
-		};
-		mutation.mutate(data);
-		setInputValue({
-			nameQuestion: "",
-			answer: "",
-		});
-		setModalWindow(!isModalWindow);
+		if (randomQuestion?._id) {
+			const data: IQuestion = {
+				_id: randomQuestion?._id,
+				question: inputValue.nameQuestion,
+				answer: inputValue.answer,
+				category: category[0].typeOption,
+			};
+			mutation.mutate(data);
+			setInputValue({
+				nameQuestion: "",
+				answer: "",
+			});
+			setModalWindow(!isModalWindow);
+		}
 	};
 
 	useEffect(() => {
 		setModalWindow(false);
-	}, [selectOption]);
+	}, [actions]);
 
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
@@ -114,14 +117,14 @@ const ChangeQuestion = ({
 		errorAnswer: errors.answer,
 		errorQuestion: errors.nameQuestion,
 		technologiesSelectOptions,
-		selectTypes: selectTypes.selectOption,
+		category,
 	});
 
 	const isValidDisplay = isTrueToDisplay({
-		selectOption,
-		technologiesOptions,
+		actions,
+		technology,
 		randomQuestion,
-		currentSelectOption: "Изменить",
+		currentAction: "Изменить",
 	});
 	return (
 		isValidDisplay && (
@@ -150,14 +153,14 @@ const ChangeQuestion = ({
 				)}
 				{isModalWindow && randomQuestion && (
 					<section className="change-modal-window">
-						{selectTypes.selectOption.map((item: ISelectOptions) => {
+						{category.map((item: ISelectOptions) => {
 							return (
 								<SelectOption
 									width={{ width: "100%" }}
 									key={item.typeOption}
 									typeOption={item.typeOption}
 									options={item.options}
-									handleChangeTypeOption={selectTypes.handleChangeTypeOption}
+									handleChangeTypeOption={changeCategory}
 								/>
 							);
 						})}

@@ -9,7 +9,7 @@ const useSelectOption = (initialSelectOptions: ISelectOptions[]) => {
 		updateSelectValue: string,
 		selectField: string
 	) => {
-		const updateSelectOptions = selectOption.map(item => {
+		const updatedSelectOptions = selectOption.map(item => {
 			if (item.typeOption === selectField) {
 				return {
 					typeOption: updateSelectValue,
@@ -18,8 +18,7 @@ const useSelectOption = (initialSelectOptions: ISelectOptions[]) => {
 			}
 			return item;
 		});
-
-		setSelectOption(updateSelectOptions);
+		setSelectOption(updatedSelectOptions);
 	};
 	return { selectOption, handleChangeTypeOption };
 };
