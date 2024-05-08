@@ -6,7 +6,7 @@ import validatorConfig from "../utils/validatorConfig";
 interface IDataInput {
 	[key: string]: any;
 }
-
+//
 interface IProps {
 	initialValue: IDataInput;
 	actions: string;
