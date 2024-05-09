@@ -5,7 +5,7 @@ import { BASE_URL } from "../config.url";
 import { IQuestion } from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 
-type State = null | [] | IQuestion[];
+type Questions = null | [] | IQuestion[];
 type RandomQuestion = null | undefined | IQuestion;
 interface IProps {
 	technologyOption: string;
@@ -18,7 +18,7 @@ const useMutateQuestion = ({
 	selectOption,
 	selectOptionType,
 }: IProps) => {
-	const [dataQuestion, setDataQuestion] = useState<State>(null);
+	const [dataQuestion, setDataQuestion] = useState<Questions>(null);
 	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
 	const defaultObject = {
 		_id: "000",

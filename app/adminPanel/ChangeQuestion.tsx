@@ -10,7 +10,7 @@ import useSelectOption from "../hooks/useSelectOption";
 import { IQuestion } from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
-import isDisabled from "../utils/isDisabledToAdd";
+import isDisabled from "../utils/isDisabled";
 import FlexButtons from "./FlexButtons";
 
 interface IProps {

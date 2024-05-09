@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geologica } from "next/font/google";
-import Provider from "./Provider";
+import StoreProvider from "./StoreProvider";
 import Footer from "./components/Footer";
 import "./globals.css";
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 	return (
 		<html lang="ru">
 			<body className={inter.className}>
-				<Provider>{children}</Provider>
+				<StoreProvider>{children}</StoreProvider>
 				<Footer />
 			</body>
 		</html>

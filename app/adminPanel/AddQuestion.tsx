@@ -7,7 +7,7 @@ import useInput from "../hooks/useInput";
 import useSelectOption from "../hooks/useSelectOption";
 import { INewQuestion } from "../interfaces/question";
 import { ISelectOptions } from "../interfaces/selectOptions";
-import isDisabled from "../utils/isDisabledToAdd";
+import isDisabled from "../utils/isDisabled";
 import FlexButtons from "./FlexButtons";
 import "./adminPanel.scss";
 
