@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import questionReducer from "./reducers/QuestionSlice";
 import userReducer from "./reducers/UserSlice";
 
 const rootReducer = combineReducers({
 	userReducer,
+	questionReducer,
 });
 
 export const makeStore = () => {
