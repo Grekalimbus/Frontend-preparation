@@ -25,14 +25,18 @@ const PreparationPage = ({ params: { id } }: Props) => {
 		error,
 		handleNextQuestion,
 		handleBackQuestion,
+		handleFilterQuestions,
+		handleNextQuestionFiltered,
+		handleBackQuestionFiltered,
 	} = useReduxQuestions(id);
 	const { isActive, handleChangeActive } = useVisible();
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
-	const handleChangeInputFilter = (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {};
+	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInputValueFilter(e.target.value);
+		handleFilterQuestions(e.target.value);
+	};
 
 	if (isLoading) {
 		return (
@@ -68,12 +72,22 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						))}
 					</p>
 					<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
-						<button onClick={() => handleBackQuestion(currentQuestion)}>
-							Back
-						</button>
-						<button onClick={() => handleNextQuestion(currentQuestion)}>
-							Next
-						</button>
+						{!inputValueFilter && (
+							<>
+								<button onClick={() => handleBackQuestion(currentQuestion)}>
+									Back
+								</button>
+								<button onClick={() => handleNextQuestion(currentQuestion)}>
+									Next
+								</button>
+							</>
+						)}
+						{inputValueFilter && (
+							<>
+								<button onClick={handleBackQuestionFiltered}>Back</button>
+								<button onClick={handleNextQuestionFiltered}>Next</button>
+							</>
+						)}
 					</div>
 				</>
 			)

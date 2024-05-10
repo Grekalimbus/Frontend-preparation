@@ -8,6 +8,9 @@ const useReduxQuestions = (id: string) => {
 	const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(
 		null
 	);
+	const [filteredArray, setFilteredArray] = useState<IQuestion[] | []>([]);
+	const [indexCurrentQuestion, setIndexCurrentQuestion] = useState<number>(0);
+	const [indexFiltered, setIndexFiltered] = useState<number>(0);
 	const dispatch = useAppDispatch();
 	const { questions, isLoading, error } = useAppSelector(
 		state => state.questionReducer
@@ -30,6 +33,7 @@ const useReduxQuestions = (id: string) => {
 			);
 			if (nextQuestion !== arrayQuestions.length) {
 				setCurrentQuestion(arrayQuestions[nextQuestion]);
+				setIndexCurrentQuestion(nextQuestion);
 			}
 		}
 	};
@@ -41,8 +45,35 @@ const useReduxQuestions = (id: string) => {
 			);
 			if (nextQuestion > 1) {
 				setCurrentQuestion(arrayQuestions[nextQuestion - 2]);
+				setIndexCurrentQuestion(nextQuestion - 2);
 			}
 		}
+	};
+
+	useEffect(() => {
+		if (indexFiltered >= 0 && indexFiltered < filteredArray.length) {
+			setCurrentQuestion(filteredArray[indexFiltered]);
+		}
+	}, [indexFiltered]);
+
+	const handleNextQuestionFiltered = () => {
+		if (indexFiltered < filteredArray.length - 1) {
+			setIndexFiltered(prev => prev + 1);
+		}
+	};
+
+	const handleBackQuestionFiltered = () => {
+		if (indexFiltered > 0) {
+			setIndexFiltered(prev => prev - 1);
+		}
+	};
+
+	const handleFilterQuestions = (str: string) => {
+		const filteredArr: [] | IQuestion[] = arrayQuestions.filter(question => {
+			return question.question.toLowerCase().includes(str.toLowerCase());
+		});
+		setFilteredArray(filteredArr);
+		setCurrentQuestion(filteredArr[0]);
 	};
 
 	return {
@@ -51,6 +82,9 @@ const useReduxQuestions = (id: string) => {
 		error,
 		handleNextQuestion,
 		handleBackQuestion,
+		handleFilterQuestions,
+		handleNextQuestionFiltered,
+		handleBackQuestionFiltered,
 	};
 };
 
