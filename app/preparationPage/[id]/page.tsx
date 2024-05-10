@@ -74,12 +74,8 @@ const PreparationPage = ({ params: { id } }: Props) => {
 					<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
 						{!inputValueFilter && (
 							<>
-								<button onClick={() => handleBackQuestion(currentQuestion)}>
-									Back
-								</button>
-								<button onClick={() => handleNextQuestion(currentQuestion)}>
-									Next
-								</button>
+								<button onClick={handleBackQuestion}>Back</button>
+								<button onClick={handleNextQuestion}>Next</button>
 							</>
 						)}
 						{inputValueFilter && (

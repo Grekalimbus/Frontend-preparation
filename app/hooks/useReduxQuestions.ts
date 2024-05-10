@@ -26,27 +26,24 @@ const useReduxQuestions = (id: string) => {
 		}
 	}, [questions]);
 
-	const handleNextQuestion = (currentQuestion: null | IQuestion) => {
-		if (currentQuestion) {
-			const nextQuestion = parseInt(
-				currentQuestion.question.match(/^\d+/)?.[0] ?? "0"
-			);
-			if (nextQuestion !== arrayQuestions.length) {
-				setCurrentQuestion(arrayQuestions[nextQuestion]);
-				setIndexCurrentQuestion(nextQuestion);
-			}
+	useEffect(() => {
+		if (
+			indexCurrentQuestion >= 0 &&
+			indexCurrentQuestion < arrayQuestions.length
+		) {
+			setCurrentQuestion(arrayQuestions[indexCurrentQuestion]);
+		}
+	}, [indexCurrentQuestion]);
+
+	const handleNextQuestion = () => {
+		if (indexCurrentQuestion < arrayQuestions.length - 1) {
+			setIndexCurrentQuestion(prev => prev + 1);
 		}
 	};
 
-	const handleBackQuestion = (currentQuestion: null | IQuestion) => {
-		if (currentQuestion) {
-			const nextQuestion = parseInt(
-				currentQuestion.question.match(/^\d+/)?.[0] ?? "0"
-			);
-			if (nextQuestion > 1) {
-				setCurrentQuestion(arrayQuestions[nextQuestion - 2]);
-				setIndexCurrentQuestion(nextQuestion - 2);
-			}
+	const handleBackQuestion = () => {
+		if (indexCurrentQuestion > 0) {
+			setIndexCurrentQuestion(prev => prev - 1);
 		}
 	};
 
@@ -67,6 +64,19 @@ const useReduxQuestions = (id: string) => {
 			setIndexFiltered(prev => prev - 1);
 		}
 	};
+
+	const updateFilteredArray = () => {
+		if (filteredArray.length !== 0) {
+			setFilteredArray([]);
+		}
+	};
+
+	useEffect(() => {
+		if (filteredArray.length === arrayQuestions.length) {
+			setCurrentQuestion(arrayQuestions[indexCurrentQuestion]);
+			updateFilteredArray();
+		}
+	}, [filteredArray]);
 
 	const handleFilterQuestions = (str: string) => {
 		const filteredArr: [] | IQuestion[] = arrayQuestions.filter(question => {
