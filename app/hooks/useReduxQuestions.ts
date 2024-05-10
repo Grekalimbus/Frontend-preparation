@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IQuestion } from "../interfaces/question";
 
 const useReduxQuestions = (id: string) => {
+	const [arrayQuestions, setArrayQuestions] = useState<IQuestion[] | []>([]);
 	const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(
 		null
 	);
@@ -17,11 +18,40 @@ const useReduxQuestions = (id: string) => {
 
 	useEffect(() => {
 		if (questions[id].length) {
-			setCurrentQuestion(questions[id][0]);
+			setArrayQuestions(questions[id]);
+			setCurrentQuestion(arrayQuestions[0]);
 		}
 	}, [questions]);
 
-	return { currentQuestion, isLoading, error };
+	const handleNextQuestion = (currentQuestion: null | IQuestion) => {
+		if (currentQuestion) {
+			const nextQuestion = parseInt(
+				currentQuestion.question.match(/^\d+/)?.[0] ?? "0"
+			);
+			if (nextQuestion !== arrayQuestions.length) {
+				setCurrentQuestion(arrayQuestions[nextQuestion]);
+			}
+		}
+	};
+
+	const handleBackQuestion = (currentQuestion: null | IQuestion) => {
+		if (currentQuestion) {
+			const nextQuestion = parseInt(
+				currentQuestion.question.match(/^\d+/)?.[0] ?? "0"
+			);
+			if (nextQuestion > 1) {
+				setCurrentQuestion(arrayQuestions[nextQuestion - 2]);
+			}
+		}
+	};
+
+	return {
+		currentQuestion,
+		isLoading,
+		error,
+		handleNextQuestion,
+		handleBackQuestion,
+	};
 };
 
 export default useReduxQuestions;

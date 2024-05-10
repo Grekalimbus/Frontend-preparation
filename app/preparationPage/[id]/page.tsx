@@ -19,7 +19,13 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
-	const { currentQuestion, isLoading, error } = useReduxQuestions(id);
+	const {
+		currentQuestion,
+		isLoading,
+		error,
+		handleNextQuestion,
+		handleBackQuestion,
+	} = useReduxQuestions(id);
 	const { isActive, handleChangeActive } = useVisible();
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { selectOption, handleChangeTypeOption } =
@@ -28,7 +34,7 @@ const PreparationPage = ({ params: { id } }: Props) => {
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {};
 
-	if (!currentQuestion && isLoading) {
+	if (isLoading) {
 		return (
 			<>
 				<Header />
@@ -62,8 +68,12 @@ const PreparationPage = ({ params: { id } }: Props) => {
 						))}
 					</p>
 					<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
-						{/* <button onClick={handleBackQuestion}>Back</button>
-			<button onClick={handleNextQuestion}>Next</button> */}
+						<button onClick={() => handleBackQuestion(currentQuestion)}>
+							Back
+						</button>
+						<button onClick={() => handleNextQuestion(currentQuestion)}>
+							Next
+						</button>
 					</div>
 				</>
 			)
