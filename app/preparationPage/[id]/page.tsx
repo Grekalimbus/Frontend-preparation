@@ -3,12 +3,11 @@ import Header from "@/app/components/Header";
 import InputField from "@/app/components/InputField";
 import Loader from "@/app/components/Loader";
 import SelectOption from "@/app/components/SelectOption";
+import useReduxQuestions from "@/app/hooks/useReduxQuestions";
 import useSeletOption from "@/app/hooks/useSelectOption";
 import useVisible from "@/app/hooks/useVisible";
 import { initialSelectOptions } from "@/app/interfaces/selectOptions";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchQuestions } from "@/redux/reducers/ActionCreators";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { HiMiniEyeSlash } from "react-icons/hi2";
 import "./preparation.scss";
@@ -20,25 +19,16 @@ type Props = {
 };
 
 const PreparationPage = ({ params: { id } }: Props) => {
-	const dispatch = useAppDispatch();
-	const { questions, isLoading, error } = useAppSelector(
-		state => state.questionReducer
-	);
+	const { currentQuestion, isLoading, error } = useReduxQuestions(id);
 	const { isActive, handleChangeActive } = useVisible();
-
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
-	useEffect(() => {
-		dispatch(fetchQuestions());
-		console.log("questions", questions);
-	}, []);
-
 	const handleChangeInputFilter = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {};
 
-	if (isLoading) {
+	if (!currentQuestion && isLoading) {
 		return (
 			<>
 				<Header />
@@ -51,29 +41,32 @@ const PreparationPage = ({ params: { id } }: Props) => {
 	}
 	const renderQuestion = () => {
 		return (
-			<>
-				<button
-					className={`button-visible-answer ${isActive ? "" : "active"}`}
-					onClick={handleChangeActive}
-					aria-label="Показать ответ"
-				>
-					{questions[id][0]?.question}
-					{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
-				</button>
-				<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-					{questions["common"][0]?.answer.split("\n").map((line, index) => (
-						<React.Fragment key={index + line}>
-							{line}
-							{index !==
-								questions["common"][0]?.answer.split("\n").length - 1 && <br />}
-						</React.Fragment>
-					))}
-				</p>
-				<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
-					{/* <button onClick={handleBackQuestion}>Back</button>
-					<button onClick={handleNextQuestion}>Next</button> */}
-				</div>
-			</>
+			currentQuestion && (
+				<>
+					<button
+						className={`button-visible-answer ${isActive ? "" : "active"}`}
+						onClick={handleChangeActive}
+						aria-label="Показать ответ"
+					>
+						{currentQuestion.question}
+						{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
+					</button>
+					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
+						{currentQuestion.answer.split("\n").map((line, index) => (
+							<React.Fragment key={index + line}>
+								{line}
+								{index !== currentQuestion.answer.split("\n").length - 1 && (
+									<br />
+								)}
+							</React.Fragment>
+						))}
+					</p>
+					<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
+						{/* <button onClick={handleBackQuestion}>Back</button>
+			<button onClick={handleNextQuestion}>Next</button> */}
+					</div>
+				</>
+			)
 		);
 	};
 
