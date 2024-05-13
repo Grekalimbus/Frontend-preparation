@@ -2,132 +2,113 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../config.url";
-import { IQuestion } from "../interfaces/question";
-import { ISelectOptions } from "../interfaces/selectOptions";
+import { IQuestion, IQuestions } from "../interfaces/question";
 
-type State = null | [] | IQuestion[];
-type RandomQuestion = null | undefined | IQuestion;
-interface IProps {
-	technologyOption: string;
-	selectOption?: ISelectOptions[];
-	selectOptionType?: string;
-}
+const useMutateQuestion = (technology: string) => {
+	const [arrayQuestions, setArrayQuestions] = useState<IQuestion[] | []>([]);
+	const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(
+		null
+	);
+	const [filteredArray, setFilteredArray] = useState<IQuestion[] | []>([]);
+	const [indexCurrentQuestion, setIndexCurrentQuestion] = useState<number>(0);
+	const [indexFiltered, setIndexFiltered] = useState<number>(0);
 
-const useMutateQuestion = ({
-	technologyOption,
-	selectOption,
-	selectOptionType,
-}: IProps) => {
-	const [dataQuestion, setDataQuestion] = useState<State>(null);
-	const [randomQuestion, setRandomQuestion] = useState<RandomQuestion>(null);
-	const defaultObject = {
-		_id: "000",
-		question: "Вопросы закончились",
-		answer: "Вопросы закончились",
-		category: technologyOption,
-	};
-	const fetchData = async () => {
-		const { data } = await axios.get(
-			`${BASE_URL}/questions/${technologyOption}Question`
-		);
+	const fetchData = async (): Promise<IQuestions> => {
+		const { data } = await axios.get<IQuestions>(`${BASE_URL}questions`);
 		return data;
 	};
 
-	const { data } = useQuery({
-		queryKey: [technologyOption],
+	const {
+		data: questions,
+		isLoading,
+		error,
+	} = useQuery({
+		queryKey: ["questions"],
 		queryFn: fetchData,
 	});
 
-	const handleRandomQuestion = (arrayData: null | [] | IQuestion[]): void => {
-		if (arrayData) {
-			const arraySort = arrayData.sort((a, b): any => {
-				const aNumber = parseInt((a.question.match(/^\d+/) ?? ["0"])[0]);
-				const bNumber = parseInt((b.question.match(/^\d+/) ?? ["0"])[0]);
-				return aNumber - bNumber;
-			});
-			setDataQuestion(arraySort);
-			setRandomQuestion(arrayData[0]);
+	useEffect(() => {
+		fetchData();
+		if (questions) {
+			setArrayQuestions(questions[technology]);
 		}
-		if (!arrayData) {
-			setRandomQuestion(null);
-		}
-	};
-
-	const handleNextQuestion = (): void => {
-		if (!dataQuestion) {
-			setRandomQuestion(undefined);
-		}
-		if (dataQuestion && randomQuestion) {
-			const nextQuestion = parseInt(
-				randomQuestion.question.match(/^\d+/)?.[0] ?? "0"
-			);
-
-			setRandomQuestion(dataQuestion[nextQuestion]);
-		}
-	};
-	const handleBackQuestion = () => {
-		if (!dataQuestion) {
-			setRandomQuestion(undefined);
-		}
-		if (dataQuestion && randomQuestion) {
-			const nextQuestion = parseInt(
-				randomQuestion.question.match(/^\d+/)?.[0] ?? "0"
-			);
-			if (nextQuestion > 1) {
-				setRandomQuestion(dataQuestion[nextQuestion - 2]);
-			}
-		}
-	};
-
-	const handleFindByName = (name: string) => {
-		if (data && data[technologyOption].length) {
-			const filterArray = data[technologyOption].filter((item: IQuestion) =>
-				item.question.toLowerCase().includes(name.toLowerCase())
-			);
-
-			setDataQuestion(filterArray);
-			setRandomQuestion(filterArray[0]);
-		}
-	};
-
-	const handleSortCategory = (arrayData: IQuestion[]) => {
-		if (
-			arrayData &&
-			selectOption &&
-			selectOption[0].typeOption !== "Категория"
-		) {
-			if (selectOption[0].typeOption !== "Все") {
-				const category = selectOption[0].typeOption;
-				const filterByCategory = arrayData.filter(
-					(item: IQuestion) => item.category === category
-				);
-				if (filterByCategory?.length === 0) {
-					setRandomQuestion(defaultObject);
-				} else {
-					setDataQuestion(filterByCategory);
-					setRandomQuestion(filterByCategory[0]);
-				}
-			}
-			if (selectOption[0].typeOption === "Все") {
-				setDataQuestion(arrayData);
-				setRandomQuestion(arrayData[0]);
-			}
-		}
-	};
+	}, [questions]);
 
 	useEffect(() => {
-		if (data) {
-			fetchData();
-			handleRandomQuestion(data[technologyOption]);
-			handleSortCategory(data[technologyOption]);
+		if (arrayQuestions.length > 0) {
+			setCurrentQuestion(arrayQuestions[0]);
 		}
-	}, [technologyOption, data, selectOption, selectOptionType]);
+	}, [arrayQuestions]);
+
+	useEffect(() => {
+		if (
+			indexCurrentQuestion >= 0 &&
+			indexCurrentQuestion < arrayQuestions.length
+		) {
+			setCurrentQuestion(arrayQuestions[indexCurrentQuestion]);
+		}
+	}, [indexCurrentQuestion]);
+
+	useEffect(() => {
+		if (indexFiltered >= 0 && indexFiltered < filteredArray.length) {
+			setCurrentQuestion(filteredArray[indexFiltered]);
+		}
+	}, [indexFiltered]);
+
+	useEffect(() => {
+		const updateFilteredArray = () => {
+			if (filteredArray.length !== 0) {
+				setFilteredArray([]);
+				setIndexFiltered(0);
+			}
+		};
+		if (filteredArray.length === arrayQuestions.length) {
+			setCurrentQuestion(arrayQuestions[indexCurrentQuestion]);
+			updateFilteredArray();
+		}
+	}, [filteredArray]);
+
+	const nextQuestion = () => {
+		if (indexCurrentQuestion < arrayQuestions.length - 1) {
+			setIndexCurrentQuestion(prev => prev + 1);
+		}
+	};
+
+	const prevQuestion = () => {
+		if (indexCurrentQuestion > 0) {
+			setIndexCurrentQuestion(prev => prev - 1);
+		}
+	};
+
+	const nextFilteredQuestion = () => {
+		if (indexFiltered < filteredArray.length - 1) {
+			setIndexFiltered(prev => prev + 1);
+		}
+	};
+
+	const prevFilteredQuestion = () => {
+		if (indexFiltered > 0) {
+			setIndexFiltered(prev => prev - 1);
+		}
+	};
+
+	const filterQuestions = (str: string) => {
+		const filteredArr: [] | IQuestion[] = arrayQuestions.filter(question => {
+			return question.question.toLowerCase().includes(str.toLowerCase());
+		});
+		setFilteredArray(filteredArr);
+		setCurrentQuestion(filteredArr[0]);
+	};
 
 	return {
-		randomQuestion,
-		handleNextQuestion,
-		handleBackQuestion,
-		handleFindByName,
+		currentQuestion,
+		nextQuestion,
+		prevQuestion,
+		filterQuestions,
+		nextFilteredQuestion,
+		prevFilteredQuestion,
+		isLoading,
+		error,
 	};
 };
 
