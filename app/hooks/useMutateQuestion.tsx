@@ -35,7 +35,7 @@ const useMutateQuestion = (technology: string) => {
 	}, [questions]);
 
 	useEffect(() => {
-		if (arrayQuestions.length > 0) {
+		if (arrayQuestions && arrayQuestions.length > 0) {
 			setCurrentQuestion(arrayQuestions[0]);
 		}
 	}, [arrayQuestions]);

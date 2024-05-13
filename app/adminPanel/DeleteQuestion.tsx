@@ -16,11 +16,7 @@ interface IProps {
 const DeleteQuestion = ({ technology, actions }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
-	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion({
-			technologyOption: technology.toLowerCase(),
-			selectOptionType: actions,
-		});
+	const data = useMutateQuestion(technology.toLowerCase());
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string = technology.toLowerCase();
 
@@ -36,25 +32,25 @@ const DeleteQuestion = ({ technology, actions }: IProps) => {
 			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
 	const deleteQuestion = () => {
-		const id = randomQuestion?._id;
+		const id = data.currentQuestion?._id;
 		if (id) mutation.mutate(id);
 	};
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
-		handleFindByName(e.target.value);
+		data.filterQuestions(e.target.value);
 	};
 	const isValidDisplay = isTrueToDisplay({
 		actions,
 		technology,
-		randomQuestion,
+		question: data.currentQuestion,
 		currentAction: "Удалить",
 	});
 	return (
 		isValidDisplay && (
 			<>
 				<p className="elem-question-text">
-					{randomQuestion?.question || "Вопросов нет"}
+					{data.currentQuestion?.question || "Вопросов нет"}
 				</p>
 				<InputField
 					textArea={false}
@@ -67,7 +63,7 @@ const DeleteQuestion = ({ technology, actions }: IProps) => {
 				<FlexButtons
 					firstValue="Следующий"
 					secondValue="Удалить"
-					handleNextQuestion={handleNextQuestion}
+					handleNextQuestion={data.nextQuestion}
 					handleDeleteQiestion={deleteQuestion}
 				/>
 			</>

@@ -28,15 +28,11 @@ const ChangeQuestion = ({
 }: IProps) => {
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
-	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion({
-			technologyOption: technology.toLowerCase(),
-			selectOptionType: actions,
-		});
+	const data = useMutateQuestion(technology.toLowerCase());
 	const { selectOption: category, handleChangeTypeOption: changeCategory } =
 		useSelectOption([
 			{
-				typeOption: randomQuestion?.category || "Выберите",
+				typeOption: data.currentQuestion?.category || "Выберите",
 				options: [
 					{ value: "easy", text: "Легкий" },
 					{ value: "middle", text: "Средний" },
@@ -59,17 +55,17 @@ const ChangeQuestion = ({
 			answer: "",
 		},
 		actions,
-		randomQuestion,
+		question: data.currentQuestion,
 	});
 	const fetchUpdateQuestion = async (data: IQuestion) => {
-		const newData = {
+		const updateQuestion = {
 			newQuestion: data.question,
 			newAnswer: data.answer,
 			newCategory: data.category,
 		};
 		const response = await axios.put(
 			`${BASE_URL}questions/${technologiyEndpoint}Question/${data._id}`,
-			newData
+			updateQuestion
 		);
 		return response.data;
 	};
@@ -79,14 +75,14 @@ const ChangeQuestion = ({
 			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
 	});
 	const updateQuestion = () => {
-		if (randomQuestion?._id) {
-			const data: IQuestion = {
-				_id: randomQuestion?._id,
+		if (data.currentQuestion) {
+			const newQuestion: IQuestion = {
+				_id: data.currentQuestion._id,
 				question: inputValue.nameQuestion,
 				answer: inputValue.answer,
 				category: category[0].typeOption,
 			};
-			mutation.mutate(data);
+			mutation.mutate(newQuestion);
 			setInputValue({
 				nameQuestion: "",
 				answer: "",
@@ -101,14 +97,14 @@ const ChangeQuestion = ({
 
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
-		handleFindByName(e.target.value);
+		data.filterQuestions(e.target.value);
 	};
 
 	const toggleModalWindow = () => {
 		setModalWindow(!isModalWindow);
 		setInputValue({
-			nameQuestion: randomQuestion?.question,
-			answer: randomQuestion?.answer,
+			nameQuestion: data.currentQuestion?.question,
+			answer: data.currentQuestion?.answer,
 		});
 		handleChangeToggle();
 	};
@@ -123,7 +119,7 @@ const ChangeQuestion = ({
 	const isValidDisplay = isTrueToDisplay({
 		actions,
 		technology,
-		randomQuestion,
+		question: data.currentQuestion,
 		currentAction: "Изменить",
 	});
 	return (
@@ -132,7 +128,7 @@ const ChangeQuestion = ({
 				{!isModalWindow && (
 					<section>
 						<p className="elem-question-text">
-							{randomQuestion?.question || "Вопросов нет"}
+							{data.currentQuestion?.question || "Вопросов нет"}
 						</p>
 						<InputField
 							textArea={false}
@@ -145,13 +141,15 @@ const ChangeQuestion = ({
 						<FlexButtons
 							firstValue="Следующий"
 							secondValue="Изменить"
-							disabled={randomQuestion?.question === "Вопросы закончились"}
-							handleNextQuestion={handleNextQuestion}
+							disabled={
+								data.currentQuestion?.question === "Вопросы закончились"
+							}
+							handleNextQuestion={data.nextQuestion}
 							toggleModalWindow={toggleModalWindow}
 						/>
 					</section>
 				)}
-				{isModalWindow && randomQuestion && (
+				{isModalWindow && data.currentQuestion && (
 					<section className="change-modal-window">
 						{category.map((item: ISelectOptions) => {
 							return (
