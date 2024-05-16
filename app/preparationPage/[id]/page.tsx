@@ -23,24 +23,14 @@ const PreparationPage = ({ params: { id } }: Props) => {
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const { selectOption, handleChangeTypeOption } =
 		useSeletOption(initialSelectOptions);
-	const {
-		randomQuestion,
-		handleNextQuestion,
-		handleFindByName,
-		handleBackQuestion,
-	} = useMutateQuestion({
-		technologyOption: id,
-		selectOption,
-	});
+	const data = useMutateQuestion(id);
 
 	const handleChangeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValueFilter(e.target.value);
-		handleFindByName(e.target.value);
+		data.filterQuestions(e.target.value);
 	};
 
-	const questionIsOver = randomQuestion?.question === undefined ? false : true;
-
-	if (randomQuestion === null) {
+	if (data.isLoading) {
 		return (
 			<>
 				<Header />
@@ -48,36 +38,55 @@ const PreparationPage = ({ params: { id } }: Props) => {
 			</>
 		);
 	}
-	const renderQuestion = () => {
-		if (!questionIsOver) {
-			return <p className="not-found-text">Вопросов нет</p>;
-		}
-
+	if (data.error) {
 		return (
 			<>
-				<button
-					className={`button-visible-answer ${isActive ? "" : "active"}`}
-					onClick={handleChangeActive}
-					aria-label="Показать ответ"
-				>
-					{randomQuestion?.question}
-					{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
-				</button>
-				<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
-					{randomQuestion?.answer.split("\n").map((line, index) => (
-						<React.Fragment key={index + line}>
-							{line}
-							{index !== randomQuestion?.answer.split("\n").length - 1 && (
-								<br />
-							)}
-						</React.Fragment>
-					))}
-				</p>
-				<div className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}>
-					<button onClick={handleBackQuestion}>Back</button>
-					<button onClick={handleNextQuestion}>Next</button>
-				</div>
+				<Header />
+				<h2>Ошибка </h2>
 			</>
+		);
+	}
+	const renderQuestion = () => {
+		return (
+			data.currentQuestion && (
+				<>
+					<button
+						className={`button-visible-answer ${isActive ? "" : "active"}`}
+						onClick={handleChangeActive}
+						aria-label="Показать ответ"
+					>
+						{data.currentQuestion.question}
+						{isActive ? <AiFillEye /> : <HiMiniEyeSlash />}
+					</button>
+					<p className={`describe-answer-text ${isActive ? "" : "active"}`}>
+						{data.currentQuestion.answer.split("\n").map((line, index) => (
+							<React.Fragment key={index + line}>
+								{line}
+								{data.currentQuestion &&
+									index !==
+										data.currentQuestion.answer.split("\n").length - 1 && (
+										<br />
+									)}
+							</React.Fragment>
+						))}
+					</p>
+					{!inputValueFilter.length ? (
+						<div
+							className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}
+						>
+							<button onClick={data.prevQuestion}>Back</button>
+							<button onClick={data.nextQuestion}>Next</button>
+						</div>
+					) : (
+						<div
+							className={`wrapper-switch-buttons ${isActive ? "" : "active"}`}
+						>
+							<button onClick={data.prevFilteredQuestion}>Back</button>
+							<button onClick={data.nextFilteredQuestion}>Next</button>
+						</div>
+					)}
+				</>
+			)
 		);
 	};
 

@@ -1,8 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import InputField from "../components/InputField";
-import { BASE_URL } from "../config.url";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import FlexButtons from "./FlexButtons";
@@ -15,46 +12,23 @@ interface IProps {
 
 const DeleteQuestion = ({ technology, actions }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
-
-	const { randomQuestion, handleNextQuestion, handleFindByName } =
-		useMutateQuestion({
-			technologyOption: technology.toLowerCase(),
-			selectOptionType: actions,
-		});
-	const queryClient = useQueryClient();
-	const technologiyEndpoint: string = technology.toLowerCase();
-
-	const fetchDeleteQuestion = async (_id: string) => {
-		const response = await axios.delete(
-			`${BASE_URL}questions/${technologiyEndpoint}Question?id=${_id}`
-		);
-		return response.data;
-	};
-	const mutation = useMutation({
-		mutationFn: fetchDeleteQuestion,
-		onSuccess: () =>
-			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
-	});
-	const deleteQuestion = () => {
-		const id = randomQuestion?._id;
-		if (id) mutation.mutate(id);
-	};
+	const data = useMutateQuestion(technology.toLowerCase(), actions);
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
-		handleFindByName(e.target.value);
+		data.filterQuestions(e.target.value);
 	};
 	const isValidDisplay = isTrueToDisplay({
 		actions,
 		technology,
-		randomQuestion,
+		question: data.currentQuestion,
 		currentAction: "Удалить",
 	});
 	return (
 		isValidDisplay && (
 			<>
 				<p className="elem-question-text">
-					{randomQuestion?.question || "Вопросов нет"}
+					{data.currentQuestion?.question || "Вопросов нет"}
 				</p>
 				<InputField
 					textArea={false}
@@ -67,8 +41,8 @@ const DeleteQuestion = ({ technology, actions }: IProps) => {
 				<FlexButtons
 					firstValue="Следующий"
 					secondValue="Удалить"
-					handleNextQuestion={handleNextQuestion}
-					handleDeleteQiestion={deleteQuestion}
+					handleNextQuestion={data.nextQuestion}
+					handleDeleteQiestion={data.deleteQuestion}
 				/>
 			</>
 		)

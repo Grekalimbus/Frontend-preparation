@@ -10,10 +10,10 @@ interface IDataInput {
 interface IProps {
 	initialValue: IDataInput;
 	actions: string;
-	randomQuestion?: IQuestion | undefined | null;
+	question?: IQuestion | null;
 }
 
-const useInput = ({ initialValue, actions, randomQuestion }: IProps) => {
+const useInput = ({ initialValue, actions, question }: IProps) => {
 	const [errors, setErrors] = useState<IDataInput>({});
 	const [inputValue, setInputValue] = useState<IDataInput>(initialValue);
 
@@ -24,7 +24,7 @@ const useInput = ({ initialValue, actions, randomQuestion }: IProps) => {
 	};
 	useEffect(() => {
 		setInputValue({ nameQuestion: "", answer: "" });
-	}, [actions, randomQuestion]);
+	}, [actions, question]);
 
 	useEffect(() => {
 		validate();
