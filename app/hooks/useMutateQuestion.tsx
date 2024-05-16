@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../config.url";
@@ -17,7 +17,6 @@ const useMutateQuestion = (technology: string) => {
 		const { data } = await axios.get<IQuestions>(`${BASE_URL}questions`);
 		return data;
 	};
-
 	const {
 		data: questions,
 		isLoading,
@@ -27,12 +26,42 @@ const useMutateQuestion = (technology: string) => {
 		queryFn: fetchData,
 	});
 
+	const fetchDeleteQuestion = async (_id: string): Promise<IQuestions> => {
+		const response = await axios.delete<IQuestions>(
+			`${BASE_URL}questions/${technology}Question?id=${_id}`
+		);
+		return response.data;
+	};
+
+	const queryClient = useQueryClient();
+	const mutation = useMutation({
+		mutationFn: fetchDeleteQuestion,
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+	});
+
+	const deleteQuestion = () => {
+		if (currentQuestion?._id && questions) {
+			mutation.mutate(currentQuestion._id);
+			setArrayQuestions(questions[technology]);
+		}
+	};
+
 	useEffect(() => {
 		fetchData();
 		if (questions) {
 			setArrayQuestions(questions[technology]);
+			setIndexFiltered(0);
+			setIndexCurrentQuestion(0);
 		}
 	}, [questions]);
+
+	useEffect(() => {
+		if (questions) {
+			// setIndexFiltered(0);
+			// setIndexCurrentQuestion(0);
+			setArrayQuestions(questions[technology]);
+		}
+	}, [technology]);
 
 	useEffect(() => {
 		if (arrayQuestions && arrayQuestions.length > 0) {
@@ -107,6 +136,7 @@ const useMutateQuestion = (technology: string) => {
 		filterQuestions,
 		nextFilteredQuestion,
 		prevFilteredQuestion,
+		deleteQuestion,
 		isLoading,
 		error,
 	};

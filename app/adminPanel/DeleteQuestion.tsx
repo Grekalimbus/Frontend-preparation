@@ -1,8 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import InputField from "../components/InputField";
-import { BASE_URL } from "../config.url";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import FlexButtons from "./FlexButtons";
@@ -15,26 +13,25 @@ interface IProps {
 
 const DeleteQuestion = ({ technology, actions }: IProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
-
+	console.log("technology", technology);
 	const data = useMutateQuestion(technology.toLowerCase());
 	const queryClient = useQueryClient();
 	const technologiyEndpoint: string = technology.toLowerCase();
 
-	const fetchDeleteQuestion = async (_id: string) => {
-		const response = await axios.delete(
-			`${BASE_URL}questions/${technologiyEndpoint}Question?id=${_id}`
-		);
-		return response.data;
-	};
-	const mutation = useMutation({
-		mutationFn: fetchDeleteQuestion,
-		onSuccess: () =>
-			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
-	});
-	const deleteQuestion = () => {
-		const id = data.currentQuestion?._id;
-		if (id) mutation.mutate(id);
-	};
+	// const fetchDeleteQuestion = async (_id: string) => {
+	// 	const response = await axios.delete(
+	// 		`${BASE_URL}questions/${technologiyEndpoint}Question?id=${_id}`
+	// 	);
+	// 	return response.data;
+	// };
+	// const mutation = useMutation({
+	// 	mutationFn: fetchDeleteQuestion,
+	// 	onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+	// });
+	// const deleteQuestion = () => {
+	// 	const id = data.currentQuestion?._id;
+	// 	if (id) mutation.mutate(id);
+	// };
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
@@ -64,7 +61,7 @@ const DeleteQuestion = ({ technology, actions }: IProps) => {
 					firstValue="Следующий"
 					secondValue="Удалить"
 					handleNextQuestion={data.nextQuestion}
-					handleDeleteQiestion={deleteQuestion}
+					handleDeleteQiestion={data.deleteQuestion}
 				/>
 			</>
 		)

@@ -53,8 +53,7 @@ const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
 	};
 	const mutation = useMutation({
 		mutationFn: fetchCreateQuestion,
-		onSuccess: () =>
-			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
 	});
 	const createNewQuestion = () => {
 		const data: INewQuestion = {
