@@ -1,9 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
-import { BASE_URL } from "../config.url";
 import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import useSelectOption from "../hooks/useSelectOption";
@@ -28,7 +25,7 @@ const ChangeQuestion = ({
 }: IProps) => {
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
-	const data = useMutateQuestion(technology.toLowerCase());
+	const data = useMutateQuestion(technology.toLowerCase(), actions);
 	const { selectOption: category, handleChangeTypeOption: changeCategory } =
 		useSelectOption([
 			{
@@ -40,9 +37,6 @@ const ChangeQuestion = ({
 			},
 		]);
 
-	const queryClient = useQueryClient();
-	const technologiyEndpoint: string =
-		technologiesSelectOptions[0].typeOption.toLowerCase();
 	const {
 		errors,
 		inputValue,
@@ -57,32 +51,16 @@ const ChangeQuestion = ({
 		actions,
 		question: data.currentQuestion,
 	});
-	const fetchUpdateQuestion = async (data: IQuestion) => {
-		const updateQuestion = {
-			newQuestion: data.question,
-			newAnswer: data.answer,
-			newCategory: data.category,
-		};
-		const response = await axios.put(
-			`${BASE_URL}questions/${technologiyEndpoint}Question/${data._id}`,
-			updateQuestion
-		);
-		return response.data;
-	};
-	const mutation = useMutation({
-		mutationFn: fetchUpdateQuestion,
-		onSuccess: () =>
-			queryClient.invalidateQueries({ queryKey: [technologiyEndpoint] }),
-	});
-	const updateQuestion = () => {
+
+	const handleUpdateQuestion = () => {
 		if (data.currentQuestion) {
-			const newQuestion: IQuestion = {
+			const updateQuestionData: IQuestion = {
 				_id: data.currentQuestion._id,
 				question: inputValue.nameQuestion,
 				answer: inputValue.answer,
 				category: category[0].typeOption,
 			};
-			mutation.mutate(newQuestion);
+			data.updateQuestion(updateQuestionData);
 			setInputValue({
 				nameQuestion: "",
 				answer: "",
@@ -185,7 +163,7 @@ const ChangeQuestion = ({
 							secondValue="Изменить"
 							disabled={!isModalWindow ? false : isDisabledState}
 							toggleModalWindow={toggleModalWindow}
-							updateQuestion={updateQuestion}
+							updateQuestion={handleUpdateQuestion}
 							isModalWindow={isModalWindow}
 						/>
 					</section>

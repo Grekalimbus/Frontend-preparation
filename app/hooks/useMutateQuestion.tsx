@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../config.url";
 import { IQuestion, IQuestions } from "../interfaces/question";
 
-const useMutateQuestion = (technology: string) => {
+const useMutateQuestion = (technology: string, action?: string) => {
 	const [arrayQuestions, setArrayQuestions] = useState<IQuestion[] | []>([]);
 	const [currentQuestion, setCurrentQuestion] = useState<IQuestion | null>(
 		null
@@ -12,6 +12,7 @@ const useMutateQuestion = (technology: string) => {
 	const [filteredArray, setFilteredArray] = useState<IQuestion[] | []>([]);
 	const [indexCurrentQuestion, setIndexCurrentQuestion] = useState<number>(0);
 	const [indexFiltered, setIndexFiltered] = useState<number>(0);
+	const queryClient = useQueryClient();
 
 	const fetchData = async (): Promise<IQuestions> => {
 		const { data } = await axios.get<IQuestions>(`${BASE_URL}questions`);
@@ -33,15 +34,39 @@ const useMutateQuestion = (technology: string) => {
 		return response.data;
 	};
 
-	const queryClient = useQueryClient();
-	const mutation = useMutation({
+	const fetchUpdateQuestion = async (data: IQuestion) => {
+		const updateQuestion = {
+			newQuestion: data.question,
+			newAnswer: data.answer,
+			newCategory: data.category,
+		};
+		const response = await axios.put(
+			`${BASE_URL}questions/${technology}Question/${data._id}`,
+			updateQuestion
+		);
+		return response.data;
+	};
+
+	const mutationDelete = useMutation({
 		mutationFn: fetchDeleteQuestion,
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
 	});
 
+	const mutationUpdate = useMutation({
+		mutationFn: fetchUpdateQuestion,
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+	});
+
 	const deleteQuestion = () => {
-		if (currentQuestion?._id && questions) {
-			mutation.mutate(currentQuestion._id);
+		if (currentQuestion && questions) {
+			mutationDelete.mutate(currentQuestion._id);
+			setArrayQuestions(questions[technology]);
+		}
+	};
+
+	const updateQuestion = (updateQuestion: IQuestion) => {
+		if (currentQuestion && questions) {
+			mutationUpdate.mutate(updateQuestion);
 			setArrayQuestions(questions[technology]);
 		}
 	};
@@ -56,12 +81,13 @@ const useMutateQuestion = (technology: string) => {
 	}, [questions]);
 
 	useEffect(() => {
-		if (questions) {
-			// setIndexFiltered(0);
-			// setIndexCurrentQuestion(0);
-			setArrayQuestions(questions[technology]);
-		}
+		if (questions) setArrayQuestions(questions[technology]);
 	}, [technology]);
+
+	useEffect(() => {
+		setIndexFiltered(0);
+		setIndexCurrentQuestion(0);
+	}, [action]);
 
 	useEffect(() => {
 		if (arrayQuestions && arrayQuestions.length > 0) {
@@ -137,6 +163,7 @@ const useMutateQuestion = (technology: string) => {
 		nextFilteredQuestion,
 		prevFilteredQuestion,
 		deleteQuestion,
+		updateQuestion,
 		isLoading,
 		error,
 	};
