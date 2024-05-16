@@ -66,6 +66,7 @@ const ChangeQuestion = ({
 				answer: "",
 			});
 			setModalWindow(!isModalWindow);
+			handleChangeToggle();
 		}
 	};
 
