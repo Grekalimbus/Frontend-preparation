@@ -2,7 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../config.url";
-import { IQuestion, IQuestions } from "../interfaces/question";
+import { IQuestion, Questions } from "../interfaces/question";
+import { technologies } from "../interfaces/selectOptions";
 
 const useMutateQuestion = (technology: string, action?: string) => {
 	const [arrayQuestions, setArrayQuestions] = useState<IQuestion[] | []>([]);
@@ -14,35 +15,48 @@ const useMutateQuestion = (technology: string, action?: string) => {
 	const [indexFiltered, setIndexFiltered] = useState<number>(0);
 	const queryClient = useQueryClient();
 
-	const fetchData = async (): Promise<IQuestions> => {
-		const { data } = await axios.get<IQuestions>(
-			`${BASE_URL}questions/${technology}Question`
-		);
-		return data;
+	const fetchData = async (technology: string): Promise<Questions | null> => {
+		if (technology && technology in technologies) {
+			const { data } = await axios.get<Questions>(
+				`${BASE_URL}questions/${technology}Question`
+			);
+			return data;
+		}
+		return null;
 	};
+
 	const {
 		data: questions,
 		isLoading,
 		error,
 	} = useQuery({
-		queryKey: ["questions"],
-		queryFn: fetchData,
+		queryKey: [`${technology}Question`],
+		queryFn: () => fetchData(technology),
 	});
 
-	const fetchDeleteQuestion = async (_id: string): Promise<IQuestions> => {
-		const response = await axios.delete<IQuestions>(
+	useEffect(() => {
+		fetchData(technology);
+		if (questions) {
+			setArrayQuestions(questions[technology]);
+			setIndexFiltered(0);
+			setIndexCurrentQuestion(0);
+		}
+	}, [questions]);
+
+	const fetchDeleteQuestion = async (_id: string): Promise<IQuestion[]> => {
+		const response = await axios.delete<IQuestion[]>(
 			`${BASE_URL}questions/${technology}Question?id=${_id}`
 		);
 		return response.data;
 	};
 
-	const fetchUpdateQuestion = async (data: IQuestion) => {
+	const fetchUpdateQuestion = async (data: IQuestion): Promise<IQuestion[]> => {
 		const updateQuestion = {
 			newQuestion: data.question,
 			newAnswer: data.answer,
 			newCategory: data.category,
 		};
-		const response = await axios.put(
+		const response = await axios.put<IQuestion[]>(
 			`${BASE_URL}questions/${technology}Question/${data._id}`,
 			updateQuestion
 		);
@@ -51,12 +65,14 @@ const useMutateQuestion = (technology: string, action?: string) => {
 
 	const mutationDelete = useMutation({
 		mutationFn: fetchDeleteQuestion,
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: [`${technology}Question`] }),
 	});
 
 	const mutationUpdate = useMutation({
 		mutationFn: fetchUpdateQuestion,
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: [`${technology}Question`] }),
 	});
 
 	const deleteQuestion = () => {
@@ -72,15 +88,6 @@ const useMutateQuestion = (technology: string, action?: string) => {
 			setArrayQuestions(questions[technology]);
 		}
 	};
-
-	useEffect(() => {
-		fetchData();
-		if (questions) {
-			setArrayQuestions(questions[technology]);
-			setIndexFiltered(0);
-			setIndexCurrentQuestion(0);
-		}
-	}, [questions]);
 
 	useEffect(() => {
 		if (questions) setArrayQuestions(questions[technology]);

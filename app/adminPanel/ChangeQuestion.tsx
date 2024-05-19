@@ -5,7 +5,10 @@ import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import useSelectOption from "../hooks/useSelectOption";
 import { IQuestion } from "../interfaces/question";
-import { ISelectOptions } from "../interfaces/selectOptions";
+import {
+	ISelectOptions,
+	actionsForQuestions,
+} from "../interfaces/selectOptions";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
 import isDisabled from "../utils/isDisabledToAdd";
 import FlexButtons from "./FlexButtons";
@@ -26,6 +29,7 @@ const ChangeQuestion = ({
 	const [isModalWindow, setModalWindow] = useState<boolean>(false);
 	const [inputValueFilter, setInputValueFilter] = useState<string>("");
 	const data = useMutateQuestion(technology.toLowerCase(), actions);
+
 	const { selectOption: category, handleChangeTypeOption: changeCategory } =
 		useSelectOption([
 			{
@@ -99,7 +103,7 @@ const ChangeQuestion = ({
 		actions,
 		technology,
 		question: data.currentQuestion,
-		currentAction: "Изменить",
+		currentAction: actionsForQuestions.change,
 	});
 	return (
 		isValidDisplay && (
@@ -119,7 +123,7 @@ const ChangeQuestion = ({
 						/>
 						<FlexButtons
 							firstValue="Следующий"
-							secondValue="Изменить"
+							secondValue={actionsForQuestions.change}
 							disabled={
 								data.currentQuestion?.question === "Вопросы закончились"
 							}

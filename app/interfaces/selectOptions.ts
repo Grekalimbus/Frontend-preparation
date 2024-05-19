@@ -18,6 +18,16 @@ export const initialSelectOptions: ISelectOptions[] = [
 	},
 ];
 
+export enum technologies {
+	common = "common",
+	html = "html",
+	css = "css",
+	javascript = "javascript",
+	typescript = "typescript",
+	react = "react",
+	redux = "redux",
+}
+
 export const initialTechnologies: ISelectOptions[] = [
 	{
 		typeOption: "Выберите технологию",
@@ -32,14 +42,18 @@ export const initialTechnologies: ISelectOptions[] = [
 		],
 	},
 ];
-
+export enum actionsForQuestions {
+	delete = "Удалить",
+	change = "Изменить",
+	add = "Добавить",
+}
 export const initialAdminOptions: ISelectOptions[] = [
 	{
 		typeOption: "Выберите: Удалить /Изменить / Добавить",
 		options: [
-			{ value: "delete", text: "Удалить" },
-			{ value: "change", text: "Изменить" },
-			{ value: "add", text: "Добавить" },
+			{ value: "delete", text: actionsForQuestions.delete },
+			{ value: "change", text: actionsForQuestions.change },
+			{ value: "add", text: actionsForQuestions.add },
 		],
 	},
 ];
