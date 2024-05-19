@@ -14,7 +14,7 @@ const useMutateQuestion = (technology: string, action?: string) => {
 	const [indexFiltered, setIndexFiltered] = useState<number>(0);
 	const queryClient = useQueryClient();
 
-	const fetchData = async (): Promise<IQuestions> => {
+	const fetchData = async () => {
 		const { data } = await axios.get<IQuestions>(`${BASE_URL}questions`);
 		return data;
 	};
@@ -27,7 +27,7 @@ const useMutateQuestion = (technology: string, action?: string) => {
 		queryFn: fetchData,
 	});
 
-	const fetchDeleteQuestion = async (_id: string): Promise<IQuestions> => {
+	const fetchDeleteQuestion = async (_id: string) => {
 		const response = await axios.delete<IQuestions>(
 			`${BASE_URL}questions/${technology}Question?id=${_id}`
 		);
