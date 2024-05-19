@@ -15,7 +15,9 @@ const useMutateQuestion = (technology: string, action?: string) => {
 	const queryClient = useQueryClient();
 
 	const fetchData = async (): Promise<IQuestions> => {
-		const { data } = await axios.get<IQuestions>(`${BASE_URL}questions`);
+		const { data } = await axios.get<IQuestions>(
+			`${BASE_URL}questions/${technology}Question`
+		);
 		return data;
 	};
 	const {
