@@ -18,6 +18,9 @@ const DeleteQuestion = ({ technology, actions }: IProps) => {
 		setInputValue(e.target.value);
 		data.filterQuestions(e.target.value);
 	};
+	const deleteQuestion = () => {
+		if (data.currentQuestion) data.deleteQuestion(data.currentQuestion?._id);
+	};
 	const isValidDisplay = isTrueToDisplay({
 		actions,
 		technology,
@@ -42,7 +45,7 @@ const DeleteQuestion = ({ technology, actions }: IProps) => {
 					firstValue="Следующий"
 					secondValue="Удалить"
 					handleNextQuestion={data.nextQuestion}
-					handleDeleteQiestion={data.deleteQuestion}
+					handleDeleteQiestion={deleteQuestion}
 				/>
 			</>
 		)

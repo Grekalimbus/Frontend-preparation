@@ -2,7 +2,7 @@ import { useState } from "react";
 import SelectOption from "../components/SelectOption";
 import useSelectOption from "../hooks/useSelectOption";
 import {
-	ISelectOptions,
+	SelectOptions,
 	initialAdminOptions,
 	initialTechnologies,
 } from "../interfaces/selectOptions";
@@ -31,7 +31,7 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 	return (
 		isAccess && (
 			<>
-				{actions.map((item: ISelectOptions) => {
+				{actions.map((item: SelectOptions) => {
 					return (
 						<SelectOption
 							key={item.typeOption}
@@ -43,7 +43,7 @@ const AccessSection = ({ isAccess, handleChangeInput }: IProps) => {
 					);
 				})}
 				{toggleVisibleSelect &&
-					technologies.map((item: ISelectOptions) => (
+					technologies.map((item: SelectOptions) => (
 						<SelectOption
 							width={{ width: "100%" }}
 							key={item.typeOption}

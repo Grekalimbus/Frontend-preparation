@@ -1,9 +1,9 @@
-import { IQuestion } from "../interfaces/question";
+import { Question } from "../interfaces/question";
 
 interface IParams {
 	actions: string;
 	technology: string;
-	question: null | IQuestion;
+	question: null | Question;
 	currentAction: string;
 }
 export const isTrueToDisplay = ({

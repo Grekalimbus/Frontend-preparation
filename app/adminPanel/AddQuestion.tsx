@@ -1,25 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import InputField from "../components/InputField";
 import SelectOption from "../components/SelectOption";
-import { BASE_URL } from "../config.url";
 import useInput from "../hooks/useInput";
+import useMutateQuestion from "../hooks/useMutateQuestion";
 import useSelectOption from "../hooks/useSelectOption";
 import { INewQuestion } from "../interfaces/question";
-import { ISelectOptions } from "../interfaces/selectOptions";
+import { SelectOptions } from "../interfaces/selectOptions";
 import isDisabled from "../utils/isDisabledToAdd";
 import FlexButtons from "./FlexButtons";
 import "./adminPanel.scss";
 
 interface IProps {
-	technologiesSelectOptions: ISelectOptions[];
+	technologiesSelectOptions: SelectOptions[];
 	actions: string;
 }
 
 const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
-	const queryClient = useQueryClient();
 	const technologiyEndpoint: string =
 		technologiesSelectOptions[0].typeOption.toLowerCase();
+	const data = useMutateQuestion(technologiyEndpoint);
 	const { selectOption: category, handleChangeTypeOption: changeCategory } =
 		useSelectOption([
 			{
@@ -30,13 +28,7 @@ const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
 				],
 			},
 		]);
-	const {
-		errors,
-		inputValue,
-		handleChangeInput,
-		handleChangeTextArea,
-		setInputValue,
-	} = useInput({
+	const input = useInput({
 		initialValue: {
 			nameQuestion: "",
 			answer: "",
@@ -44,33 +36,22 @@ const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
 		actions,
 	});
 
-	const fetchCreateQuestion = async (data: INewQuestion) => {
-		const response = await axios.post(
-			`${BASE_URL}questions/${technologiyEndpoint}Question`,
-			data
-		);
-		return response.data;
-	};
-	const mutation = useMutation({
-		mutationFn: fetchCreateQuestion,
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
-	});
 	const createNewQuestion = () => {
-		const data: INewQuestion = {
-			question: inputValue.nameQuestion,
-			answer: inputValue.answer,
+		const newQuestion: INewQuestion = {
+			question: input.inputValue.nameQuestion,
+			answer: input.inputValue.answer,
 			category: category[0].typeOption,
 		};
-		mutation.mutate(data);
-		setInputValue({
+		data.createNewQuestion(newQuestion);
+		input.setInputValue({
 			nameQuestion: "",
 			answer: "",
 		});
 	};
 
 	const isDisabledState: boolean = isDisabled({
-		errorAnswer: errors.answer,
-		errorQuestion: errors.nameQuestion,
+		errorAnswer: input.errors.answer,
+		errorQuestion: input.errors.nameQuestion,
 		technologiesSelectOptions,
 		category,
 	});
@@ -78,7 +59,7 @@ const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
 	return (
 		actions === "Добавить" && (
 			<>
-				{category.map((item: ISelectOptions) => {
+				{category.map((item: SelectOptions) => {
 					return (
 						<SelectOption
 							width={{ width: "100%" }}
@@ -92,20 +73,20 @@ const AddQuestion = ({ technologiesSelectOptions, actions }: IProps) => {
 				<InputField
 					name="nameQuestion"
 					textArea={false}
-					value={inputValue.nameQuestion}
+					value={input.inputValue.nameQuestion}
 					type="text"
 					placeholder="Название вопроса"
-					handleChangeInput={handleChangeInput}
-					error={errors.nameQuestion}
+					handleChangeInput={input.handleChangeInput}
+					error={input.errors.nameQuestion}
 				/>
 				<InputField
 					textArea={true}
 					name="answer"
-					value={inputValue.answer}
+					value={input.inputValue.answer}
 					type="text"
 					placeholder="Ответ"
-					handleChangeTextArea={handleChangeTextArea}
-					error={errors.answer}
+					handleChangeTextArea={input.handleChangeTextArea}
+					error={input.errors.answer}
 				/>
 				<FlexButtons
 					firstValue="Следующий"

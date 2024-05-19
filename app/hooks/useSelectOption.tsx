@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ISelectOptions } from "../interfaces/selectOptions";
+import { SelectOptions } from "../interfaces/selectOptions";
 
-const useSelectOption = (initialSelectOptions: ISelectOptions[]) => {
+const useSelectOption = (initialSelectOptions: SelectOptions[]) => {
 	const [selectOption, setSelectOption] =
-		useState<ISelectOptions[]>(initialSelectOptions);
+		useState<SelectOptions[]>(initialSelectOptions);
 
 	const handleChangeTypeOption = (
 		updateSelectValue: string,
