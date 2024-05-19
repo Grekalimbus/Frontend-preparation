@@ -1,13 +1,23 @@
-interface IOptions {
+type Options = {
 	value: string;
 	text: string;
-}
-export interface ISelectOptions {
+};
+export type SelectOptions = {
 	typeOption: string;
-	options: IOptions[];
+	options: Options[];
+};
+
+export enum Technologies {
+	common = "common",
+	html = "html",
+	css = "css",
+	javascript = "javascript",
+	typescript = "typescript",
+	react = "react",
+	redux = "redux",
 }
 
-export const initialSelectOptions: ISelectOptions[] = [
+export const initialSelectOptions: SelectOptions[] = [
 	{
 		typeOption: "Категория",
 		options: [
@@ -18,17 +28,7 @@ export const initialSelectOptions: ISelectOptions[] = [
 	},
 ];
 
-export enum technologies {
-	common = "common",
-	html = "html",
-	css = "css",
-	javascript = "javascript",
-	typescript = "typescript",
-	react = "react",
-	redux = "redux",
-}
-
-export const initialTechnologies: ISelectOptions[] = [
+export const initialTechnologies: SelectOptions[] = [
 	{
 		typeOption: "Выберите технологию",
 		options: [
@@ -47,7 +47,7 @@ export enum actionsForQuestions {
 	change = "Изменить",
 	add = "Добавить",
 }
-export const initialAdminOptions: ISelectOptions[] = [
+export const initialAdminOptions: SelectOptions[] = [
 	{
 		typeOption: "Выберите: Удалить /Изменить / Добавить",
 		options: [
@@ -58,7 +58,7 @@ export const initialAdminOptions: ISelectOptions[] = [
 	},
 ];
 
-export const initialTypes: ISelectOptions[] = [
+export const initialTypes: SelectOptions[] = [
 	{
 		typeOption: "Выберите категорию",
 		options: [

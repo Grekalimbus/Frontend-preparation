@@ -4,9 +4,9 @@ import SelectOption from "../components/SelectOption";
 import useInput from "../hooks/useInput";
 import useMutateQuestion from "../hooks/useMutateQuestion";
 import useSelectOption from "../hooks/useSelectOption";
-import { IQuestion } from "../interfaces/question";
+import { Question } from "../interfaces/question";
 import {
-	ISelectOptions,
+	SelectOptions,
 	actionsForQuestions,
 } from "../interfaces/selectOptions";
 import { isTrueToDisplay } from "../utils/checkSelectsTypes";
@@ -15,7 +15,7 @@ import FlexButtons from "./FlexButtons";
 
 interface IProps {
 	technology: string;
-	technologiesSelectOptions: ISelectOptions[];
+	technologiesSelectOptions: SelectOptions[];
 	actions: string;
 	handleChangeToggle: () => void;
 }
@@ -41,13 +41,7 @@ const ChangeQuestion = ({
 			},
 		]);
 
-	const {
-		errors,
-		inputValue,
-		handleChangeInput,
-		handleChangeTextArea,
-		setInputValue,
-	} = useInput({
+	const input = useInput({
 		initialValue: {
 			nameQuestion: "",
 			answer: "",
@@ -56,16 +50,16 @@ const ChangeQuestion = ({
 		question: data.currentQuestion,
 	});
 
-	const handleUpdateQuestion = () => {
+	const updateQuestion = () => {
 		if (data.currentQuestion) {
-			const updateQuestionData: IQuestion = {
+			const updateQuestionData: Question = {
 				_id: data.currentQuestion._id,
-				question: inputValue.nameQuestion,
-				answer: inputValue.answer,
+				question: input.inputValue.nameQuestion,
+				answer: input.inputValue.answer,
 				category: category[0].typeOption,
 			};
 			data.updateQuestion(updateQuestionData);
-			setInputValue({
+			input.setInputValue({
 				nameQuestion: "",
 				answer: "",
 			});
@@ -85,7 +79,7 @@ const ChangeQuestion = ({
 
 	const toggleModalWindow = () => {
 		setModalWindow(!isModalWindow);
-		setInputValue({
+		input.setInputValue({
 			nameQuestion: data.currentQuestion?.question,
 			answer: data.currentQuestion?.answer,
 		});
@@ -93,8 +87,8 @@ const ChangeQuestion = ({
 	};
 
 	const isDisabledState: boolean = isDisabled({
-		errorAnswer: errors.answer,
-		errorQuestion: errors.nameQuestion,
+		errorAnswer: input.errors.answer,
+		errorQuestion: input.errors.nameQuestion,
 		technologiesSelectOptions,
 		category,
 	});
@@ -134,7 +128,7 @@ const ChangeQuestion = ({
 				)}
 				{isModalWindow && data.currentQuestion && (
 					<section className="change-modal-window">
-						{category.map((item: ISelectOptions) => {
+						{category.map((item: SelectOptions) => {
 							return (
 								<SelectOption
 									width={{ width: "100%" }}
@@ -148,27 +142,27 @@ const ChangeQuestion = ({
 						<InputField
 							name="nameQuestion"
 							textArea={false}
-							value={inputValue.nameQuestion}
+							value={input.inputValue.nameQuestion}
 							type="text"
 							placeholder="Название вопроса"
-							handleChangeInput={handleChangeInput}
-							error={errors.nameQuestion}
+							handleChangeInput={input.handleChangeInput}
+							error={input.errors.nameQuestion}
 						/>
 						<InputField
 							textArea={true}
 							name="answer"
-							value={inputValue.answer}
+							value={input.inputValue.answer}
 							type="text"
 							placeholder="Введите текст для изменения ответа на вопрос"
-							handleChangeTextArea={handleChangeTextArea}
-							error={errors.answer}
+							handleChangeTextArea={input.handleChangeTextArea}
+							error={input.errors.answer}
 						/>
 						<FlexButtons
 							firstValue="Назад"
 							secondValue="Изменить"
 							disabled={!isModalWindow ? false : isDisabledState}
 							toggleModalWindow={toggleModalWindow}
-							updateQuestion={handleUpdateQuestion}
+							updateQuestion={updateQuestion}
 							isModalWindow={isModalWindow}
 						/>
 					</section>

@@ -1,4 +1,4 @@
-export type IQuestion = {
+export type Question = {
 	_id: string;
 	question: string;
 	answer: string;
@@ -6,7 +6,7 @@ export type IQuestion = {
 };
 
 export type Questions = {
-	[key: string]: IQuestion[];
+	[key: string]: Question[];
 };
 
-export type INewQuestion = Omit<IQuestion, "_id">;
+export type INewQuestion = Omit<Question, "_id">;

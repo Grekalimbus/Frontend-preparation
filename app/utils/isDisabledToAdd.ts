@@ -1,10 +1,10 @@
-import { ISelectOptions } from "../interfaces/selectOptions";
+import { SelectOptions } from "../interfaces/selectOptions";
 
 interface IProps {
 	errorAnswer: string;
 	errorQuestion: string;
-	technologiesSelectOptions: ISelectOptions[];
-	category: ISelectOptions[];
+	technologiesSelectOptions: SelectOptions[];
+	category: SelectOptions[];
 }
 const isDisabled = ({
 	errorAnswer,
